@@ -1,0 +1,45 @@
+.new-session-view h2 {
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+#confirm-add-btn {
+  float: right;
+  margin-right: 3rem;
+}
+
+.new-session-view form,
+.new-session-view div {
+  margin: 1rem;
+}
+
+.new-session-view label {
+  margin: 0.5rem;
+}
+.new-session-view label img {
+  width: 56px;
+}
+.new-session-view label > input {
+  visibility: hidden;
+  position: absolute;
+}
+.new-session-view label > input + img {
+  cursor: pointer;
+/*   border: 1px solid blue; */
+}
+.new-session-view label > input:checked + img {
+  background: blue;
+}
+
+#new-activity-details label,
+#new-activity-details input {
+  font-size: 1.8rem;
+}
+#new-activity-details label {
+  float: left;
+}
+#new-activity-details input {
+  width: 10rem;
+  float: input;
+}
+
