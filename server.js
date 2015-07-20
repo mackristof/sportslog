@@ -35,7 +35,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use(function(err, req, res) {
     'use strict';
     res.status(err.status || 500);
     res.render('error', {
@@ -47,7 +47,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   'use strict';
   res.status(err.status || 500);
   res.render('error', {
@@ -58,10 +58,10 @@ app.use(function(err, req, res, next) {
 
 /* This will allow Cozy to run your app smoothly but
 it won't break other execution environment */
-var port = normalizePort(process.env.PORT || '9250');
-app.set('port', port);
-//var port = process.env.PORT || 9250;
-// var host = process.env.HOST || "127.0.0.1";
+// var port = normalizePort(process.env.PORT || '9250');
+// app.set('port', port);
+var port = process.env.PORT || 9250;
+var host = process.env.HOST || "127.0.0.1";
 
 /**
  * Create HTTP server.
@@ -73,8 +73,8 @@ var server = http.createServer(app);
  */
 server.listen(port, function() {
   'use strict';
-  console.log('Server listening to  %d within %s environment',
-      port, app.get('env'));
+  console.log('Server listening to %s:%d within %s environment',
+      host, port, app.get('env'));
 });
 server.on('error', onError);
 server.on('listening', onListening);
@@ -88,7 +88,7 @@ server.on('listening', onListening);
 /**
  * Normalize a port into a number, string, or false.
  */
-function normalizePort(val) {
+/*function normalizePort(val) {
   'use strict';
   var port = parseInt(val, 10);
   if (isNaN(port)) {
@@ -100,7 +100,7 @@ function normalizePort(val) {
     return port;
   }
   return false;
-}
+}*/
 /**
  * Event listener for HTTP server "error" event.
  */
