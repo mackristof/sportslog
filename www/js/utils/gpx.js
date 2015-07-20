@@ -1,4 +1,4 @@
-/* jshint strict: true, node: true */
+/* jshint strict: true */
 
 var utils = utils || {};
 ;(function() {
@@ -235,5 +235,4 @@ var utils = utils || {};
       exportToFile  : exportToFile
     };
   }();
-  module.exports = utils.GPX;
 })();

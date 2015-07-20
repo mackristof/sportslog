@@ -47,6 +47,9 @@ var app = app || {};
       this._viewSection(this.dom.reports_view);
     },
     showPreferences: function() {
+      new app.PreferencesView({
+        model: new app.PreferencesModel()
+      });
       this._viewSection(this.dom.preferences_view);
     },
     _viewSection: function(section) {

@@ -1,5 +1,5 @@
-/* jshint strict: true, bitwise: false, node: true */
-var L = require('../libs/leaflet');
+/* jshint strict: true, bitwise: false */
+/* global L */
 
 var utils = utils || {};
 ;(function() {
@@ -81,5 +81,4 @@ var utils = utils || {};
       removeMap   : removeMap
     };
   }();
-  module.exports = utils.Map;
 })();
