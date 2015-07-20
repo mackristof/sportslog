@@ -32,6 +32,7 @@ var app = app || {};
     },
 
     showNewSession: function() {
+      new app.NewSessionView();
       this._viewSection(this.dom.new_session_view);
     },
     showDashboard: function() {
