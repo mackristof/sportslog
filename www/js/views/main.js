@@ -29,7 +29,6 @@ var app = app || {};
     initialize: function() {
       console.log('MainView initialize');
       this.active_section = this.dom.dashboard_view;
-      app.SessionsCollection.fetch();
     },
 
     showNewSession: function() {
