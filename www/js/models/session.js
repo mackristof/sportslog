@@ -9,6 +9,7 @@ var app = app || {};
   app.SessionModel = Backbone.Model.extend({
     initialize: function() {
       console.log('SessionModel initialize');
+      console.log('SessionModel', this);
     }
   });
 })();

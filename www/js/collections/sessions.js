@@ -10,6 +10,7 @@ var app = app || {};
 
     initialize: function() {
       console.log('SessionsCollection initialize');
+      console.log('SessionsCollection.model', this.model);
     }
   });
   app.SessionsCollection = new SessionsCollection();
