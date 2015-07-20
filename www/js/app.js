@@ -5,4 +5,5 @@ var app = app || {};
 document.addEventListener('DOMContentLoaded', function() {
   'use strict';
   console.log('launching');
+  new app.MainView();
 }, false);
