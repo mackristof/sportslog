@@ -33,13 +33,17 @@ router.post('file', function(req, res) {
 /*
  * GET 'sessions': get all stored sessions
  */
+router.get('/sessions', function(req, res) {
+  'use strict';
+  console.log('GET /sessions', req, res);
+});
 
 /*
- * POST 'session/_id': save a session
+ * POST 'session:_id': save a session
  */
 
 /*
- * GET 'session/_id': get a session data.
+ * GET 'session:_id': get a session data.
 
 /*
  * POST 'preferences': save preferences
