@@ -1,22 +1,19 @@
 /* jshint strict: true, node: true */
-var Backbone = require('./lib/exoskeleton');
-// var Backbone = require('backbone');
 
-var app = app || {};
-app.MainView = require('./views/main');
-app.SessionsCollection = require('./collections/sessions');
+var Backbone  = require('./lib/exoskeleton');
+Backbone.ajax = require('./lib/backbone.nativeajax');
 
-app.Router = Backbone.Router.extend({
+var app       = app || {};
+app.MainView  = require('./views/main');
+
+var Router = Backbone.Router.extend({
   routes: {
     ''  : 'main'
   },
 
   main: function() {
     'use strict';
-    var MainView = new app.MainView({
-      collection: new app.SessionsCollection()
-    });
-    MainView.render();
+    new app.MainView({});
   }
 });
-module.exports = app.Router;
+module.exports = app.Router = Router;

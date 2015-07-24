@@ -1,21 +1,19 @@
-/* jshint strict: true */
-/* global Backbone */
+/* jshint strict: true, node: true */
+var Backbone  = require('../lib/exoskeleton');
 
-var app = app || {};
+var app       = app || {};
 
-(function() {
+var PreferencesModel = Backbone.Model.extend({
+  defaults: {
+    localisation  : 'en',
+    units         : 'metric',
+    gender        : '',
+    birthyear     : ''
+  },
+
+  initialize: function() {
   'use strict';
-
-  app.PreferencesModel = Backbone.Model.extend({
-    defaults: {
-      localisation  : 'en',
-      units         : 'metric',
-      gender        : '',
-      birthyear     : ''
-    },
-
-    initialize: function() {
-      console.log('PreferencesModel initialize');
-    }
-  });
-})();
+    console.log('PreferencesModel initialize');
+  }
+});
+module.exports = app.PreferencesModel = PreferencesModel;

@@ -1,18 +1,13 @@
 /* jshint strict: true, browser: true, node: true */
 
-// var Backbone = require('./lib/exoskeleton');
+var Backbone    = require('./lib/exoskeleton');
 
-var app = app || {};
+var app         = app || {};
+var app.Router  = require('./router');
 
 document.addEventListener('DOMContentLoaded', function() {
   'use strict';
   console.log('launching');
-
-/*  app.Router = require('./router');
   this.router = new app.Router();
-
-  Backbone.history.start();*/
-  app.MainView = require('./views/main');
-  new app.MainView();
-
+  Backbone.history.start();
 }, false);

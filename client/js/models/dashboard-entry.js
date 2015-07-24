@@ -1,14 +1,12 @@
-/* jshint strict: true */
-/* global Backbone */
+/* jshint strict: true, node: true */
+var Backbone  = require('../lib/exoskeleton');
 
-var app = app || {};
+var app       = app || {};
 
-(function() {
+var DashboardEntryModel = Backbone.Model.extend({
+  initialize: function() {
   'use strict';
-
-  app.DashboardEntryModel = Backbone.Model.extend({
-    initialize: function() {
-      console.log('DashboardEntryModel initialize');
-    }
-  });
-})();
+    console.log('DashboardEntryModel initialize');
+  }
+});
+module.exports = app.DashboardEntryModel = DashboardEntryModel;

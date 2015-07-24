@@ -33,11 +33,11 @@ button.big {
 }
 .align-left {
   float: left;
-  /* margin-left: 8px; */
+  /* margin-left: 1rem; */
 }
 .align-right {
   float: right;
-  /* margin-right: 8px; */
+  /* margin-right: 1rem; */
 }
 .align-center {
   text-align: center;

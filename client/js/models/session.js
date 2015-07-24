@@ -1,10 +1,10 @@
 /* jshint strict: true, node: true */
 
-var Backbone = require('../lib/exoskeleton');
+var Backbone  = require('../lib/exoskeleton');
 
-var utils = utils || {};
-utils.GPX = require('../utils/gpx');
-utils.Map = require('../utils/map');
+var utils     = utils || {};
+utils.GPX     = require('../utils/gpx');
+// utils.Map     = require('../utils/map');
 
 var app = app || {};
 

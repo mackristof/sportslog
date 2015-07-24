@@ -1,9 +1,8 @@
 /* jshint strict: true, node: true */
 var Backbone        = require('../lib/exoskeleton');
-Backbone.NativeView = require('../lib/backbone.nativeview');
-// var Backbone        = require('backbone');
+require('../lib/backbone.nativeview');
 
 var app = app || {};
 
-app.SessionSummaryView = Backbone.NativeView.extend({});
-module.exports = app.SessionSummaryView;
+var SessionSummaryView = Backbone.NativeView.extend({});
+module.exports = app.SessionSummaryView = SessionSummaryView;

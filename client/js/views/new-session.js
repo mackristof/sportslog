@@ -1,14 +1,15 @@
 /* jshint strict: true, node: true */
 
-var Backbone  = require('../lib/exoskeleton');
+var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
-var app = app || {};
+var app                 = app || {};
 app.SessionsCollection  = require('../collections/sessions');
-var utils = utils || {};
-utils.Map = require('../utils/map');
 
-app.NewSessionView = Backbone.NativeView.extend({
+var utils               = utils || {};
+utils.Map               = require('../utils/map');
+
+var NewSessionView = Backbone.NativeView.extend({
   el: '#new-session-view',
 
   events: {
@@ -41,6 +42,7 @@ app.NewSessionView = Backbone.NativeView.extend({
   initialize: function() {
     'use strict';
     console.log('NewSessionView initialize');
+    
     this.listenTo(this.model, 'change', this.renderModel);
     this.listenTo(this.model, 'change:map', this.renderMap);
   },
@@ -59,7 +61,7 @@ app.NewSessionView = Backbone.NativeView.extend({
         this.dom.activity.className = '';
         this.dom.weight_form.className = 'hidden behind';
       }
-      // this.model.set('activity', activity);
+      this.model.set('activity', activity);
     }
   },
 
@@ -143,8 +145,6 @@ app.NewSessionView = Backbone.NativeView.extend({
     'use strict';
     return (speed * 3.6).toFixed(1);
   },
-
-
-
 });
+module.exports = app.NewSessionView = NewSessionView;
 
