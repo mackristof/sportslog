@@ -1,4 +1,4 @@
-/* jshint strict: true */
+/* jshint strict: true, node: true */
 
 var utils = utils || {};
 
@@ -42,6 +42,7 @@ var GPX = function() {
       alt_min   : 0,
       climb_pos : 0,
       climb_neg : 0,
+      map       : false,
       data      : []
     };
     var missing_time,
@@ -176,6 +177,7 @@ var GPX = function() {
     if (track.duration !== '') {
       track.avg_speed = track.distance / track.duration * 1000;
     }
+    track.map = true;
     callback({error: false, res: track});
   }
 

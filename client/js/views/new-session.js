@@ -21,21 +21,22 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   dom: {
-    import_form    : document.getElementById('import-form'),
-    activity       : document.getElementById('new-activity-details'),
-    weight_form    : document.getElementById('weight-form'),
+    import_form : document.getElementById('import-form'),
+    activity    : document.getElementById('new-activity-details'),
+    weight_form : document.getElementById('weight-form'),
 
-    import_btn     : document.getElementById('import-btn'),
-    import_file    : document.getElementById('import-file'),
+    import_btn  : document.getElementById('import-btn'),
+    import_file : document.getElementById('import-file'),
 
-    date           : document.getElementById('new-session-date'),
-    time           : document.getElementById('new-session-time'),
-    distance       : document.getElementById('new-session-distance'),
-    duration       : document.getElementById('new-session-duration'),
-    alt_max        : document.getElementById('new-session-alt-max'),
-    alt_min        : document.getElementById('new-session-alt-min'),
-    avg_speed      : document.getElementById('new-session-avg-speed'),
-    calories       : document.getElementById('new-session-calories'),
+    date        : document.getElementById('new-session-date'),
+    time        : document.getElementById('new-session-time'),
+    distance    : document.getElementById('new-session-distance'),
+    duration    : document.getElementById('new-session-duration'),
+    alt_max     : document.getElementById('new-session-alt-max'),
+    alt_min     : document.getElementById('new-session-alt-min'),
+    avg_speed   : document.getElementById('new-session-avg-speed'),
+    calories    : document.getElementById('new-session-calories'),
+    map         : document.getElementById('new-map-container')
   },
 
 
@@ -122,8 +123,10 @@ var NewSessionView = Backbone.NativeView.extend({
 
   renderMap: function() {
     'use strict';
+    console.log('rendering map', this.model.attributes.data);
     utils.Map.initialize('new-map');
-    utils.Map.getMap(this.model.data);
+    utils.Map.getMap(this.model.attributes.data);
+    this.dom.map.className = 'new-line';
   },
 
   // TODO move this in the preferences

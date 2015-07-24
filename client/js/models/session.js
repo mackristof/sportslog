@@ -21,6 +21,7 @@ var SessionModel = Backbone.Model.extend({
     alt_min   : 0,
     climb_pos : 0,
     climb_neg : 0,
+    map       : false,
     data      : []
   },
 
@@ -42,7 +43,8 @@ var SessionModel = Backbone.Model.extend({
         // TODO create a modal view for error or information display
         console.log('error while importing', res.res);
       } else {
-       that.set(res.res);
+        console.log('new session imported', that.attributes);
+        that.set(res.res);
       }
     });
   }

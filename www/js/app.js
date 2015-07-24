@@ -2175,6 +2175,7 @@ var SessionModel = Backbone.Model.extend({
     alt_min   : 0,
     climb_pos : 0,
     climb_neg : 0,
+    map       : false,
     data      : []
   },
 
@@ -2196,7 +2197,8 @@ var SessionModel = Backbone.Model.extend({
         // TODO create a modal view for error or information display
         console.log('error while importing', res.res);
       } else {
-       that.set(res.res);
+        console.log('new session imported', that.attributes);
+        that.set(res.res);
       }
     });
   }
@@ -2225,7 +2227,7 @@ var Router = Backbone.Router.extend({
 module.exports = app.Router = Router;
 
 },{"./lib/backbone.nativeajax":4,"./lib/exoskeleton":6,"./views/main":13}],11:[function(require,module,exports){
-/* jshint strict: true */
+/* jshint strict: true, node: true */
 
 var utils = utils || {};
 
@@ -2269,6 +2271,7 @@ var GPX = function() {
       alt_min   : 0,
       climb_pos : 0,
       climb_neg : 0,
+      map       : false,
       data      : []
     };
     var missing_time,
@@ -2403,6 +2406,7 @@ var GPX = function() {
     if (track.duration !== '') {
       track.avg_speed = track.distance / track.duration * 1000;
     }
+    track.map = true;
     callback({error: false, res: track});
   }
 
@@ -2471,7 +2475,7 @@ var L = require('../lib/leaflet');
 
 var utils = utils || {};
 
-var Map = function() {
+var LeafletMap = function() {
   'use strict';
   var map;
 
@@ -2499,7 +2503,7 @@ var Map = function() {
     if(map !== undefined) {
       removeMap();
     }
-    console.log('element', element);
+    console.log('element', document.getElementById(element));
     map = L.map(element, map_options);
     map.on('load', function() {
       console.log('map loaded', this);
@@ -2508,6 +2512,7 @@ var Map = function() {
   }
 
   function getMap(track) {
+    console.log('getting map for', track);
 
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '<a href="http://www.osm.org">OpenStreetMap</a>',
@@ -2549,7 +2554,7 @@ var Map = function() {
     removeMap   : removeMap
   };
 }();
-module.exports = utils.Map = Map;
+module.exports = utils.Map = LeafletMap;
 
 },{"../lib/leaflet":7}],13:[function(require,module,exports){
 /* jshint strict: true, node: true */
@@ -2703,21 +2708,22 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   dom: {
-    import_form    : document.getElementById('import-form'),
-    activity       : document.getElementById('new-activity-details'),
-    weight_form    : document.getElementById('weight-form'),
+    import_form : document.getElementById('import-form'),
+    activity    : document.getElementById('new-activity-details'),
+    weight_form : document.getElementById('weight-form'),
 
-    import_btn     : document.getElementById('import-btn'),
-    import_file    : document.getElementById('import-file'),
+    import_btn  : document.getElementById('import-btn'),
+    import_file : document.getElementById('import-file'),
 
-    date           : document.getElementById('new-session-date'),
-    time           : document.getElementById('new-session-time'),
-    distance       : document.getElementById('new-session-distance'),
-    duration       : document.getElementById('new-session-duration'),
-    alt_max        : document.getElementById('new-session-alt-max'),
-    alt_min        : document.getElementById('new-session-alt-min'),
-    avg_speed      : document.getElementById('new-session-avg-speed'),
-    calories       : document.getElementById('new-session-calories'),
+    date        : document.getElementById('new-session-date'),
+    time        : document.getElementById('new-session-time'),
+    distance    : document.getElementById('new-session-distance'),
+    duration    : document.getElementById('new-session-duration'),
+    alt_max     : document.getElementById('new-session-alt-max'),
+    alt_min     : document.getElementById('new-session-alt-min'),
+    avg_speed   : document.getElementById('new-session-avg-speed'),
+    calories    : document.getElementById('new-session-calories'),
+    map         : document.getElementById('new-map-container')
   },
 
 
@@ -2804,8 +2810,10 @@ var NewSessionView = Backbone.NativeView.extend({
 
   renderMap: function() {
     'use strict';
+    console.log('rendering map', this.model.attributes.data);
     utils.Map.initialize('new-map');
-    utils.Map.getMap(this.model.data);
+    utils.Map.getMap(this.model.attributes.data);
+    this.dom.map.className = 'new-line';
   },
 
   // TODO move this in the preferences

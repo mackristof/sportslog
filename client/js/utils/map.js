@@ -4,7 +4,7 @@ var L = require('../lib/leaflet');
 
 var utils = utils || {};
 
-var Map = function() {
+var LeafletMap = function() {
   'use strict';
   var map;
 
@@ -32,7 +32,7 @@ var Map = function() {
     if(map !== undefined) {
       removeMap();
     }
-    console.log('element', element);
+    console.log('element', document.getElementById(element));
     map = L.map(element, map_options);
     map.on('load', function() {
       console.log('map loaded', this);
@@ -41,6 +41,7 @@ var Map = function() {
   }
 
   function getMap(track) {
+    console.log('getting map for', track);
 
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '<a href="http://www.osm.org">OpenStreetMap</a>',
@@ -82,4 +83,4 @@ var Map = function() {
     removeMap   : removeMap
   };
 }();
-module.exports = utils.Map = Map;
+module.exports = utils.Map = LeafletMap;
