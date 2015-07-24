@@ -99,28 +99,29 @@ var MainView = Backbone.NativeView.extend({
 
   sessionAdded: function(session) {
     'use strict';
+    console.log('session added', session);
     /*
      * Create a new Session Summary and add it to the Dashboard Collection
      */
-    app.DashboardCollection.create({
-      date    : session.date,
-      type    : 'session',
-      content : {
-        date      : session.date,
-        activity  : session.activity,
-        time      : session.time,
-        distance  : session.distance,
-        duration  : session.duration,
-        avg_speed : session.avg_speed,
-        calories  : session.calories
-      }
-    });
+    // app.DashboardCollection.create({
+      // date    : session.date,
+      // type    : 'session',
+      // content : {
+        // date      : session.date,
+        // activity  : session.activity,
+        // time      : session.time,
+        // distance  : session.distance,
+        // duration  : session.duration,
+        // avg_speed : session.avg_speed,
+        // calories  : session.calories
+      // }
+    // });
     /*
      * Display newly created session in the Session Details View
      */
-    //var view = new app.SessionDetailsView({model: session});
-    //this.dom.session_view.appendChild(view.render().el);
-    //this._viewSection(this.dom.session_view);
+    // var view = new app.SessionDetailsView({model: session});
+    // this.dom.session_view.appendChild(view.render().el);
+    // this._viewSection(this.dom.session_view);
   },
 });
 module.exports = app.MainView = MainView;
