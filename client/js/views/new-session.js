@@ -42,7 +42,7 @@ var NewSessionView = Backbone.NativeView.extend({
   initialize: function() {
     'use strict';
     console.log('NewSessionView initialize');
-    
+
     this.listenTo(this.model, 'change', this.renderModel);
     this.listenTo(this.model, 'change:map', this.renderMap);
   },

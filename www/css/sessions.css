@@ -1,0 +1,21 @@
+section.sessions-view li {
+  width: 80%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid grey;
+  font-size: 1.5rem;
+}
+section.sessions-view li > * {
+  display: inline-block;
+}
+section.sessions-view span {
+  margin-right: 1rem;
+  margin-left: 2rem;
+}
+section.sessions-view img.activity {
+  width: 48px;
+  height: 48px;
+}
+section.sessions-view .time {
+  float: right;
+}

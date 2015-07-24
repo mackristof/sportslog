@@ -1,0 +1,38 @@
+nav {
+  width: 20%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+}
+nav > * {
+  margin: 10px;
+}
+nav h1,
+nav h2 {
+  margin-top: 3rem;
+  font-size: 2rem;
+}
+nav ul {
+  margin-top: 2rem;
+  font-size: 1rem;
+}
+nav li {
+  height: 3rem;
+}
+nav li span.fa {
+  margin-right: 0.5rem;
+}
+nav li a {
+  padding: 10px;
+  width: calc(100% - 25px);
+  height: 100%;
+}
+nav li a:hover {
+  background-color: grey;
+}
+
+

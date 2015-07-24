@@ -7,7 +7,7 @@ app.DashboardEntryModel = require('../models/dashboard-entry');
 
 var DashboardEntriesCollection = Backbone.Collection.extend({
   model: app.DashboardEntryModel,
-  
+
   url: '/dashboard',
 
   initialize: function() {

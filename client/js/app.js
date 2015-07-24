@@ -3,7 +3,7 @@
 var Backbone    = require('./lib/exoskeleton');
 
 var app         = app || {};
-var app.Router  = require('./router');
+app.Router  = require('./router');
 
 document.addEventListener('DOMContentLoaded', function() {
   'use strict';

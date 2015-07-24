@@ -8,12 +8,13 @@ var app                 = app || {};
 app.SessionSummaryView  = require('./session-summary');
 app.NewSession          = require('./new-session');
 app.SessionModel        = require('../models/session');
-app.SessionsCollection  =require('../collections/sessions');
+app.SessionsCollection  = require('../collections/sessions');
+app.DashboardCollection = require('../collections/dashboard-entries');
 
 var MainView = Backbone.NativeView.extend({
   el: '#app',
-  
-  indicatorsTemplate: Template('<div class="indicator align-left"><span class="">Nb Sessions</span><span id="dashboard-sessions-number"><%= nb_sessions %></span></div><div class="indicator align-right"><span class="">Burned calories</span><span id="dashboard-calories"><%= calories %></span></div><div class="indicator align-left"><span class="fa fa-road">Overall distance</span><span id="dashboard-distance"><%= distance %></span></div><div class="indicator align-right"><span class="">Total duration</span><span id="dashboard-duration"><%= duration %></span></div>');
+
+  indicatorsTemplate: Template('<div class="indicator align-left"><span class="">Nb Sessions</span><span id="dashboard-sessions-number"><%= nb_sessions %></span></div><div class="indicator align-right"><span class="">Burned calories</span><span id="dashboard-calories"><%= calories %></span></div><div class="indicator align-left"><span class="fa fa-road">Overall distance</span><span id="dashboard-distance"><%= distance %></span></div><div class="indicator align-right"><span class="">Total duration</span><span id="dashboard-duration"><%= duration %></span></div>'),
 
   events: {
     'click #new-session-btn'  : 'showNewSession',
@@ -36,10 +37,10 @@ var MainView = Backbone.NativeView.extend({
     'use strict';
     console.log('MainView initialize', this);
     this.active_section = this.dom.sessions_view;
-    
+
     this.listenTo(app.SessionsCollection, 'add', this.sessionAdded);
     // this.listenTo(app.SessionsCollection, 'all', this.render);
-    
+
     // app.SessionsCollection.fetch();
   },
 
@@ -70,17 +71,17 @@ var MainView = Backbone.NativeView.extend({
     'use strict';
     this._viewSection(this.dom.dashboard_view);
   },
-    
+
   showSessions: function() {
     'use strict';
     this._viewSection(this.dom.sessions_view);
   },
-  
+
   showReports: function() {
     'use strict';
     this._viewSection(this.dom.reports_view);
   },
-  
+
   showPreferences: function() {
     'use strict';
     this._viewSection(this.dom.preference_view);
@@ -95,7 +96,7 @@ var MainView = Backbone.NativeView.extend({
       this.active_section = section;
     }
   },
-  
+
   sessionAdded: function(session) {
     'use strict';
     /*
@@ -117,9 +118,9 @@ var MainView = Backbone.NativeView.extend({
     /*
      * Display newly created session in the Session Details View
      */
-    var view = new app.SessionDetailsView({model: session});
-    this.dom.session_view.appendChild(view.render().el);
-    this._viewSection(this.dom.session_view);
+    //var view = new app.SessionDetailsView({model: session});
+    //this.dom.session_view.appendChild(view.render().el);
+    //this._viewSection(this.dom.session_view);
   },
 });
 module.exports = app.MainView = MainView;
