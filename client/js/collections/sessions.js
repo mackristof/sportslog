@@ -1,12 +1,14 @@
 /* jshint strict: true, node: true */
 
-var Backbone      = require('../lib/exoskeleton');
+var Backbone          = require('../lib/exoskeleton');
+// Backbone.localStorage = require('../lib/backbone.localStorage');
 
-var app           = app || {};
-app.SessionModel  = require('../models/session');
+var app               = app || {};
+app.SessionModel      = require('../models/session');
 
 var SessionsCollection = Backbone.Collection.extend({
   model: app.SessionModel,
+  // localStorage: new Backbone.localStorage('sportslog'),
   url: '/sessions',
 });
 module.exports = app.SessionsCollection =  new SessionsCollection();

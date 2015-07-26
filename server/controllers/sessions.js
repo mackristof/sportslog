@@ -1,4 +1,5 @@
-/* jshint strict: true, node: true */
+:q
+
 
 var Session = require('../models/session');
 

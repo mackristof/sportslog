@@ -5,6 +5,7 @@ require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
 
 var app                 = app || {};
+app.SessionsView        = require('./sessions');
 app.SessionSummaryView  = require('./session-summary');
 app.NewSession          = require('./new-session');
 app.SessionModel        = require('../models/session');
@@ -39,6 +40,7 @@ var MainView = Backbone.NativeView.extend({
     this.active_section = this.dom.sessions_view;
 
     this.listenTo(app.SessionsCollection, 'add', this.sessionAdded);
+    this.listenTo(app.DashboardCollection, 'add', this.entryAdded);
     // this.listenTo(app.SessionsCollection, 'all', this.render);
 
     // app.SessionsCollection.fetch();
@@ -100,28 +102,49 @@ var MainView = Backbone.NativeView.extend({
   sessionAdded: function(session) {
     'use strict';
     console.log('session added', session);
+    console.log('app.SessionsCollection', app.SessionsCollection);
+    /*
+     * Render newly added session to its view
+     */
+    var view = new app.SessionsView({
+      model: session
+    });
+    this.dom.sessions_view.appendChild(view.render().el);
+
+    /*
+     * Display Sessionssection
+     */
+    this.showSessions();
     /*
      * Create a new Session Summary and add it to the Dashboard Collection
      */
-    // app.DashboardCollection.create({
-      // date    : session.date,
-      // type    : 'session',
-      // content : {
-        // date      : session.date,
-        // activity  : session.activity,
-        // time      : session.time,
-        // distance  : session.distance,
-        // duration  : session.duration,
-        // avg_speed : session.avg_speed,
-        // calories  : session.calories
-      // }
-    // });
+    session = session.attributes;
+    // TODO quelle est la différence entre Collection.create et Collection.add
+    app.DashboardCollection.add({
+      date    : session.date,
+      type    : 'session',
+      content : {
+        date      : session.date,
+        activity  : session.activity,
+        time      : session.time,
+        distance  : session.distance,
+        duration  : session.duration,
+        avg_speed : session.avg_speed,
+        calories  : session.calories
+      }
+    });
+  },
+
+  entryAdded:function(entry) {
+    'use strict';
+    console.log('app.DashboardCollection', app.DashboardCollection);
     /*
      * Display newly created session in the Session Details View
      */
-    // var view = new app.SessionDetailsView({model: session});
+    // var view = new app.SessionDetailsView({model: entry});
     // this.dom.session_view.appendChild(view.render().el);
     // this._viewSection(this.dom.session_view);
+
   },
 });
 module.exports = app.MainView = MainView;

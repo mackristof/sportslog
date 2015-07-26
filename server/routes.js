@@ -4,7 +4,8 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 
-var SessionModel = require('./models/session');
+// var SessionModel = require('./models/session_cozydb');
+// var SessionModel = require('./models/session_mongoose');
 
 router.use(function(req, res, next) {
   'use strict';
@@ -28,26 +29,70 @@ router.get('/', function(req, res) {
  */
 router.get('/sessions', function(req, res) {
   'use strict';
-  console.log('GET /sessions', res);
+  console.log('get /sessions', res);
+/*  return SessionModel.find(function(err, sessions) {
+    if (err !== null) {
+      return console.log('error on GET /sessions', err);
+    } else {
+      return res.send(sessions);
+    }
+  });*/
 });
 
 /*
- * PUT 'sessions/id': save a session
+ * POST 'sessions': save a new session
  */
-router.put('/sessions/:id', function(req, res, next) {
+router.post('/sessions', function(req, res) {
   'use strict';
-  console.log('Got a new session', req.params.id);
-  SessionModel.create(req.body, function(err, session) {
-    if (err !== null) {
-      next(err);
-    } else {
-      res.send('back');
-    }
+  console.log('post /sessions', req.body.id);
+/*  var s = req.body;
+  var session = new SessionModel({
+    id        : s.id,
+    name      : s.name,
+    duration  : s.duration,
+    distance  : s.distance,
+    date      : s.date,
+    avg_speed : s.avg_speed,
+    calories  : s.calories,
+    alt_max   : s.alt_max,
+    alt_min   : s.alt_min,
+    climb_pos : s.climb_pos,
+    climb_neg : s.climb_neg,
+    map       : s.map,
+    data      : [s.data]
   });
+  session.save(function(err) {
+    if(err !== null) {
+      return console.log('error on POST /sessions', err);
+    } else {
+      return console.log('new session saved');
+    }
+    return res.send(session);
+  });*/
 });
+
+/*
+ * PUT '/sessions:id': update a session
+ */
+router.put('/sessions:id', function(req, res) {
+  'use strict';
+  console.log('put /sessions:id', req.body.id);
+});
+
 
 /*
  * GET 'session:_id': get a session data.
+ */
+
+/*
+ * POST '/dashboard: add a nex dashboard entry
+ */
+router.post('/dashbord',function(req, res) {
+  'use strict';
+  console.log('post /dashboard', req.body.id);
+});
+
+
 
 /*
  * POST 'preferences': save preferences

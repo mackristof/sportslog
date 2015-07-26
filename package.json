@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "watch": "watchify client/js/app.js -o www/js/app.js -v",
+    "dev": "npm run watch & nodemon debug server.js",
     "start": "npm run watch & nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -33,6 +34,7 @@
     "browserify": "^11.0.0",
     "exoskeleton": "^0.7.0",
     "microtemplates": "^0.1.0",
+    "mongoose": "^4.1.0",
     "nodemon": "^1.3.7",
     "watchify": "^3.3.0"
   }

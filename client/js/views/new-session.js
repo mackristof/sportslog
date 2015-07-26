@@ -86,7 +86,8 @@ var NewSessionView = Backbone.NativeView.extend({
     console.log('addNewSession');
     var session = this.newSessionData();
     console.log('session', session);
-    app.SessionsCollection.create(session);
+    // TODO quelle est la difference entre Collection.create Collection.add
+    app.SessionsCollection.add(session);
   },
 
   newSessionData: function() {
