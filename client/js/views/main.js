@@ -7,7 +7,6 @@ var Template              = require('microtemplates');
 var app                   = app || {};
 app.SessionsView          = require('./sessions');
 app.DashboardSessionView  = require('./dashboard-session');
-app.SessionSummaryView    = require('./session-summary');
 app.NewSession            = require('./new-session');
 app.SessionModel          = require('../models/session');
 app.SessionsCollection    = require('../collections/sessions');
@@ -53,14 +52,6 @@ var MainView = Backbone.NativeView.extend({
     // console.log('collection', this.collection);
     // this.collection.fetch();
   // },
-
-  onSessionAdded: function(session) {
-    'use strict';
-    var sessionSummaryView = new app.SessionSummaryView({
-      model: session
-    });
-    sessionSummaryView.render();
-  },
 
   showNewSession: function() {
     'use strict';
