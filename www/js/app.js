@@ -2230,7 +2230,7 @@ var Router = Backbone.Router.extend({
 });
 module.exports = app.Router = Router;
 
-},{"./lib/backbone.nativeajax":4,"./lib/exoskeleton":6,"./views/main":13}],11:[function(require,module,exports){
+},{"./lib/backbone.nativeajax":4,"./lib/exoskeleton":6,"./views/main":14}],11:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var utils = utils || {};
@@ -2562,18 +2562,52 @@ module.exports = utils.Map = LeafletMap;
 
 },{"../lib/leaflet":7}],13:[function(require,module,exports){
 /* jshint strict: true, node: true */
-
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
 
 var app                 = app || {};
-app.SessionsView        = require('./sessions');
-app.SessionSummaryView  = require('./session-summary');
-app.NewSession          = require('./new-session');
-app.SessionModel        = require('../models/session');
-app.SessionsCollection  = require('../collections/sessions');
 app.DashboardCollection = require('../collections/dashboard-entries');
+
+var SessionView = Backbone.NativeView.extend({
+  tagName: 'li',
+
+  events: {},
+
+  dom: {},
+
+  template: Template('<img src="img/activities/<%= content.activity %>.svg" alt="running" class="activity"><div class="time"><%= content.date %></div><div class="distance"><span class="fa fa-road"></span><span><%= content.distance %></span></div><div class="duration"><span>&#9201;</span><span><%= content.duration %></span></div><div class="speed"><span class="fa fa-tachometer"></span><span><%= content.avg_speed %></span></div>'),
+
+  initialize: function() {
+    'use strict';
+    this.listenTo(this.model, 'change', this.render);
+    this.listenTo(this.model, 'destroy', this.remove);
+
+  },
+
+  render: function() {
+    'use strict';
+    this.el.innerHTML = this.template(this.model.toJSON());
+    return this;
+}
+});
+module.exports = app.SessionView = SessionView;
+
+},{"../collections/dashboard-entries":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":18}],14:[function(require,module,exports){
+/* jshint strict: true, node: true */
+
+var Backbone              = require('../lib/exoskeleton');
+require('../lib/backbone.nativeview');
+var Template              = require('microtemplates');
+
+var app                   = app || {};
+app.SessionsView          = require('./sessions');
+app.DashboardSessionView  = require('./dashboard-session');
+app.SessionSummaryView    = require('./session-summary');
+app.NewSession            = require('./new-session');
+app.SessionModel          = require('../models/session');
+app.SessionsCollection    = require('../collections/sessions');
+app.DashboardCollection   = require('../collections/dashboard-entries');
 
 var MainView = Backbone.NativeView.extend({
   el: '#app',
@@ -2702,17 +2736,26 @@ var MainView = Backbone.NativeView.extend({
     'use strict';
     console.log('app.DashboardCollection', app.DashboardCollection);
     /*
-     * Display newly created session in the Session Details View
+     * Display the new entry in the Dashboard
      */
-    // var view = new app.SessionDetailsView({model: entry});
-    // this.dom.session_view.appendChild(view.render().el);
-    // this._viewSection(this.dom.session_view);
+    var view;
+    if (entry.attributes.type === 'session') {
+      view = new app.DashboardSessionView({
+        model: entry
+      });
+    } else if (entry.attributes.type === 'message') {
+      console.log('not yet');
+    } else {
+      // TODO manage when it is neitheir 'session' nor 'message'
+      console.log('not yet');
+    }
 
+    this.dom.dashboard_view.appendChild(view.render().el);
   },
 });
 module.exports = app.MainView = MainView;
 
-},{"../collections/dashboard-entries":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/session":9,"./new-session":14,"./session-summary":15,"./sessions":16,"microtemplates":17}],14:[function(require,module,exports){
+},{"../collections/dashboard-entries":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/session":9,"./dashboard-session":13,"./new-session":15,"./session-summary":16,"./sessions":17,"microtemplates":18}],15:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone            = require('../lib/exoskeleton');
@@ -2868,7 +2911,7 @@ var NewSessionView = Backbone.NativeView.extend({
 module.exports = app.NewSessionView = NewSessionView;
 
 
-},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../utils/map":12}],15:[function(require,module,exports){
+},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../utils/map":12}],16:[function(require,module,exports){
 /* jshint strict: true, node: true */
 var Backbone        = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
@@ -2878,7 +2921,7 @@ var app = app || {};
 var SessionSummaryView = Backbone.NativeView.extend({});
 module.exports = app.SessionSummaryView = SessionSummaryView;
 
-},{"../lib/backbone.nativeview":5,"../lib/exoskeleton":6}],16:[function(require,module,exports){
+},{"../lib/backbone.nativeview":5,"../lib/exoskeleton":6}],17:[function(require,module,exports){
 /* jshint strict: true, node: true */
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
@@ -2911,7 +2954,7 @@ var SessionsView = Backbone.NativeView.extend({
 });
 module.exports = app.SessionsView = SessionsView;
 
-},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":17}],17:[function(require,module,exports){
+},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":18}],18:[function(require,module,exports){
 // Simple JavaScript Templating
 // Paul Miller (http://paulmillr.com)
 // http://underscorejs.org

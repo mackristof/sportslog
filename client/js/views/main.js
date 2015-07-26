@@ -1,16 +1,17 @@
 /* jshint strict: true, node: true */
 
-var Backbone            = require('../lib/exoskeleton');
+var Backbone              = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
-var Template            = require('microtemplates');
+var Template              = require('microtemplates');
 
-var app                 = app || {};
-app.SessionsView        = require('./sessions');
-app.SessionSummaryView  = require('./session-summary');
-app.NewSession          = require('./new-session');
-app.SessionModel        = require('../models/session');
-app.SessionsCollection  = require('../collections/sessions');
-app.DashboardCollection = require('../collections/dashboard-entries');
+var app                   = app || {};
+app.SessionsView          = require('./sessions');
+app.DashboardSessionView  = require('./dashboard-session');
+app.SessionSummaryView    = require('./session-summary');
+app.NewSession            = require('./new-session');
+app.SessionModel          = require('../models/session');
+app.SessionsCollection    = require('../collections/sessions');
+app.DashboardCollection   = require('../collections/dashboard-entries');
 
 var MainView = Backbone.NativeView.extend({
   el: '#app',
@@ -139,12 +140,21 @@ var MainView = Backbone.NativeView.extend({
     'use strict';
     console.log('app.DashboardCollection', app.DashboardCollection);
     /*
-     * Display newly created session in the Session Details View
+     * Display the new entry in the Dashboard
      */
-    // var view = new app.SessionDetailsView({model: entry});
-    // this.dom.session_view.appendChild(view.render().el);
-    // this._viewSection(this.dom.session_view);
+    var view;
+    if (entry.attributes.type === 'session') {
+      view = new app.DashboardSessionView({
+        model: entry
+      });
+    } else if (entry.attributes.type === 'message') {
+      console.log('not yet');
+    } else {
+      // TODO manage when it is neitheir 'session' nor 'message'
+      console.log('not yet');
+    }
 
+    this.dom.dashboard_view.appendChild(view.render().el);
   },
 });
 module.exports = app.MainView = MainView;
