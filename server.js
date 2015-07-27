@@ -7,7 +7,7 @@ var http = require('http');
 // var favicon = require('serve-favicon');
 
 var debug = require('debug')('sports_dairy:server');
-// var routes = require('./server/routes');
+var routes = require('./server/routes');
 
 var app = express();
 
@@ -20,56 +20,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'www')));
 
-// app.use('/', routes);
-
-
-
-/*
- * GET '/': render main page
- */
-app.get('/', function(req, res) {
-  'use strict';
-  res.render('index');
-});
-
-/*
- * GET 'sessions': get all stored sessions
- */
-app.get('/sessions', function(req, res) {
-  'use strict';
-  console.log('get /sessions', res);
-});
-
-/*
- * POST 'sessions': save a new session
- */
-app.post('/sessions', function(req, res) {
-  'use strict';
-  console.log('post /sessions', req.body.id);
-});
-
-/*
- * PUT '/sessions:id': update a session
- */
-app.put('/sessions:id', function(req, res) {
-  'use strict';
-  console.log('put /sessions:id', req.body.id);
-});
-
-/*
- * POST '/dashboard: add a nex dashboard entry
- */
-app.post('/dashbord',function(req, res) {
-  'use strict';
-  console.log('post /dashboard', req.body.id);
-});
-
-
-
-
-
-
-
+app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

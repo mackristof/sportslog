@@ -5,14 +5,12 @@ var Backbone    = require('./lib/exoskeleton');
 
 var app         = app || {};
 app.Router  = require('./router');
-// app.MainView    = require('./views/main');
 
 document.addEventListener('DOMContentLoaded', function() {
   'use strict';
   console.log('launching');
   this.router = new app.Router();
   Backbone.history.start();
-  // new app.MainView({});
 }, false);
 
 },{"./lib/exoskeleton":6,"./router":10}],2:[function(require,module,exports){
@@ -2225,6 +2223,7 @@ var Router = Backbone.Router.extend({
 
   main: function() {
     'use strict';
+    console.log('starting MainView');
     new app.MainView({});
   }
 });
@@ -2836,7 +2835,7 @@ var NewSessionView = Backbone.NativeView.extend({
     var session = this.newSessionData();
     console.log('session', session);
     // TODO quelle est la difference entre Collection.create Collection.add
-    app.SessionsCollection.add(session);
+    app.SessionsCollection.create(session);
   },
 
   newSessionData: function() {

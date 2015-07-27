@@ -13,6 +13,7 @@ var Router = Backbone.Router.extend({
 
   main: function() {
     'use strict';
+    console.log('starting MainView');
     new app.MainView({});
   }
 });
