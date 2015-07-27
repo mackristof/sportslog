@@ -88,7 +88,7 @@ router.put('/sessions/:id', function(req, res) {
   });
   session.save(function(err) {
     if(err !== null) {
-      return console.log('error on POST /sessions', err);
+      return console.log('error on PUT /sessions', err);
     } else {
       return console.log('new session saved');
     }
