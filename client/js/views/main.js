@@ -10,7 +10,7 @@ app.DashboardSessionView  = require('./dashboard-session');
 app.NewSession            = require('./new-session');
 app.SessionModel          = require('../models/session');
 app.SessionsCollection    = require('../collections/sessions');
-app.DashboardCollection   = require('../collections/dashboard-entries');
+app.DashboardCollection   = require('../collections/dashboard');
 
 var MainView = Backbone.NativeView.extend({
   el: '#app',

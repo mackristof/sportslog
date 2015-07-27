@@ -2567,7 +2567,7 @@ require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
 
 var app                 = app || {};
-app.DashboardCollection = require('../collections/dashboard-entries');
+app.DashboardCollection = require('../collections/dashboard');
 
 var SessionView = Backbone.NativeView.extend({
   tagName: 'li',
@@ -2593,7 +2593,7 @@ var SessionView = Backbone.NativeView.extend({
 });
 module.exports = app.SessionView = SessionView;
 
-},{"../collections/dashboard-entries":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":18}],14:[function(require,module,exports){
+},{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":17}],14:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone              = require('../lib/exoskeleton');
@@ -2603,11 +2603,10 @@ var Template              = require('microtemplates');
 var app                   = app || {};
 app.SessionsView          = require('./sessions');
 app.DashboardSessionView  = require('./dashboard-session');
-app.SessionSummaryView    = require('./session-summary');
 app.NewSession            = require('./new-session');
 app.SessionModel          = require('../models/session');
 app.SessionsCollection    = require('../collections/sessions');
-app.DashboardCollection   = require('../collections/dashboard-entries');
+app.DashboardCollection   = require('../collections/dashboard');
 
 var MainView = Backbone.NativeView.extend({
   el: '#app',
@@ -2649,14 +2648,6 @@ var MainView = Backbone.NativeView.extend({
     // console.log('collection', this.collection);
     // this.collection.fetch();
   // },
-
-  onSessionAdded: function(session) {
-    'use strict';
-    var sessionSummaryView = new app.SessionSummaryView({
-      model: session
-    });
-    sessionSummaryView.render();
-  },
 
   showNewSession: function() {
     'use strict';
@@ -2755,7 +2746,7 @@ var MainView = Backbone.NativeView.extend({
 });
 module.exports = app.MainView = MainView;
 
-},{"../collections/dashboard-entries":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/session":9,"./dashboard-session":13,"./new-session":15,"./session-summary":16,"./sessions":17,"microtemplates":18}],15:[function(require,module,exports){
+},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/session":9,"./dashboard-session":13,"./new-session":15,"./sessions":16,"microtemplates":17}],15:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone            = require('../lib/exoskeleton');
@@ -2913,16 +2904,6 @@ module.exports = app.NewSessionView = NewSessionView;
 
 },{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../utils/map":12}],16:[function(require,module,exports){
 /* jshint strict: true, node: true */
-var Backbone        = require('../lib/exoskeleton');
-require('../lib/backbone.nativeview');
-
-var app = app || {};
-
-var SessionSummaryView = Backbone.NativeView.extend({});
-module.exports = app.SessionSummaryView = SessionSummaryView;
-
-},{"../lib/backbone.nativeview":5,"../lib/exoskeleton":6}],17:[function(require,module,exports){
-/* jshint strict: true, node: true */
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
@@ -2954,7 +2935,7 @@ var SessionsView = Backbone.NativeView.extend({
 });
 module.exports = app.SessionsView = SessionsView;
 
-},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":18}],18:[function(require,module,exports){
+},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":17}],17:[function(require,module,exports){
 // Simple JavaScript Templating
 // Paul Miller (http://paulmillr.com)
 // http://underscorejs.org

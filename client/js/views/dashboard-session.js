@@ -4,7 +4,7 @@ require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
 
 var app                 = app || {};
-app.DashboardCollection = require('../collections/dashboard-entries');
+app.DashboardCollection = require('../collections/dashboard');
 
 var SessionView = Backbone.NativeView.extend({
   tagName: 'li',
