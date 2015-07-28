@@ -8,6 +8,7 @@ app.SessionsCollection  = require('../collections/sessions');
 
 var utils               = utils || {};
 utils.Map               = require('../utils/map');
+utils.Helpers           = require('../utils/helpers');
 
 var NewSessionView = Backbone.NativeView.extend({
   el: '#new-session-view',
@@ -111,8 +112,8 @@ var NewSessionView = Backbone.NativeView.extend({
   renderModel: function() {
     'use strict';
     var data = this.model.attributes;
-    this.dom.date.value      = data.date;
-    this.dom.time.value      = data.date;
+    this.dom.date.value      = utils.Helpers.formatDate(data.date);
+    this.dom.time.value      = utils.Helpers.formatTime(data.date);
     // TODO manage distance and speed calculation from preferences choices
     this.dom.distance.value  = this.distanceToKm(data.distance);
     this.dom.duration.value  = this.durationToMin(data.duration);

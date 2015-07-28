@@ -52,24 +52,46 @@ var Helpers = function() {
   }
 
   function formatDate(value) {
-    var date = new Date(value);
+    if(value === null) {
+      return '';
+    } else {
+      var date = new Date(value);
 
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var day = date.getDate();
-    if (month < 10) {
-      month = "0" + month.toString();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      if (month < 10) {
+        month = '0' + month.toString();
+      }
+      if (day < 10) {
+        day = '0' + day.toString();
+      }
+      return day + '/' + month + '/' + year;
     }
-    if (day < 10) {
-      day = "0" + day.toString();
+  }
+
+  function formatTime(value) {
+    if (value === null) {
+      return '';
+    } else {
+      var date = new Date(value);
+      var hours = date.getHours();
+      if (hours < 10) {
+        hours = '0' + hours;
+      }
+      var minutes = date.getMinutes();
+      if (minutes < 10) {
+        minutes = '0' + minutes;
+      }
+      return hours + ':' + minutes;
     }
-    return day+"/"+month+"/"+year;
   }
 
   return {
     formatDistance  : formatDistance,
     formatSpeed     : formatSpeed,
-    formatDate      : formatDate
+    formatDate      : formatDate,
+    formatTime      : formatTime
   };
 }();
 module.exports = utils.Helpers = Helpers;

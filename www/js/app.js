@@ -2170,7 +2170,7 @@ var SessionModel = Backbone.Model.extend({
     name      : null,
     duration  : 0,
     distance  : 0,
-    date      : '',
+    date      : null,
     avg_speed : 0,
     calories  : 0,
     alt_max   : 0,
@@ -2229,7 +2229,7 @@ var Router = Backbone.Router.extend({
 });
 module.exports = app.Router = Router;
 
-},{"./lib/backbone.nativeajax":4,"./lib/exoskeleton":6,"./views/main":14}],11:[function(require,module,exports){
+},{"./lib/backbone.nativeajax":4,"./lib/exoskeleton":6,"./views/main":15}],11:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var utils = utils || {};
@@ -2472,6 +2472,106 @@ var GPX = function() {
 module.exports = utils.GPX = GPX;
 
 },{}],12:[function(require,module,exports){
+/* jshint strict: true, node: true */
+
+var utils = utils || {};
+
+var Helpers = function() {
+  'use strict';
+
+  /*
+   * param choice: String User choice over unit display.
+   * param value: Number Distance value in meter.
+   * param canNegative: Boolean Tells if value can be negative or not
+   *
+   * return distance: Array { 'value', 'unit'}
+   */
+  function formatDistance(choice, value, canNegative) {
+    var distance = {};
+    if (value === null  || (value < 0 && !canNegative)) {
+      distance.value = '--';
+    } else {
+      if (choice === 'metric') {
+        distance.value = (value / 1000).toFixed(1);
+        distance.unit = 'km';
+      } else if (choice === 'imperial') {
+        distance.value = (value / 1609.344).toFixed(1);
+        distance.unit = 'miles';
+      } else {
+        distance.value = value.toFixed(1);
+        distance.unit = 'm';
+      }
+    }
+    return distance;
+  }
+
+
+  function formatSpeed(choice, value) {
+    var speed = {};
+    if (value === null || value < 0 || isNaN(value) || value === Infinity) {
+      speed.value = '--';
+    } else {
+      if (choice === 'metric') {
+        speed.value = (value * 3.6).toFixed(1);
+        speed.unit = 'km/h';
+      } else if (choice === 'imperial') {
+        speed.value = (value * 2.237).toFixed(1);
+        speed.unit = 'mph';
+      } else {
+        speed.value = value.toFixed(1);
+        speed.unit = 'm/s';
+      }
+    }
+    return speed;
+  }
+
+  function formatDate(value) {
+    if(value === null) {
+      return '';
+    } else {
+      var date = new Date(value);
+
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      if (month < 10) {
+        month = '0' + month.toString();
+      }
+      if (day < 10) {
+        day = '0' + day.toString();
+      }
+      return day + '/' + month + '/' + year;
+    }
+  }
+
+  function formatTime(value) {
+    if (value === null) {
+      return '';
+    } else {
+      var date = new Date(value);
+      var hours = date.getHours();
+      if (hours < 10) {
+        hours = '0' + hours;
+      }
+      var minutes = date.getMinutes();
+      if (minutes < 10) {
+        minutes = '0' + minutes;
+      }
+      return hours + ':' + minutes;
+    }
+  }
+
+  return {
+    formatDistance  : formatDistance,
+    formatSpeed     : formatSpeed,
+    formatDate      : formatDate,
+    formatTime      : formatTime
+  };
+}();
+module.exports = utils.Helpers = Helpers;
+
+
+},{}],13:[function(require,module,exports){
 /* jshint strict: true, bitwise: false, node: true */
 
 var L = require('../lib/leaflet');
@@ -2559,7 +2659,7 @@ var LeafletMap = function() {
 }();
 module.exports = utils.Map = LeafletMap;
 
-},{"../lib/leaflet":7}],13:[function(require,module,exports){
+},{"../lib/leaflet":7}],14:[function(require,module,exports){
 /* jshint strict: true, node: true */
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
@@ -2592,7 +2692,7 @@ var SessionView = Backbone.NativeView.extend({
 });
 module.exports = app.SessionView = SessionView;
 
-},{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":17}],14:[function(require,module,exports){
+},{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":18}],15:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone              = require('../lib/exoskeleton');
@@ -2745,7 +2845,7 @@ var MainView = Backbone.NativeView.extend({
 });
 module.exports = app.MainView = MainView;
 
-},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/session":9,"./dashboard-session":13,"./new-session":15,"./sessions":16,"microtemplates":17}],15:[function(require,module,exports){
+},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/session":9,"./dashboard-session":14,"./new-session":16,"./sessions":17,"microtemplates":18}],16:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone            = require('../lib/exoskeleton');
@@ -2756,6 +2856,7 @@ app.SessionsCollection  = require('../collections/sessions');
 
 var utils               = utils || {};
 utils.Map               = require('../utils/map');
+utils.Helpers           = require('../utils/helpers');
 
 var NewSessionView = Backbone.NativeView.extend({
   el: '#new-session-view',
@@ -2859,8 +2960,8 @@ var NewSessionView = Backbone.NativeView.extend({
   renderModel: function() {
     'use strict';
     var data = this.model.attributes;
-    this.dom.date.value      = data.date;
-    this.dom.time.value      = data.date;
+    this.dom.date.value      = utils.Helpers.formatDate(data.date);
+    this.dom.time.value      = utils.Helpers.formatTime(data.date);
     // TODO manage distance and speed calculation from preferences choices
     this.dom.distance.value  = this.distanceToKm(data.distance);
     this.dom.duration.value  = this.durationToMin(data.duration);
@@ -2901,7 +3002,7 @@ var NewSessionView = Backbone.NativeView.extend({
 module.exports = app.NewSessionView = NewSessionView;
 
 
-},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../utils/map":12}],16:[function(require,module,exports){
+},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../utils/helpers":12,"../utils/map":13}],17:[function(require,module,exports){
 /* jshint strict: true, node: true */
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
@@ -2934,7 +3035,7 @@ var SessionsView = Backbone.NativeView.extend({
 });
 module.exports = app.SessionsView = SessionsView;
 
-},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":17}],17:[function(require,module,exports){
+},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":18}],18:[function(require,module,exports){
 // Simple JavaScript Templating
 // Paul Miller (http://paulmillr.com)
 // http://underscorejs.org

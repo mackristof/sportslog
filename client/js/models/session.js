@@ -14,7 +14,7 @@ var SessionModel = Backbone.Model.extend({
     name      : null,
     duration  : 0,
     distance  : 0,
-    date      : '',
+    date      : null,
     avg_speed : 0,
     calories  : 0,
     alt_max   : 0,
