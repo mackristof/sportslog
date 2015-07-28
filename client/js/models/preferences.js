@@ -11,9 +11,11 @@ var PreferencesModel = Backbone.Model.extend({
     birthyear     : ''
   },
 
+  url: '/preferences',
+
   initialize: function() {
   'use strict';
     console.log('PreferencesModel initialize');
   }
 });
-module.exports = app.PreferencesModel = PreferencesModel;
+module.exports = app.PreferencesModel = new PreferencesModel({parse: true});
