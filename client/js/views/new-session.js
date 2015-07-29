@@ -4,6 +4,7 @@ var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
 var app                 = app || {};
+app.Preferences         = require('../models/preferences');
 app.SessionsCollection  = require('../collections/sessions');
 
 var utils               = utils || {};
@@ -40,6 +41,7 @@ var NewSessionView = Backbone.NativeView.extend({
     map         : document.getElementById('new-map-container')
   },
 
+  units: app.Preferences.get('units'),
 
   initialize: function() {
     'use strict';
@@ -115,12 +117,12 @@ var NewSessionView = Backbone.NativeView.extend({
     this.dom.date.value      = utils.Helpers.formatDate(data.date);
     this.dom.time.value      = utils.Helpers.formatTime(data.date);
     // TODO manage distance and speed calculation from preferences choices
-    this.dom.distance.value  = this.distanceToKm(data.distance);
-    this.dom.duration.value  = this.durationToMin(data.duration);
-    this.dom.alt_max.value   = data.alt_max;
-    this.dom.alt_min.value   = data.alt_min;
-    this.dom.avg_speed.value = this.speedToKmh(data.avg_speed);
-    this.dom.calories.value  = 'Not yet';
+    this.dom.distance.value  = utils.Helpers.formatDistance(this.units, data.distance, false);
+    this.dom.duration.value  = utils.Helpers.formatDuration(data.duration);
+    this.dom.alt_max.value   = utils.Helpers.formatDistance(this.units, data.alt_max, false);
+    this.dom.alt_min.value   = utils.Helpers.formatDistance(this.units, data.alt_min, false);
+    this.dom.avg_speed.value = utils.Helpers.formatSpeed(this.units, data.avg_speed);
+    this.dom.calories.value  = utils.Helpers.calculateCalories(data.activity, data.distance, data.duration);
   },
 
   renderMap: function() {
@@ -131,25 +133,5 @@ var NewSessionView = Backbone.NativeView.extend({
     this.dom.map.className = 'new-line';
   },
 
-  // TODO move this in the preferences
-  distanceToKm: function(distance) {
-    'use strict';
-    var d = distance / 1000;
-    return d.toFixed(1);
-  },
-
-  // TODO move this in the preferences
-  durationToMin: function(duration) {
-    'use strict';
-    var d = duration / 6000;
-    return d.toFixed();
-  },
-
-  // TODO move this in the preferences
-  speedToKmh: function(speed) {
-    'use strict';
-    return (speed * 3.6).toFixed(1);
-  },
 });
 module.exports = app.NewSessionView = NewSessionView;
-

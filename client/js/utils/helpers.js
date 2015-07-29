@@ -31,7 +31,6 @@ var Helpers = function() {
     return distance;
   }
 
-
   function formatSpeed(choice, value) {
     var speed = {};
     if (value === null || value < 0 || isNaN(value) || value === Infinity) {
@@ -87,11 +86,22 @@ var Helpers = function() {
     }
   }
 
+  function formatDuration(value) {
+    return (value / 6000).toFixed();
+  }
+
+  function calculateCalories(activity, distance, duration) {
+    var calories = 'not yet';
+    return calories;
+  }
+
   return {
-    formatDistance  : formatDistance,
-    formatSpeed     : formatSpeed,
-    formatDate      : formatDate,
-    formatTime      : formatTime
+    formatDistance    : formatDistance,
+    formatSpeed       : formatSpeed,
+    formatDate        : formatDate,
+    formatTime        : formatTime,
+    formatDuration    : formatDuration,
+    calculateCalories : calculateCalories
   };
 }();
 module.exports = utils.Helpers = Helpers;
