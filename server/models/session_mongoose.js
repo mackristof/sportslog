@@ -2,26 +2,30 @@
 
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/library_database');
-
-var Keywords = new mongoose.Schema({
-  keywork: String
-});
+mongoose.connect('mongodb://localhost/sessions_database');
 
 var Session = new mongoose.Schema({
   id        : String,
   name      : String,
-  duration  : String,
-  distance  : String,
+  duration  : Number,
+  distance  : Number,
   date      : String,
-  avg_speed : String,
-  calories  : String,
-  alt_max   : String,
-  alt_min   : String,
-  climb_pos : String,
-  climb_neg : String,
+  avg_speed : Number,
+  calories  : Number,
+  alt_max   : Number,
+  alt_min   : Number,
+  climb_pos : Number,
+  climb_neg : Number,
   map       : Boolean,
-  data      : [Keywords]
+  data      : [{
+    date          : String,
+    latitude      : Number,
+    longitude     : Number,
+    altitude      : Number,
+    speed         : Number,
+    accuracy      : Number,
+    vertAccuracy  : Number
+   }]
 });
 
 var SessionModel = mongoose.model('Session', Session);

@@ -1,11 +1,13 @@
 /* jshint strict: true, node: true */
 
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');
+var express     = require('express');
+var router      = express.Router();
+var bodyParser  = require('body-parser');
 
-var SessionModel = require('./models/session_cozydb');
+// var SessionModel = require('./models/session_cozydb');
 // var SessionModel = require('./models/session_mongoose');
+var Preferences = require('./models/preferences_pouchdb');
+var Sessions    = require('./models/session_pouchdb');
 
 router.use(function(req, res, next) {
   'use strict';
@@ -24,9 +26,18 @@ router.get('/', function(req, res) {
 
 
 // GET 'sessions': get all stored sessions
-router.get('/sessions', function(req, res) {
+router.get('/sessions', function(req, res, next) {
   'use strict';
   console.log('get /sessions', res);
+  Sessions.all(function(err, data) {
+    if (err !== null) {
+      next(err);
+    } else {
+      console.log('rendering', data);
+      res.render({sessions: data});
+    }
+  });
+
 /*  return SessionModel.find(function(err, sessions) {
     if (err !== null) {
       return console.log('error on GET /sessions', err);
@@ -37,41 +48,24 @@ router.get('/sessions', function(req, res) {
 });
 
 // POST 'sessions': save a new session
-router.post('/sessions', function(req, res) {
+router.post('/sessions', function(req, res, next) {
   'use strict';
   console.log('post /sessions', req.body.id);
-  var s = req.body;
-  var session = new SessionModel({
-    id        : s.id,
-    name      : s.name,
-    duration  : s.duration,
-    distance  : s.distance,
-    date      : s.date,
-    avg_speed : s.avg_speed,
-    calories  : s.calories,
-    alt_max   : s.alt_max,
-    alt_min   : s.alt_min,
-    climb_pos : s.climb_pos,
-    climb_neg : s.climb_neg,
-    map       : s.map,
-    data      : [s.data]
-  });
-  session.save(function(err) {
-    if(err !== null) {
-      return console.log('error on POST /sessions', err);
+  Sessions.add(req.body, function(err) {
+    if (err !== null) {
+      next(err);
     } else {
-      return console.log('new session saved');
+      res.redirect('back');
     }
-    return res.send(session);
   });
 });
 
 // PUT '/sessions:id': update a session
-router.put('/sessions/:id', function(req, res) {
+router.put('/sessions/:id', function(req, res, next) {
   'use strict';
   console.log('put /sessions/:id', req.body);
-  var s = req.body;
-  var session = new SessionModel({
+  /*var s = req.body;
+  var session = {
     id        : s.id,
     name      : s.name,
     duration  : s.duration,
@@ -85,16 +79,14 @@ router.put('/sessions/:id', function(req, res) {
     climb_neg : s.climb_neg,
     map       : s.map,
     data      : [s.data]
-  });
-  session.save(function(err) {
-    if(err !== null) {
-      return console.log('error on PUT /sessions', err);
+  };*/
+  Sessions.add(req.body, function(err) {
+    if (err !== null) {
+      next(err);
     } else {
-      return console.log('new session saved');
+      res.redirect('back');
     }
-    return res.send(session);
   });
-
 });
 
 

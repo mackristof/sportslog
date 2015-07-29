@@ -22,8 +22,8 @@ app.use(express.static(path.join(__dirname, 'www')));
 
 app.use('/', routes);
 
-var cozydb = require('cozydb');
-cozydb.configure(__dirname, null, function() {});
+// var cozydb = require('cozydb');
+// cozydb.configure(__dirname, null, function() {});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
