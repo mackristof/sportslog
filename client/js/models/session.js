@@ -9,6 +9,8 @@ utils.GPX     = require('../utils/gpx');
 var app = app || {};
 
 var SessionModel = Backbone.Model.extend({
+  idAttribute: '_id',
+
   defaults: {
     id        : '',
     name      : null,

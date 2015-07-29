@@ -7,7 +7,8 @@ var bodyParser  = require('body-parser');
 // var SessionModel = require('./models/session_cozydb');
 // var SessionModel = require('./models/session_mongoose');
 var Preferences = require('./models/preferences_pouchdb');
-var Sessions    = require('./models/session_pouchdb');
+var Sessions    = require('./models/sessions_pouchdb');
+var Dashboard   = require('./models/dashboard_pouchdb');
 
 router.use(function(req, res, next) {
   'use strict';
@@ -50,7 +51,7 @@ router.get('/sessions', function(req, res, next) {
 // POST 'sessions': save a new session
 router.post('/sessions', function(req, res, next) {
   'use strict';
-  console.log('post /sessions', req.body.id);
+  console.log('post /sessions', req);
   Sessions.add(req.body, function(err) {
     if (err !== null) {
       next(err);
@@ -63,7 +64,7 @@ router.post('/sessions', function(req, res, next) {
 // PUT '/sessions:id': update a session
 router.put('/sessions/:id', function(req, res, next) {
   'use strict';
-  console.log('put /sessions/:id', req.body);
+  console.log('put /sessions/:id', req);
   /*var s = req.body;
   var session = {
     id        : s.id,
@@ -93,12 +94,48 @@ router.put('/sessions/:id', function(req, res, next) {
 
 // GET 'session:_id': get a session data.
 
+// GET '/dashboard : get all stored dashboard entries
+router.get('/dashboard', function(req, res, next) {
+  'use strict';
+  console.log('get /dashboard', res);
+  Sessions.all(function(err, data) {
+    if (err !== null) {
+      next(err);
+    } else {
+      console.log('rendering', data);
+      res.render({dashboard: data});
+    }
+  });
+});
+
 
 // POST '/dashboard: add a nex dashboard entry
-router.post('/dashbord',function(req, res) {
+router.post('/dashboard',function(req, res, next) {
   'use strict';
-  console.log('post /dashboard', req.body.id);
+  console.log('post /dashboard', req);
+  Dashboard.add(req.body, function(err) {
+    if (err !== null) {
+      next(err);
+    } else {
+      res.redirect('back');
+    }
+  });
+
 });
+
+// PUT '/dashboard: add a nex dashboard entry
+router.post('/dashboard',function(req, res, next) {
+  'use strict';
+  console.log('put /dashboard', req);
+  Dashboard.add(req.body, function(err) {
+    if (err !== null) {
+      next(err);
+    } else {
+      res.redirect('back');
+    }
+  });
+});
+
 
 
 // POST 'preferences': save preferences

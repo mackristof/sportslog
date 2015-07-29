@@ -5,6 +5,7 @@ require('../lib/backbone.nativeview');
 
 var app                 = app || {};
 app.Preferences         = require('../models/preferences');
+app.SessionModel        = require('../models/session');
 app.SessionsCollection  = require('../collections/sessions');
 
 var utils               = utils || {};
@@ -90,7 +91,7 @@ var NewSessionView = Backbone.NativeView.extend({
     var session = this.newSessionData();
     console.log('session', session);
     // TODO quelle est la difference entre Collection.create Collection.add
-    app.SessionsCollection.create(session);
+    app.SessionsCollection.create(this.model);
   },
 
   newSessionData: function() {
@@ -106,7 +107,7 @@ var NewSessionView = Backbone.NativeView.extend({
       date      : this.dom.date.value,
       time      : this.dom.time.value,
       activity  : activity,
-      distance   : this.dom.distance.value,
+      distance  : this.dom.distance.value,
       duration  : this.dom.duration.value
     };
   },
@@ -117,11 +118,11 @@ var NewSessionView = Backbone.NativeView.extend({
     this.dom.date.value      = utils.Helpers.formatDate(data.date);
     this.dom.time.value      = utils.Helpers.formatTime(data.date);
     // TODO manage distance and speed calculation from preferences choices
-    this.dom.distance.value  = utils.Helpers.formatDistance(this.units, data.distance, false);
-    this.dom.duration.value  = utils.Helpers.formatDuration(data.duration);
-    this.dom.alt_max.value   = utils.Helpers.formatDistance(this.units, data.alt_max, false);
-    this.dom.alt_min.value   = utils.Helpers.formatDistance(this.units, data.alt_min, false);
-    this.dom.avg_speed.value = utils.Helpers.formatSpeed(this.units, data.avg_speed);
+    this.dom.distance.value  = utils.Helpers.formatDistance(this.units, data.distance, false).value;
+    this.dom.duration.value  = utils.Helpers.formatDuration(data.duration).value;
+    this.dom.alt_max.value   = utils.Helpers.formatDistance(this.units, data.alt_max, false).value;
+    this.dom.alt_min.value   = utils.Helpers.formatDistance(this.units, data.alt_min, false).value;
+    this.dom.avg_speed.value = utils.Helpers.formatSpeed(this.units, data.avg_speed).value;
     this.dom.calories.value  = utils.Helpers.calculateCalories(data.activity, data.distance, data.duration);
   },
 

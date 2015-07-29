@@ -9,6 +9,7 @@ app.SessionsView          = require('./sessions');
 app.DashboardSessionView  = require('./dashboard-session');
 app.NewSession            = require('./new-session');
 app.SessionModel          = require('../models/session');
+app.DashboardModel        = require('../models/dashboard-entry');
 app.SessionsCollection    = require('../collections/sessions');
 app.DashboardCollection   = require('../collections/dashboard');
 
@@ -112,7 +113,7 @@ var MainView = Backbone.NativeView.extend({
      */
     session = session.attributes;
     // TODO quelle est la différence entre Collection.create et Collection.add
-    app.DashboardCollection.add({
+    app.DashboardCollection.create( new app.DashboardModel({
       date    : session.date,
       type    : 'session',
       content : {
@@ -124,7 +125,7 @@ var MainView = Backbone.NativeView.extend({
         avg_speed : session.avg_speed,
         calories  : session.calories
       }
-    });
+    }));
   },
 
   entryAdded:function(entry) {
