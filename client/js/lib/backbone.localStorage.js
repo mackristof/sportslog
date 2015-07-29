@@ -6,7 +6,7 @@
  */
 (function (root, factory) {
   if (typeof exports === 'object' && typeof require === 'function') {
-    module.exports = factory(require("backbone"));
+    module.exports = factory(require("./exoskeleton"));
   } else if (typeof define === "function" && define.amd) {
     // AMD. Register as an anonymous module.
     define(["backbone"], function(Backbone) {

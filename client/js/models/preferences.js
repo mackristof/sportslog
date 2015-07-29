@@ -1,7 +1,8 @@
 /* jshint strict: true, node: true */
-var Backbone  = require('../lib/exoskeleton');
+var Backbone          = require('../lib/exoskeleton');
+// Backbone.localStorage = require('../lib/backbone.localStorage');
 
-var app       = app || {};
+var app               = app || {};
 
 var PreferencesModel = Backbone.Model.extend({
   defaults: {
@@ -11,6 +12,7 @@ var PreferencesModel = Backbone.Model.extend({
     birthyear     : ''
   },
 
+  // localStorage: new Backbone.localStorage('preferences'),
   url: '/preferences',
 
   initialize: function() {

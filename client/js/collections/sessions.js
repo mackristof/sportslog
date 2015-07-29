@@ -8,7 +8,7 @@ app.SessionModel      = require('../models/session');
 
 var SessionsCollection = Backbone.Collection.extend({
   model: app.SessionModel,
-  // localStorage: new Backbone.localStorage('sportslog'),
+  // localStorage: new Backbone.localStorage('sessions'),
   url: '/sessions',
 });
 module.exports = app.SessionsCollection =  new SessionsCollection();
