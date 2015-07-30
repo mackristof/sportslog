@@ -5,9 +5,9 @@ require('../lib/backbone.nativeview');
 var Template              = require('microtemplates');
 
 var app                   = app || {};
+app.DashboardView         = require('./dashboard');
 app.PreferencesView       = require('./preferences');
 app.SessionsView          = require('./sessions');
-app.DashboardSessionView  = require('./dashboard-session');
 app.NewSession            = require('./new-session');
 app.PreferencesModel      = require('../models/preferences');
 app.SessionModel          = require('../models/session');
@@ -42,11 +42,12 @@ var MainView = Backbone.NativeView.extend({
     console.log('MainView initialize', this);
     this.active_section = this.dom.sessions_view;
 
-    this.listenTo(app.SessionsCollection, 'sync', this.sessionAdded);
-    this.listenTo(app.DashboardCollection, 'sync', this.entryAdded);
-    this.listenTo(app.DashboardCollection, 'all', this.render);
+    // this.listenTo(app.SessionsCollection, 'sync', this.sessionAdded);
+    // this.listenTo(app.DashboardCollection, 'sync', this.entryAdded);
+    // this.listenTo(app.DashboardCollection, 'all', this.render);
 
-    app.DashboardCollection.fetch();
+    // app.DashboardCollection.fetch();
+    new app.DashboardView();
   },
 
   // render: function() {
@@ -129,15 +130,14 @@ var MainView = Backbone.NativeView.extend({
     }));
   },
 
-  entryAdded:function(dashboard) {
+/*  entryAdded:function(dashboard) {
     'use strict';
     console.log('app.DashboardCollection', app.DashboardCollection);
+    var entry;
     for (var i = 0; i < dashboard.models.length; i++) {
-      entry = entry.models[i];
+      entry = dashboard.models[i];
     }
-    /*
-     * Display the new entry in the Dashboard
-     */
+    // Display the new entry in the Dashboard
     var view;
     if (entry.attributes.type === 'session') {
       view = new app.DashboardSessionView({
@@ -146,11 +146,11 @@ var MainView = Backbone.NativeView.extend({
     } else if (entry.attributes.type === 'message') {
       console.log('not yet');
     } else {
-      // TODO manage when it is neitheir 'session' nor 'message'
+      // TODO manage when it is neither 'session' nor 'message'
       console.log('not yet');
     }
 
     this.dom.dashboard_view.appendChild(view.render().el);
-  },
+  },*/
 });
 module.exports = app.MainView = MainView;

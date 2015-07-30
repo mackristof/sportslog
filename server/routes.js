@@ -103,7 +103,7 @@ router.get('/dashboard', function(req, res, next) {
       next(err);
     } else {
       console.log('rendering', data);
-      res.send({dashboard: data});
+      res.send(data);
     }
   });
 });
