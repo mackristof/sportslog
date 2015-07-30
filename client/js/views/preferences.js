@@ -1,13 +1,18 @@
 /* jshint strict: true, node: true */
-var Backbone  require('../exoskeleton');
+var Backbone = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
 var app = app || {};
 
-app.PreferencesView = Backbone.NativeView.extend({
+var PreferencesView = Backbone.NativeView.extend({
   el: '#preferences-view',
 
   events: {},
+
+  dom: {
+
+    save_btn  : document.getElementById('save-preferences-btn')
+  },
 
   initialize: function() {
   'use strict';

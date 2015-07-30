@@ -22,7 +22,7 @@ var Dashboard = function() {
   };
 
   var add = function(bookmark, callback) {
-    db.put(bookmark, callback);
+    db.post(bookmark, callback);
   };
 
   var remove = function(id, callback) {

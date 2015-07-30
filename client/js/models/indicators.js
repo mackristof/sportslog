@@ -23,10 +23,10 @@ var IndicatorsModel = Backbone.Model.extend({
     this.listenTo(app.SessionsCollection, 'add', this.sessionAdded);
     this.listenTo(app.SessionsCollection, 'update', this.sessionsUpdated);
     this.listenTo(app.SessionsCollection, 'remove', this.sessionRemoved);
-    
+
     this.listenTo(app.SessionsCollection, 'reset', this.recalculate);
   },
-  
+
   sessionAdded: function(session) {
     'use strict';
     this.attributes.sessions += 1;
@@ -44,7 +44,7 @@ var IndicatorsModel = Backbone.Model.extend({
     'use strict';
     app.SessionsCollection.fetch({reset: true});
   },
-  
+
   recalculate: function() {
     'use strict';
     this.atributes = this.defaults;
@@ -52,7 +52,7 @@ var IndicatorsModel = Backbone.Model.extend({
       this.attributes.sessions += 1;
       this.attributes.calories += session.calories;
       this.attributes.distance += session.distance;
-      this.attributes.duration += session.duration;      
+      this.attributes.duration += session.duration;
     });
   },
 });

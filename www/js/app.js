@@ -2198,8 +2198,7 @@ var app = app || {};
 var SessionModel = Backbone.Model.extend({
   idAttribute: '_id',
 
-  defaults: {
-    id        : '',
+/*  defaults: {
     name      : null,
     duration  : 0,
     distance  : 0,
@@ -2212,16 +2211,10 @@ var SessionModel = Backbone.Model.extend({
     climb_neg : 0,
     map       : false,
     data      : []
-  },
+  },*/
 
   initialize: function() {
     'use strict';
-    /*
-     * If 'id' is not filled, we do it!
-     */
-    if (this.get('id') === '') {
-      this.set({'id': new Date().toISOString()});
-    }
   },
 
   importFile: function(file) {
@@ -2735,7 +2728,7 @@ var SessionView = Backbone.NativeView.extend({
 });
 module.exports = app.SessionView = SessionView;
 
-},{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":19}],16:[function(require,module,exports){
+},{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":20}],16:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone              = require('../lib/exoskeleton');
@@ -2743,9 +2736,11 @@ require('../lib/backbone.nativeview');
 var Template              = require('microtemplates');
 
 var app                   = app || {};
+app.PreferencesView       = require('./preferences');
 app.SessionsView          = require('./sessions');
 app.DashboardSessionView  = require('./dashboard-session');
 app.NewSession            = require('./new-session');
+app.PreferencesModel      = require('../models/preferences');
 app.SessionModel          = require('../models/session');
 app.DashboardModel        = require('../models/dashboard-entry');
 app.SessionsCollection    = require('../collections/sessions');
@@ -2778,11 +2773,11 @@ var MainView = Backbone.NativeView.extend({
     console.log('MainView initialize', this);
     this.active_section = this.dom.sessions_view;
 
-    this.listenTo(app.SessionsCollection, 'add', this.sessionAdded);
-    this.listenTo(app.DashboardCollection, 'add', this.entryAdded);
-    // this.listenTo(app.SessionsCollection, 'all', this.render);
+    this.listenTo(app.SessionsCollection, 'sync', this.sessionAdded);
+    this.listenTo(app.DashboardCollection, 'sync', this.entryAdded);
+    this.listenTo(app.DashboardCollection, 'all', this.render);
 
-    // app.SessionsCollection.fetch();
+    app.DashboardCollection.fetch();
   },
 
   // render: function() {
@@ -2794,6 +2789,7 @@ var MainView = Backbone.NativeView.extend({
 
   showNewSession: function() {
     'use strict';
+    // var model = app.SessionsCollection.create({});
     new app.NewSession({
       model: new app.SessionModel()
     });
@@ -2817,6 +2813,9 @@ var MainView = Backbone.NativeView.extend({
 
   showPreferences: function() {
     'use strict';
+    new app.PreferencesView({
+      model: app.PreferencesModel
+    });
     this._viewSection(this.dom.preference_view);
   },
 
@@ -2832,23 +2831,18 @@ var MainView = Backbone.NativeView.extend({
 
   sessionAdded: function(session) {
     'use strict';
-    console.log('session added', session);
-    console.log('app.SessionsCollection', app.SessionsCollection);
-    /*
-     * Render newly added session to its view
-     */
+    console.log('sessionAdded', session);
+    // console.log('app.SessionsCollection', app.SessionsCollection);
+    // Render newly added session to its view
     var view = new app.SessionsView({
       model: session
     });
     this.dom.sessions_view.appendChild(view.render().el);
 
-    /*
-     * Display Sessionssection
-     */
+    // Display Sessionssection
     this.showSessions();
-    /*
-     * Create a new Session Summary and add it to the Dashboard Collection
-     */
+
+    // Create a new Session Summary and add it to the Dashboard Collection
     session = session.attributes;
     // TODO quelle est la différence entre Collection.create et Collection.add
     app.DashboardCollection.create( new app.DashboardModel({
@@ -2866,9 +2860,12 @@ var MainView = Backbone.NativeView.extend({
     }));
   },
 
-  entryAdded:function(entry) {
+  entryAdded:function(dashboard) {
     'use strict';
     console.log('app.DashboardCollection', app.DashboardCollection);
+    for (var i = 0; i < dashboard.models.length; i++) {
+      entry = entry.models[i];
+    }
     /*
      * Display the new entry in the Dashboard
      */
@@ -2889,7 +2886,7 @@ var MainView = Backbone.NativeView.extend({
 });
 module.exports = app.MainView = MainView;
 
-},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../models/session":10,"./dashboard-session":15,"./new-session":17,"./sessions":18,"microtemplates":19}],17:[function(require,module,exports){
+},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../models/preferences":9,"../models/session":10,"./dashboard-session":15,"./new-session":17,"./preferences":18,"./sessions":19,"microtemplates":20}],17:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone            = require('../lib/exoskeleton');
@@ -3031,6 +3028,36 @@ module.exports = app.NewSessionView = NewSessionView;
 
 },{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/preferences":9,"../models/session":10,"../utils/helpers":13,"../utils/map":14}],18:[function(require,module,exports){
 /* jshint strict: true, node: true */
+var Backbone = require('../lib/exoskeleton');
+require('../lib/backbone.nativeview');
+
+var app = app || {};
+
+var PreferencesView = Backbone.NativeView.extend({
+  el: '#preferences-view',
+
+  events: {},
+
+  dom: {
+
+    save_btn  : document.getElementById('save-preferences-btn')
+  },
+
+  initialize: function() {
+  'use strict';
+    console.log('PreferencesView initialize');
+    // this.listenTo('change', this.render);
+  },
+
+  render: function() {
+  'use strict';
+    console.log('PreferencesView render');
+  }
+});
+module.exports = app.PreferencesView = PreferencesView;
+
+},{"../lib/backbone.nativeview":5,"../lib/exoskeleton":6}],19:[function(require,module,exports){
+/* jshint strict: true, node: true */
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
@@ -3062,7 +3089,7 @@ var SessionsView = Backbone.NativeView.extend({
 });
 module.exports = app.SessionsView = SessionsView;
 
-},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":19}],19:[function(require,module,exports){
+},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":20}],20:[function(require,module,exports){
 // Simple JavaScript Templating
 // Paul Miller (http://paulmillr.com)
 // http://underscorejs.org

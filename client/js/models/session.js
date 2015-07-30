@@ -11,8 +11,7 @@ var app = app || {};
 var SessionModel = Backbone.Model.extend({
   idAttribute: '_id',
 
-  defaults: {
-    id        : '',
+/*  defaults: {
     name      : null,
     duration  : 0,
     distance  : 0,
@@ -25,16 +24,10 @@ var SessionModel = Backbone.Model.extend({
     climb_neg : 0,
     map       : false,
     data      : []
-  },
+  },*/
 
   initialize: function() {
     'use strict';
-    /*
-     * If 'id' is not filled, we do it!
-     */
-    if (this.get('id') === '') {
-      this.set({'id': new Date().toISOString()});
-    }
   },
 
   importFile: function(file) {
