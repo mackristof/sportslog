@@ -2779,6 +2779,7 @@ var MainView = Backbone.NativeView.extend({
   initialize: function() {
     'use strict';
     console.log('MainView initialize', this);
+    app.PreferencesModel.fetch();
     this.active_section = this.dom.sessions_view;
 
     // this.listenTo(app.SessionsCollection, 'sync', this.sessionAdded);
