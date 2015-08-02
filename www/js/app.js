@@ -2168,14 +2168,14 @@ var app               = app || {};
 
 var PreferencesModel = Backbone.Model.extend({
   defaults: {
-    localisation  : 'en',
-    units         : 'metric',
-    gender        : '',
-    birthyear     : ''
+    language  : 'en',
+    unit      : 'metric',
+    gender    : 'male',
+    birthyear : '1970'
   },
 
   // localStorage: new Backbone.localStorage('preferences'),
-  url: '/preferences',
+  urlRoot: '/preferences',
 
   initialize: function() {
   'use strict';
@@ -2197,21 +2197,6 @@ var app = app || {};
 
 var SessionModel = Backbone.Model.extend({
   idAttribute: '_id',
-
-/*  defaults: {
-    name      : null,
-    duration  : 0,
-    distance  : 0,
-    date      : null,
-    avg_speed : 0,
-    calories  : 0,
-    alt_max   : 0,
-    alt_min   : 0,
-    climb_pos : 0,
-    climb_neg : 0,
-    map       : false,
-    data      : []
-  },*/
 
   initialize: function() {
     'use strict';
@@ -3059,17 +3044,32 @@ var app = app || {};
 var PreferencesView = Backbone.NativeView.extend({
   el: '#preferences-view',
 
-  events: {},
+  events: {
+    'change #language'  : 'preferenceChanged',
+    'change #unit'      : 'preferenceChanged',
+    'change #gender'    : 'preferenceChanged',
+    'change #birthyear' : 'preferenceChanged'
+  },
 
   dom: {
-
-    save_btn  : document.getElementById('save-preferences-btn')
+    language_select   : document.getElementById('language'),
+    unit_select       : document.getElementById('unit'),
+    gender_select     : document.getElementById('gender'),
+    birthyear_select  : document.getElementById('birthyear'),
+    // save_btn          : document.getElementById('save-preferences-btn')
   },
 
   initialize: function() {
   'use strict';
     console.log('PreferencesView initialize');
     // this.listenTo('change', this.render);
+  },
+
+  preferenceChanged: function(el) {
+    'use strict';
+    var preference  = el.target;
+    this.model.set(preference.id, preference[preference.selectedIndex].value);
+    this.model.save();
   },
 
   render: function() {

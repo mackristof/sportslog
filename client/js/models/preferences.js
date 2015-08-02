@@ -6,14 +6,14 @@ var app               = app || {};
 
 var PreferencesModel = Backbone.Model.extend({
   defaults: {
-    localisation  : 'en',
-    units         : 'metric',
-    gender        : '',
-    birthyear     : ''
+    language  : 'en',
+    unit      : 'metric',
+    gender    : 'male',
+    birthyear : '1970'
   },
 
   // localStorage: new Backbone.localStorage('preferences'),
-  url: '/preferences',
+  urlRoot: '/preferences',
 
   initialize: function() {
   'use strict';

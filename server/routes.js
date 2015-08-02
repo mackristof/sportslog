@@ -34,7 +34,7 @@ router.get('/sessions', function(req, res, next) {
     if (err !== null) {
       next(err);
     } else {
-      console.log('rendering', data);
+      // console.log('rendering', data);
       res.render({sessions: data});
     }
   });
@@ -102,7 +102,7 @@ router.get('/dashboard', function(req, res, next) {
     if (err !== null) {
       next(err);
     } else {
-      console.log('rendering', data);
+      // console.log('rendering', data);
       res.send(data);
     }
   });
@@ -127,6 +127,48 @@ router.post('/dashboard',function(req, res, next) {
 router.post('/dashboard',function(req, res, next) {
   'use strict';
   console.log('put /dashboard', req);
+  Dashboard.add(req.body, function(err) {
+    if (err !== null) {
+      next(err);
+    } else {
+      res.redirect('back');
+    }
+  });
+});
+
+// GET '/preferences': get preferences
+router.get('/preferences', function(req, res, next) {
+  'use strict';
+  console.log('get /preferences', res);
+  Sessions.all(function(err, data) {
+    if (err !== null) {
+      next(err);
+    } else {
+      console.log('rendering', data);
+      res.send(data);
+    }
+  });
+});
+
+
+// POST '/preferences': save preferences
+router.post('/preferences',function(req, res, next) {
+  'use strict';
+  console.log('post /preferences', req);
+  Dashboard.add(req.body, function(err) {
+    if (err !== null) {
+      next(err);
+    } else {
+      res.redirect('back');
+    }
+  });
+
+});
+
+// PUT '/preferences': save preferences
+router.post('/preferences',function(req, res, next) {
+  'use strict';
+  console.log('put /preferences', req);
   Dashboard.add(req.body, function(err) {
     if (err !== null) {
       next(err);

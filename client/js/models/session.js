@@ -11,21 +11,6 @@ var app = app || {};
 var SessionModel = Backbone.Model.extend({
   idAttribute: '_id',
 
-/*  defaults: {
-    name      : null,
-    duration  : 0,
-    distance  : 0,
-    date      : null,
-    avg_speed : 0,
-    calories  : 0,
-    alt_max   : 0,
-    alt_min   : 0,
-    climb_pos : 0,
-    climb_neg : 0,
-    map       : false,
-    data      : []
-  },*/
-
   initialize: function() {
     'use strict';
   },
