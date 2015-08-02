@@ -140,11 +140,11 @@ router.post('/dashboard',function(req, res, next) {
 router.get('/preferences', function(req, res, next) {
   'use strict';
   console.log('get /preferences', res);
-  Sessions.all(function(err, data) {
+  Preferences.all(function(err, data) {
     if (err !== null) {
       next(err);
     } else {
-      console.log('rendering', data);
+      console.log('sending preferences', data);
       res.send(data);
     }
   });
@@ -155,7 +155,7 @@ router.get('/preferences', function(req, res, next) {
 router.post('/preferences',function(req, res, next) {
   'use strict';
   console.log('post /preferences', req);
-  Dashboard.add(req.body, function(err) {
+  Preferences.add(req.body, function(err) {
     if (err !== null) {
       next(err);
     } else {
@@ -168,8 +168,8 @@ router.post('/preferences',function(req, res, next) {
 // PUT '/preferences': save preferences
 router.post('/preferences',function(req, res, next) {
   'use strict';
-  console.log('put /preferences', req);
-  Dashboard.add(req.body, function(err) {
+  console.log('put /preferences', req.body);
+  Preferences.add(req.body, function(err) {
     if (err !== null) {
       next(err);
     } else {

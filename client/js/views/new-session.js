@@ -42,11 +42,11 @@ var NewSessionView = Backbone.NativeView.extend({
     map         : document.getElementById('new-map-container')
   },
 
-  units: app.Preferences.get('units'),
+  unit: app.Preferences.get('unit'),
 
   initialize: function() {
     'use strict';
-    console.log('NewSessionView initialize');
+    console.log('NewSessionView initialize', this.unit);
 
     this.listenTo(this.model, 'change', this.renderModel);
     this.listenTo(this.model, 'change:map', this.renderMap);
@@ -118,11 +118,12 @@ var NewSessionView = Backbone.NativeView.extend({
     this.dom.date.value      = utils.Helpers.formatDate(data.date);
     this.dom.time.value      = utils.Helpers.formatTime(data.date);
     // TODO manage distance and speed calculation from preferences choices
-    this.dom.distance.value  = utils.Helpers.formatDistance(this.units, data.distance, false).value;
+    var distance = utils.Helpers.formatDistance(app.Preferences.get('unit'), data.distance, false);
+    this.dom.distance.value  = distance.value + ' ' + distance.unit;
     this.dom.duration.value  = utils.Helpers.formatDuration(data.duration).value;
-    this.dom.alt_max.value   = utils.Helpers.formatDistance(this.units, data.alt_max, false).value;
-    this.dom.alt_min.value   = utils.Helpers.formatDistance(this.units, data.alt_min, false).value;
-    this.dom.avg_speed.value = utils.Helpers.formatSpeed(this.units, data.avg_speed).value;
+    this.dom.alt_max.value   = utils.Helpers.formatDistance(this.unit, data.alt_max, false).value;
+    this.dom.alt_min.value   = utils.Helpers.formatDistance(this.unit, data.alt_min, false).value;
+    this.dom.avg_speed.value = utils.Helpers.formatSpeed(this.unit, data.avg_speed).value;
     this.dom.calories.value  = utils.Helpers.calculateCalories(data.activity, data.distance, data.duration);
   },
 

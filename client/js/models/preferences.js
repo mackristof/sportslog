@@ -20,4 +20,4 @@ var PreferencesModel = Backbone.Model.extend({
     console.log('PreferencesModel initialize');
   }
 });
-module.exports = app.PreferencesModel = new PreferencesModel({parse: true});
+module.exports = app.PreferencesModel = new PreferencesModel();

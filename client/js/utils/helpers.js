@@ -14,7 +14,7 @@ var Helpers = function() {
    */
   function formatDistance(choice, value, canNegative) {
     var distance = {};
-    if (value === null  || (value < 0 && !canNegative)) {
+    if (value === null || value === undefined  || (value < 0 && !canNegative)) {
       distance.value = '--';
     } else {
       if (choice === 'metric') {
@@ -33,7 +33,7 @@ var Helpers = function() {
 
   function formatSpeed(choice, value) {
     var speed = {};
-    if (value === null || value < 0 || isNaN(value) || value === Infinity) {
+    if (value === null|| value === undefined   || value < 0 || isNaN(value) || value === Infinity) {
       speed.value = '--';
     } else {
       if (choice === 'metric') {
