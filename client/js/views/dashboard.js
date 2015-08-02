@@ -5,6 +5,8 @@ var Template            = require('microtemplates');
 
 var app                 = app || {};
 app.DashboardCollection = require('../collections/dashboard');
+app.DashboardSessionView  = require('../views/dashboard-session');
+app.DashnoardMessageView  = require('../views/dashboard-message');
 
 var DashboardView = Backbone.NativeView.extend({
   tagName: 'li',
@@ -35,9 +37,19 @@ var DashboardView = Backbone.NativeView.extend({
 
   renderItem: function(item) {
     'use strict';
-    var view = new app.DashboardSessionView({
-      model: item
-    });
+    var view;
+    if (item.type === 'session') {
+      view = new app.DashboardSessionView({
+        model : item
+      });
+    } else if (item.type === 'message') {
+      view = new app.DashboardMessageView({
+        model : item
+      });
+    } else {
+      // TODO manage when an error generated an unknown type
+      console.log('Dashboard Entry is neither session nor message');
+    }
     this.el.append(view);
   },
 
