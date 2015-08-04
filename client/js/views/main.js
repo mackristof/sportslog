@@ -37,13 +37,17 @@ var MainView = Backbone.NativeView.extend({
     preference_view   : document.getElementById('preferences-view')
   },
 
+
   initialize: function() {
     'use strict';
     console.log('MainView initialize', this);
     app.PreferencesModel.fetch();
-    this.active_section = this.dom.sessions_view;
+    this.active_section = this.dom.dashboard_view;
+    this.showDashboard();
 
     this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
+
+    this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
 
     // this.listenTo(app.SessionsCollection, 'sync', this.sessionAdded);
     // this.listenTo(app.DashboardCollection, 'sync', this.entryAdded);
@@ -54,9 +58,12 @@ var MainView = Backbone.NativeView.extend({
   },
   somethingOnPreferences: function(ev, res) {
     'use strict';
-    console.log('got something on Preferences', ev, res.attributes.unit);
+    // console.log('got something on Preferences', ev, res.attributes.unit);
   },
-
+  somethingOnDashboard: function(ev, res) {
+    'use strict';
+    console.log('got something on Dashoard', ev, res);
+  },
   // render: function() {
     // 'use strict';
     // this._viewSection(this.active_section);

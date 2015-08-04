@@ -29,7 +29,7 @@ router.get('/', function(req, res) {
 // GET 'sessions': get all stored sessions
 router.get('/sessions', function(req, res, next) {
   'use strict';
-  console.log('get /sessions', res);
+  // console.log('get /sessions', res);
   Sessions.all(function(err, data) {
     if (err !== null) {
       next(err);
@@ -51,7 +51,7 @@ router.get('/sessions', function(req, res, next) {
 // POST 'sessions': save a new session
 router.post('/sessions', function(req, res, next) {
   'use strict';
-  console.log('post /sessions', req);
+  console.log('post /sessions', req.body);
   Sessions.add(req.body, function(err) {
     if (err !== null) {
       next(err);
@@ -64,7 +64,7 @@ router.post('/sessions', function(req, res, next) {
 // PUT '/sessions:id': update a session
 router.put('/sessions/:id', function(req, res, next) {
   'use strict';
-  console.log('put /sessions/:id', req);
+  // console.log('put /sessions/:id', req);
   /*var s = req.body;
   var session = {
     id        : s.id,
@@ -97,7 +97,7 @@ router.put('/sessions/:id', function(req, res, next) {
 // GET '/dashboard : get all stored dashboard entries
 router.get('/dashboard', function(req, res, next) {
   'use strict';
-  console.log('get /dashboard', res);
+  // console.log('get /dashboard', res);
   Sessions.all(function(err, data) {
     if (err !== null) {
       next(err);
@@ -112,7 +112,7 @@ router.get('/dashboard', function(req, res, next) {
 // POST '/dashboard: add a nex dashboard entry
 router.post('/dashboard',function(req, res, next) {
   'use strict';
-  console.log('post /dashboard', req);
+  console.log('post /dashboard', req.body);
   Dashboard.add(req.body, function(err) {
     if (err !== null) {
       next(err);
@@ -124,9 +124,9 @@ router.post('/dashboard',function(req, res, next) {
 });
 
 // PUT '/dashboard: add a nex dashboard entry
-router.post('/dashboard',function(req, res, next) {
+router.put('/dashboard',function(req, res, next) {
   'use strict';
-  console.log('put /dashboard', req);
+  console.log('put /dashboard', req.body);
   Dashboard.add(req.body, function(err) {
     if (err !== null) {
       next(err);
@@ -139,7 +139,7 @@ router.post('/dashboard',function(req, res, next) {
 // GET '/preferences': get preferences
 router.get('/preferences', function(req, res, next) {
   'use strict';
-  console.log('get /preferences', res);
+  // console.log('get /preferences', res);
   Preferences.all(function(err, data) {
     if (err !== null) {
       next(err);
@@ -154,7 +154,7 @@ router.get('/preferences', function(req, res, next) {
 // POST '/preferences': save preferences
 router.post('/preferences',function(req, res, next) {
   'use strict';
-  console.log('post /preferences', req);
+  // console.log('post /preferences', req);
   Preferences.add(req.body, function(err) {
     if (err !== null) {
       next(err);
@@ -168,7 +168,7 @@ router.post('/preferences',function(req, res, next) {
 // PUT '/preferences': save preferences
 router.post('/preferences',function(req, res, next) {
   'use strict';
-  console.log('put /preferences', req.body);
+  // console.log('put /preferences', req.body);
   Preferences.add(req.body, function(err) {
     if (err !== null) {
       next(err);

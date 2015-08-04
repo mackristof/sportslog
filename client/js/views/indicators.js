@@ -13,7 +13,7 @@ var IndicatorsView = Backbone.NativeView.extend({
 
   dom: {},
 
-  template: Template('<div class="indicator align-left"><span class="">Nb Sessions</span><span id="dashboard-sessions-number"><%= nb_sessions %></span></div><div class="indicator align-right"><span class="">Burned calories</span><span id="dashboard-calories"><%= calories %></span></div><div class="indicator align-left"><span class="fa fa-road">Overall distance</span><span id="dashboard-distance"><%= distance %></span></div><div class="indicator align-right"><span class="">Total duration</span><span id="dashboard-duration"><%= duration %></span></div>'),
+  // template: Template('<div class="indicator align-left"><span class="">Nb Sessions</span><span id="dashboard-sessions-number"><%= nb_sessions %></span></div><div class="indicator align-right"><span class="">Burned calories</span><span id="dashboard-calories"><%= calories %></span></div><div class="indicator align-left"><span class="fa fa-road">Overall distance</span><span id="dashboard-distance"><%= distance %></span></div><div class="indicator align-right"><span class="">Total duration</span><span id="dashboard-duration"><%= duration %></span></div>'),
 
   initialize: function() {
     'use strict';
@@ -27,7 +27,7 @@ var IndicatorsView = Backbone.NativeView.extend({
     this.el.innerHTML = this.template(this.model.toJSON());
     return this;
   },
-  
+
   remove: function() {},
 });
 module.exports = app.IndicatorsView = IndicatorsView;

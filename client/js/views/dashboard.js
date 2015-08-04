@@ -1,21 +1,22 @@
 /* jshint strict: true, node: true */
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
-var Template            = require('microtemplates');
+// var Template            = require('microtemplates');
 
-var app                 = app || {};
-app.DashboardCollection = require('../collections/dashboard');
+var app                   = app || {};
+app.DashboardCollection   = require('../collections/dashboard');
+app.DashboardEntryModel   = require('../models/dashboard-entry');
 app.DashboardSessionView  = require('../views/dashboard-session');
 app.DashnoardMessageView  = require('../views/dashboard-message');
 
 var DashboardView = Backbone.NativeView.extend({
-  tagName: 'li',
+  el: '#dashboard',
 
   events: {},
 
   dom: {},
 
-  sessionTemplate: Template('<img src="img/activities/<%= content.activity %>.svg" alt="running" class="activity"><div class="time"><%= content.date %></div><div class="distance"><span class="fa fa-road"></span><span><%= content.distance %></span></div><div class="duration"><span>&#9201;</span><span><%= content.duration %></span></div><div class="speed"><span class="fa fa-tachometer"></span><span><%= content.avg_speed %></span></div>'),
+  // sessionTemplate: Template('<h1>TOTO</h1>'),
 
   initialize: function() {
     'use strict';
@@ -23,14 +24,14 @@ var DashboardView = Backbone.NativeView.extend({
     this.collection.fetch();
     this.render();
 
-    this.listenTo(this.collection, 'add', this.addEntry);
+    this.listenTo(this.collection, 'add', this.render);
     this.listenTo(this.collection, 'reset', this.render);
 
   },
 
   addEntry: function() {
     'use strict';
-    this.collection.each(function(item) {
+    this.collection.forEach(function(item) {
       this.renderItem(item);
     }, this);
   },
@@ -38,19 +39,20 @@ var DashboardView = Backbone.NativeView.extend({
   renderItem: function(item) {
     'use strict';
     var view;
-    if (item.type === 'session') {
+    if (item.attributes.type === 'session') {
       view = new app.DashboardSessionView({
         model : item
       });
-    } else if (item.type === 'message') {
+      this.el.appendChild(view.render().el);
+    } else if (item.attributes.type === 'message') {
       view = new app.DashboardMessageView({
         model : item
       });
+      this.el.appendChild(view.render().el);
     } else {
       // TODO manage when an error generated an unknown type
       console.log('Dashboard Entry is neither session nor message');
     }
-    this.el.append(view);
   },
 
   render: function() {

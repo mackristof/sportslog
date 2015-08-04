@@ -13,7 +13,7 @@ var MessageView = Backbone.NativeView.extend({
 
   dom: {},
 
-  template: Template('<img src="img/activities/<%= content.activity %>.svg" alt="running" class="activity"><div class="time"><%= content.date %></div><div class="distance"><span class="fa fa-road"></span><span><%= content.distance %></span></div><div class="duration"><span>&#9201;</span><span><%= content.duration %></span></div><div class="speed"><span class="fa fa-tachometer"></span><span><%= content.avg_speed %></span></div>'),
+  // template: Template('<img src="img/activities/<%= content.activity %>.svg" alt="running" class="activity"><div class="time"><%= content.date %></div><div class="distance"><span class="fa fa-road"></span><span><%= content.distance %></span></div><div class="duration"><span>&#9201;</span><span><%= content.duration %></span></div><div class="speed"><span class="fa fa-tachometer"></span><span><%= content.avg_speed %></span></div>'),
 
   initialize: function() {
     'use strict';
