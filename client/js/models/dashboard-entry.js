@@ -7,7 +7,7 @@ var DashboardEntryModel = Backbone.Model.extend({
   defaults: {
     date      : new Date(),
     time      : new Date(),
-    activity  : 'sailing',
+    activity  : '',
     distance  : 0,
     duration  : 0,
     type      : 'session'

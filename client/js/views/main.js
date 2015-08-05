@@ -2,14 +2,16 @@
 
 var Backbone              = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
-var Template              = require('microtemplates');
+// var Template              = require('microtemplates');
 
 var app                   = app || {};
+app.IndicatorsView        = require('./indicators');
 app.DashboardView         = require('./dashboard');
 app.PreferencesView       = require('./preferences');
 app.SessionsView          = require('./sessions');
 app.NewSession            = require('./new-session');
 app.PreferencesModel      = require('../models/preferences');
+app.IndicatorsModel       = require('../models/indicators');
 app.SessionModel          = require('../models/session');
 app.DashboardModel        = require('../models/dashboard-entry');
 app.SessionsCollection    = require('../collections/sessions');
@@ -17,8 +19,6 @@ app.DashboardCollection   = require('../collections/dashboard');
 
 var MainView = Backbone.NativeView.extend({
   el: '#app',
-
-  indicatorsTemplate: Template('<div class="indicator align-left"><span class="">Nb Sessions</span><span id="dashboard-sessions-number"><%= nb_sessions %></span></div><div class="indicator align-right"><span class="">Burned calories</span><span id="dashboard-calories"><%= calories %></span></div><div class="indicator align-left"><span class="fa fa-road">Overall distance</span><span id="dashboard-distance"><%= distance %></span></div><div class="indicator align-right"><span class="">Total duration</span><span id="dashboard-duration"><%= duration %></span></div>'),
 
   events: {
     'click #new-session-btn'  : 'showNewSession',
@@ -42,18 +42,15 @@ var MainView = Backbone.NativeView.extend({
     'use strict';
     console.log('MainView initialize', this);
     app.PreferencesModel.fetch();
+
     this.active_section = this.dom.dashboard_view;
     this.showDashboard();
 
     this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
-
     this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
+    this.listenTo(app.IndicatorsModel, 'all', this.somethingOnIndicators);
 
-    // this.listenTo(app.SessionsCollection, 'sync', this.sessionAdded);
-    // this.listenTo(app.DashboardCollection, 'sync', this.entryAdded);
-    // this.listenTo(app.DashboardCollection, 'all', this.render);
-
-    // app.DashboardCollection.fetch();
+    new app.IndicatorsView();
     new app.DashboardView();
   },
   somethingOnPreferences: function(ev, res) {
@@ -64,6 +61,11 @@ var MainView = Backbone.NativeView.extend({
     'use strict';
     console.log('got something on Dashoard', ev, res);
   },
+  somethingOnIndicators: function(ev, res) {
+    'use strict';
+    console.log('got something on Indicators', ev, res);
+  },
+
   // render: function() {
     // 'use strict';
     // this._viewSection(this.active_section);

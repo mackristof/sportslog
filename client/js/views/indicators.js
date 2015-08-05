@@ -1,33 +1,37 @@
 /* jshint strict: true, node: true */
-var Backbone            = require('../lib/exoskeleton');
+var Backbone        = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
-var Template            = require('microtemplates');
+var Template        = require('microtemplates');
 
-var app                 = app || {};
-app.DashboardCollection = require('../collections/dashboard');
+var app             = app || {};
+app.IndicatorsModel = require('../models/indicators');
 
 var IndicatorsView = Backbone.NativeView.extend({
-  tagName: 'li',
+  el: '#indicators',
 
   events: {},
 
   dom: {},
 
-  // template: Template('<div class="indicator align-left"><span class="">Nb Sessions</span><span id="dashboard-sessions-number"><%= nb_sessions %></span></div><div class="indicator align-right"><span class="">Burned calories</span><span id="dashboard-calories"><%= calories %></span></div><div class="indicator align-left"><span class="fa fa-road">Overall distance</span><span id="dashboard-distance"><%= distance %></span></div><div class="indicator align-right"><span class="">Total duration</span><span id="dashboard-duration"><%= duration %></span></div>'),
+  template: Template(document.getElementById('indicators-template').innerHTML),
 
   initialize: function() {
     'use strict';
+    this.model = app.IndicatorsModel;
+    this.model.fetch();
+    console.log('IndicatorsView is initalize', this);
+    this.render();
+
     this.listenTo(this.model, 'change', this.render);
-    this.listenTo(this.model, 'destroy', this.remove);
+    this.listenTo(this.model, 'sync', this.render);
 
   },
 
   render: function() {
     'use strict';
+    console.log('indicators view is rendered', this);
     this.el.innerHTML = this.template(this.model.toJSON());
     return this;
   },
-
-  remove: function() {},
 });
 module.exports = app.IndicatorsView = IndicatorsView;
