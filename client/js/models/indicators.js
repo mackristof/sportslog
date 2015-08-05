@@ -26,6 +26,7 @@ var IndicatorsModel = Backbone.Model.extend({
 
   sessionsUpdated: function() {
     'use strict';
+    console.log('sessions updated');
     app.SessionsCollection.fetch({reset: true});
   },
 

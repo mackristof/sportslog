@@ -4,7 +4,6 @@ var Backbone  = require('../lib/exoskeleton');
 
 var utils     = utils || {};
 utils.GPX     = require('../utils/gpx');
-// utils.Map     = require('../utils/map');
 
 var app = app || {};
 
@@ -13,6 +12,7 @@ var SessionModel = Backbone.Model.extend({
 
   initialize: function() {
     'use strict';
+    console.log('SessionModel initialize', this);
   },
 
   importFile: function(file) {

@@ -17,7 +17,7 @@ var DashboardEntryModel = Backbone.Model.extend({
 
   initialize: function() {
   'use strict';
-    console.log('DashboardEntryModel initialize', this);
+    // console.log('DashboardEntryModel initialize', this);
   }
 });
 module.exports = app.DashboardEntryModel = DashboardEntryModel;

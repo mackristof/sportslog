@@ -29,23 +29,13 @@ router.get('/', function(req, res) {
 // GET 'sessions': get all stored sessions
 router.get('/sessions', function(req, res, next) {
   'use strict';
-  // console.log('get /sessions', res);
   Sessions.all(function(err, data) {
     if (err !== null) {
       next(err);
     } else {
-      // console.log('rendering', data);
-      res.render({sessions: data});
+      res.send(data);
     }
   });
-
-/*  return SessionModel.find(function(err, sessions) {
-    if (err !== null) {
-      return console.log('error on GET /sessions', err);
-    } else {
-      return res.send(sessions);
-    }
-  });*/
 });
 
 // POST 'sessions': save a new session
@@ -64,23 +54,6 @@ router.post('/sessions', function(req, res, next) {
 // PUT '/sessions:id': update a session
 router.put('/sessions/:id', function(req, res, next) {
   'use strict';
-  // console.log('put /sessions/:id', req);
-  /*var s = req.body;
-  var session = {
-    id        : s.id,
-    name      : s.name,
-    duration  : s.duration,
-    distance  : s.distance,
-    date      : s.date,
-    avg_speed : s.avg_speed,
-    calories  : s.calories,
-    alt_max   : s.alt_max,
-    alt_min   : s.alt_min,
-    climb_pos : s.climb_pos,
-    climb_neg : s.climb_neg,
-    map       : s.map,
-    data      : [s.data]
-  };*/
   Sessions.add(req.body, function(err) {
     if (err !== null) {
       next(err);
@@ -90,19 +63,13 @@ router.put('/sessions/:id', function(req, res, next) {
   });
 });
 
-
-
-// GET 'session:_id': get a session data.
-
 // GET '/dashboard : get all stored dashboard entries
 router.get('/dashboard', function(req, res, next) {
   'use strict';
-  // console.log('get /dashboard', res);
-  Sessions.all(function(err, data) {
+  Dashboard.all(function(err, data) {
     if (err !== null) {
       next(err);
     } else {
-      // console.log('rendering', data);
       res.send(data);
     }
   });

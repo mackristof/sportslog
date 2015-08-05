@@ -38,15 +38,14 @@ module.exports = app.DashboardEntriesCollection = new DashboardEntriesCollection
 },{"../lib/exoskeleton":7,"../models/dashboard-entry":9}],3:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
-var Backbone          = require('../lib/exoskeleton');
-// Backbone.localStorage = require('../lib/backbone.localStorage');
+var Backbone      = require('../lib/exoskeleton');
 
-var app               = app || {};
-app.SessionModel      = require('../models/session');
+var app           = app || {};
+app.SessionModel  = require('../models/session');
 
 var SessionsCollection = Backbone.Collection.extend({
   model: app.SessionModel,
-  // localStorage: new Backbone.localStorage('sessions'),
+
   url: '/sessions',
 
   initialize: function() {
@@ -2426,7 +2425,7 @@ var DashboardEntryModel = Backbone.Model.extend({
 
   initialize: function() {
   'use strict';
-    console.log('DashboardEntryModel initialize', this);
+    // console.log('DashboardEntryModel initialize', this);
   }
 });
 module.exports = app.DashboardEntryModel = DashboardEntryModel;
@@ -2460,6 +2459,7 @@ var IndicatorsModel = Backbone.Model.extend({
 
   sessionsUpdated: function() {
     'use strict';
+    console.log('sessions updated');
     app.SessionsCollection.fetch({reset: true});
   },
 
@@ -2508,7 +2508,6 @@ var Backbone  = require('../lib/exoskeleton');
 
 var utils     = utils || {};
 utils.GPX     = require('../utils/gpx');
-// utils.Map     = require('../utils/map');
 
 var app = app || {};
 
@@ -2517,6 +2516,7 @@ var SessionModel = Backbone.Model.extend({
 
   initialize: function() {
     'use strict';
+    console.log('SessionModel initialize', this);
   },
 
   importFile: function(file) {
@@ -3030,7 +3030,7 @@ var MessageView = Backbone.NativeView.extend({
 });
 module.exports = app.MessageView = MessageView;
 
-},{"../collections/dashboard":2,"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"microtemplates":25}],18:[function(require,module,exports){
+},{"../collections/dashboard":2,"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"microtemplates":26}],18:[function(require,module,exports){
 /* jshint strict: true, node: true */
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
@@ -3064,7 +3064,7 @@ var SessionView = Backbone.NativeView.extend({
 });
 module.exports = app.SessionView = SessionView;
 
-},{"../collections/dashboard":2,"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"microtemplates":25}],19:[function(require,module,exports){
+},{"../collections/dashboard":2,"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"microtemplates":26}],19:[function(require,module,exports){
 /* jshint strict: true, node: true */
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
@@ -3173,7 +3173,7 @@ var IndicatorsView = Backbone.NativeView.extend({
 });
 module.exports = app.IndicatorsView = IndicatorsView;
 
-},{"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"../models/indicators":10,"microtemplates":25}],21:[function(require,module,exports){
+},{"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"../models/indicators":10,"microtemplates":26}],21:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone              = require('../lib/exoskeleton');
@@ -3222,30 +3222,31 @@ var MainView = Backbone.NativeView.extend({
     this.active_section = this.dom.dashboard_view;
     this.showDashboard();
 
-    this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
-    this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
-    this.listenTo(app.IndicatorsModel, 'all', this.somethingOnIndicators);
+    // this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
+    this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
+    // this.listenTo(app.IndicatorsModel, 'all', this.somethingOnIndicators);
 
     new app.IndicatorsView();
     new app.DashboardView();
+    new app.SessionsView();
   },
-  somethingOnPreferences: function(ev, res) {
-    'use strict';
-    // console.log('got something on Preferences', ev, res.attributes.unit);
-  },
-  somethingOnDashboard: function(ev, res) {
-    'use strict';
-    console.log('got something on Dashoard', ev, res);
-  },
-  somethingOnIndicators: function(ev, res) {
-    'use strict';
-    console.log('got something on Indicators', ev, res);
-  },
-
-  // render: function() {
+  // somethingOnPreferences: function(ev, res) {
     // 'use strict';
-    // this._viewSection(this.active_section);
-    // console.log('collection', this.collection);
+    // console.log('got something on Preferences', ev, res.attributes.unit);
+  // },
+  somethingOnSesions: function(ev, res) {
+    'use strict';
+    console.log('got something on Sessions', ev, res);
+  },
+  // somethingOnIndicators: function(ev, res) {
+    // 'use strict';
+  //   console.log('got something on Indicators', ev, res);
+  // },
+  //
+  // // render: function() {
+  //   // 'use strict';
+  //   // this._viewSection(this.active_section);
+  //   // console.log('collection', this.collection);
     // this.collection.fetch();
   // },
 
@@ -3347,7 +3348,7 @@ var MainView = Backbone.NativeView.extend({
 });
 module.exports = app.MainView = MainView;
 
-},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"../models/dashboard-entry":9,"../models/indicators":10,"../models/preferences":11,"../models/session":12,"./dashboard":19,"./indicators":20,"./new-session":22,"./preferences":23,"./sessions":24}],22:[function(require,module,exports){
+},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"../models/dashboard-entry":9,"../models/indicators":10,"../models/preferences":11,"../models/session":12,"./dashboard":19,"./indicators":20,"./new-session":22,"./preferences":23,"./sessions":25}],22:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone            = require('../lib/exoskeleton');
@@ -3554,39 +3555,52 @@ var PreferencesView = Backbone.NativeView.extend({
 module.exports = app.PreferencesView = PreferencesView;
 
 },{"../lib/backbone.nativeview":6,"../lib/exoskeleton":7}],24:[function(require,module,exports){
+arguments[4][18][0].apply(exports,arguments)
+},{"../collections/dashboard":2,"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"dup":18,"microtemplates":26}],25:[function(require,module,exports){
 /* jshint strict: true, node: true */
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
-var Template            = require('microtemplates');
 
 var app                 = app || {};
 app.SessionsCollection  = require('../collections/sessions');
+app.SessionSummaryView  = require('../views/session-summary');
 
 var SessionsView = Backbone.NativeView.extend({
-  tagName: 'li',
+  el: '#sessions-view',
 
   events: {},
 
   dom: {},
 
-  // template: Template('<img src="img/activities/<%= activity %>.svg" alt="running" class="activity"><div class="time"><%= date %></div><div class="distance"><span class="fa fa-road"></span><span><%= distance %></span></div><div class="duration"><span>&#9201;</span><span><%= duration %></span></div><div class="speed"><span class="fa fa-tachometer"></span><span><%= avg_speed %></span></div>'),
-
   initialize: function() {
     'use strict';
-    console.log('initialize View of', this.model.attributes.id);
-    this.listenTo(this.model, 'change', this.render);
-    this.listenTo(this.model, 'destroy', this.remove);
+    this.collection = app.SessionsCollection;
+    this.collection.fetch();
+    this.render();
+
+    console.log('initialize Sessions View', this);
+    this.listenTo(this.collection, 'add', this.render);
+    this.listenTo(this.collection, 'reset', this.render);
+  },
+
+  renderItem: function(item) {
+    'use strict';
+    var view = new app.SessionSummaryView({
+      model: item
+    });
+    this.el.appendChild(view.render().el);
   },
 
   render: function() {
     'use strict';
-    this.el.innerHTML = this.template(this.model.toJSON());
-    return this;
+    this.collection.forEach(function(item) {
+      this.renderItem(item);
+    }, this);
   },
 });
 module.exports = app.SessionsView = SessionsView;
 
-},{"../collections/sessions":3,"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"microtemplates":25}],25:[function(require,module,exports){
+},{"../collections/sessions":3,"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"../views/session-summary":24}],26:[function(require,module,exports){
 // Simple JavaScript Templating
 // Paul Miller (http://paulmillr.com)
 // http://underscorejs.org
