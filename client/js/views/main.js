@@ -48,6 +48,7 @@ var MainView = Backbone.NativeView.extend({
 
     // this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
     this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
+    this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
     // this.listenTo(app.IndicatorsModel, 'all', this.somethingOnIndicators);
 
     new app.IndicatorsView();
@@ -58,10 +59,16 @@ var MainView = Backbone.NativeView.extend({
     // 'use strict';
     // console.log('got something on Preferences', ev, res.attributes.unit);
   // },
-  somethingOnSesions: function(ev, res) {
+  somethingOnSessions: function(ev, res) {
     'use strict';
     console.log('got something on Sessions', ev, res);
   },
+  somethingOnDashboard: function(ev, res) {
+    'use strict';
+    console.log('got something on Dashboard', ev, res);
+  },
+
+
   // somethingOnIndicators: function(ev, res) {
     // 'use strict';
   //   console.log('got something on Indicators', ev, res);
