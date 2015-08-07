@@ -15,7 +15,7 @@ var Sessions = function() {
       if (err !== null) {
         callback(err, null);
       } else {
-        console.log(res);
+        console.log('got sessions doc', res);
         callback(null, res.rows);
       }
     });

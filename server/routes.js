@@ -12,9 +12,10 @@ var Dashboard   = require('./models/dashboard_pouchdb');
 
 router.use(function(req, res, next) {
   'use strict';
-  console.log('%s %s %s', req.method, req.url, req.path);
+  console.log('%s %s %s', req.method, req.url, req.path, req.body);
   next();
 });
+router.use(bodyParser.json({limit: '900kb'}));
 router.use(bodyParser.urlencoded({extended: true}));
 
 // GET '/': render main page
@@ -41,7 +42,7 @@ router.get('/sessions', function(req, res, next) {
 // POST 'sessions': save a new session
 router.post('/sessions', function(req, res, next) {
   'use strict';
-  console.log('post /sessions', req.body);
+  console.log('post /sessions', req, res);
   Sessions.add(req.body, function(err) {
     if (err !== null) {
       next(err);
@@ -79,7 +80,7 @@ router.get('/dashboard', function(req, res, next) {
 // POST '/dashboard: add a nex dashboard entry
 router.post('/dashboard',function(req, res, next) {
   'use strict';
-  console.log('post /dashboard', req.body);
+  console.log('post /dashboard', req, res);
   Dashboard.add(req.body, function(err) {
     if (err !== null) {
       next(err);
@@ -93,7 +94,7 @@ router.post('/dashboard',function(req, res, next) {
 // PUT '/dashboard: add a nex dashboard entry
 router.put('/dashboard',function(req, res, next) {
   'use strict';
-  console.log('put /dashboard', req.body);
+  // console.log('put /dashboard', req.body);
   Dashboard.add(req.body, function(err) {
     if (err !== null) {
       next(err);
