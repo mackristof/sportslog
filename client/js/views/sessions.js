@@ -34,6 +34,7 @@ var SessionsView = Backbone.NativeView.extend({
 
   render: function() {
     'use strict';
+    this.el.innerHTML = '';
     this.collection.forEach(function(item) {
       this.renderItem(item);
     }, this);
