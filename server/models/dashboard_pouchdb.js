@@ -16,7 +16,11 @@ var Dashboard = function() {
         callback(err, null);
       } else {
         console.log(res);
-        callback(null, res.rows);
+        var dashboard = [];
+        for (var i = 0; i < res.rows.length; i++) {
+          dashboard[i] = res.rows[i].doc;
+        }
+        callback(null, dashboard);
       }
     });
   };

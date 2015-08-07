@@ -15,8 +15,12 @@ var Preferences = function() {
       if (err !== null) {
         callback(err, null);
       } else {
-        console.log(res);
-        callback(null, res.rows);
+        console.log('got preferences', res);
+        var preferences = [];
+/*          for (var i = 0; i < res.row.length; i++) {
+            preferences[i] = res.row[i];
+          }*/
+        callback(null, preferences);
       }
     });
   };

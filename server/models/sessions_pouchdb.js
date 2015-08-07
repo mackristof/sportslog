@@ -16,13 +16,17 @@ var Sessions = function() {
         callback(err, null);
       } else {
         console.log('got sessions doc', res);
-        callback(null, res.rows);
+        var sessions = [];
+        for (var i = 0; i < res.rows.length; i++) {
+          sessions[i] = res.rows[i].doc;
+        }
+        callback(null, sessions);
       }
     });
   };
 
-  var add = function(bookmark, callback) {
-    db.post(bookmark, callback);
+  var add = function(session, callback) {
+    db.post(session, callback);
   };
 
   var remove = function(id, callback) {
