@@ -46,7 +46,7 @@ var MainView = Backbone.NativeView.extend({
     this.active_section = this.dom.dashboard_view;
     this.showDashboard();
 
-    this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
+    // this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
     // this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
     // this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
     // this.listenTo(app.IndicatorsModel, 'all', this.somethingOnIndicators);
@@ -69,10 +69,10 @@ var MainView = Backbone.NativeView.extend({
   },
 
 
-  // somethingOnIndicators: function(ev, res) {
-    // 'use strict';
-  //   console.log('got something on Indicators', ev, res);
-  // },
+  somethingOnIndicators: function(ev, res) {
+   'use strict';
+   console.log('got something on Indicators', ev, res);
+  },
   //
   // // render: function() {
   //   // 'use strict';
