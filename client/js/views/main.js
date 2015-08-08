@@ -46,19 +46,19 @@ var MainView = Backbone.NativeView.extend({
     this.active_section = this.dom.dashboard_view;
     this.showDashboard();
 
-    // this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
-    this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
-    this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
+    this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
+    // this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
+    // this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
     // this.listenTo(app.IndicatorsModel, 'all', this.somethingOnIndicators);
 
     new app.IndicatorsView();
     new app.DashboardView();
     new app.SessionsView();
   },
-  // somethingOnPreferences: function(ev, res) {
-    // 'use strict';
-    // console.log('got something on Preferences', ev, res.attributes.unit);
-  // },
+  somethingOnPreferences: function(ev, res) {
+    'use strict';
+    console.log('got something on Preferences', ev, res);
+  },
   somethingOnSessions: function(ev, res) {
     'use strict';
     console.log('got something on Sessions', ev, res);

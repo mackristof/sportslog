@@ -15,11 +15,18 @@ var Preferences = function() {
       if (err !== null) {
         callback(err, null);
       } else {
-        console.log('got preferences', res);
-        var preferences = [];
-/*          for (var i = 0; i < res.row.length; i++) {
-            preferences[i] = res.row[i];
-          }*/
+        var preferences = {};
+        if (res.rows.length !== 0) {
+          preferences = res.rows[0].doc;
+        } else {
+          preferences = {
+            language  : 'en',
+            unit      : 'metric',
+            gender    : 'male',
+            birthyear : '1970'
+          };
+        }
+        console.log('sending preferences', preferences);
         callback(null, preferences);
       }
     });
@@ -27,6 +34,21 @@ var Preferences = function() {
 
   var add = function(bookmark, callback) {
     db.post(bookmark, callback);
+  };
+
+  var update = function(preferences, callback) {
+    db.put(preferences, callback).then(function() {
+      // success
+    }).catch(function(err) {
+      // error
+      if (err.status === 409) {
+        // conflict !
+        console.log('got pouchdb conflict', err);
+      } else {
+        // do something else
+        console.log('got pouchdb error', err);
+      }
+    });
   };
 
   var remove = function(id, callback) {
@@ -40,9 +62,10 @@ var Preferences = function() {
   };
 
   return {
-    all:    all,
-    add:    add,
-    remove: remove
+    all     : all,
+    add     : add,
+    update  : update,
+    remove  : remove
   };
 }();
 module.exports = Preferences;

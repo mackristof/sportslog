@@ -26,6 +26,11 @@ router.get('/', function(req, res) {
     });*/
 });
 
+// PTU '/': ??
+router.put('/', function(req, res) {
+  'use strict';
+  console.log('got put /', req, res);
+});
 
 // GET 'sessions': get all stored sessions
 router.get('/sessions', function(req, res, next) {
@@ -107,7 +112,7 @@ router.put('/dashboard',function(req, res, next) {
 // GET '/preferences': get preferences
 router.get('/preferences', function(req, res, next) {
   'use strict';
-  // console.log('get /preferences', res);
+  console.log('get /preferences', res);
   Preferences.all(function(err, data) {
     if (err !== null) {
       next(err);
@@ -118,12 +123,25 @@ router.get('/preferences', function(req, res, next) {
   });
 });
 
+// GET '/preferences:id': get preferences
+router.get('/preferences/:id', function(req, res, next) {
+  'use strict';
+  console.log('get /preferences/:id', res);
+  Preferences.all(function(err, data) {
+    if (err !== null) {
+      next(err);
+    } else {
+      console.log('sending preferences', data);
+      res.send(data);
+    }
+  });
+});
 
 // POST '/preferences': save preferences
 router.post('/preferences',function(req, res, next) {
   'use strict';
-  // console.log('post /preferences', req);
-  Preferences.add(req.body, function(err) {
+  console.log('post /preferences', req);
+  Preferences.update(req.body, function(err) {
     if (err !== null) {
       next(err);
     } else {
@@ -134,10 +152,10 @@ router.post('/preferences',function(req, res, next) {
 });
 
 // PUT '/preferences': save preferences
-router.post('/preferences',function(req, res, next) {
+router.put('/preferences',function(req, res, next) {
   'use strict';
-  // console.log('put /preferences', req.body);
-  Preferences.add(req.body, function(err) {
+  console.log('put /preferences', req);
+  Preferences.update(req.body, function(err) {
     if (err !== null) {
       next(err);
     } else {
@@ -146,7 +164,18 @@ router.post('/preferences',function(req, res, next) {
   });
 });
 
-
+// PUT '/preferences/:id': save preferences
+router.put('/preferences/:id',function(req, res, next) {
+  'use strict';
+  console.log('put /preferences/:id', req);
+  Preferences.update(req.body, function(err) {
+    if (err !== null) {
+      next(err);
+    } else {
+      res.redirect('back');
+    }
+  });
+});
 
 // POST 'preferences': save preferences
 

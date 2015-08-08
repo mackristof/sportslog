@@ -1,23 +1,18 @@
 /* jshint strict: true, node: true */
 var Backbone          = require('../lib/exoskeleton');
-// Backbone.localStorage = require('../lib/backbone.localStorage');
 
 var app               = app || {};
 
 var PreferencesModel = Backbone.Model.extend({
-  defaults: {
-    language  : 'en',
-    unit      : 'metric',
-    gender    : 'male',
-    birthyear : '1970'
-  },
 
-  // localStorage: new Backbone.localStorage('preferences'),
   urlRoot: '/preferences',
 
+  idAttribute: '_id',
+
   initialize: function() {
-  'use strict';
-    console.log('PreferencesModel initialize');
+    'use strict';
+    console.log('PreferencesModel initialize', this);
+    // this.save();
   }
 });
-module.exports = app.PreferencesModel = new PreferencesModel();
+module.exports = app.PreferencesModel = new PreferencesModel({parse: true});

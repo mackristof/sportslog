@@ -12,7 +12,7 @@ var SessionModel = Backbone.Model.extend({
 
   initialize: function() {
     'use strict';
-    console.log('SessionModel initialize', this);
+    // console.log('SessionModel initialize', this);
   },
 
   importFile: function(file) {

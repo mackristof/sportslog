@@ -2479,27 +2479,22 @@ module.exports = app.IndicatorsModel = new IndicatorsModel({parse: true});
 },{"../collections/sessions":3,"../lib/backbone.localStorage":4,"../lib/exoskeleton":7}],11:[function(require,module,exports){
 /* jshint strict: true, node: true */
 var Backbone          = require('../lib/exoskeleton');
-// Backbone.localStorage = require('../lib/backbone.localStorage');
 
 var app               = app || {};
 
 var PreferencesModel = Backbone.Model.extend({
-  defaults: {
-    language  : 'en',
-    unit      : 'metric',
-    gender    : 'male',
-    birthyear : '1970'
-  },
 
-  // localStorage: new Backbone.localStorage('preferences'),
   urlRoot: '/preferences',
 
+  idAttribute: '_id',
+
   initialize: function() {
-  'use strict';
-    console.log('PreferencesModel initialize');
+    'use strict';
+    console.log('PreferencesModel initialize', this);
+    // this.save();
   }
 });
-module.exports = app.PreferencesModel = new PreferencesModel();
+module.exports = app.PreferencesModel = new PreferencesModel({parse: true});
 
 },{"../lib/exoskeleton":7}],12:[function(require,module,exports){
 /* jshint strict: true, node: true */
@@ -2516,7 +2511,7 @@ var SessionModel = Backbone.Model.extend({
 
   initialize: function() {
     'use strict';
-    console.log('SessionModel initialize', this);
+    // console.log('SessionModel initialize', this);
   },
 
   importFile: function(file) {
@@ -3038,6 +3033,7 @@ var Template            = require('microtemplates');
 
 var app                 = app || {};
 app.DashboardCollection = require('../collections/dashboard');
+app.Preferences         = require('../models/preferences');
 
 var SessionView = Backbone.NativeView.extend({
   tagName: 'li',
@@ -3046,25 +3042,26 @@ var SessionView = Backbone.NativeView.extend({
 
   dom: {},
 
-  // template: Template('<img src="img/activities/<%= activity %>.svg" alt="running" class="activity"><div class="time"><%= date %></div><div class="distance"><span class="fa fa-road"></span><span><%= content.distance %></span></div><div class="duration"><span>&#9201;</span><span><%= content.duration %></span></div><div class="speed"><span class="fa fa-tachometer"></span><span><%= content.avg_speed %></span></div>'),
   template: Template(document.getElementById('session-summary-template').innerHTML),
+
+  unit: app.Preferences.get('unit'),
 
   initialize: function() {
     'use strict';
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
-
   },
 
   render: function() {
     'use strict';
+    console.log('this.unit in DashboardView', this.unit);
     this.el.innerHTML = this.template(this.model.toJSON());
     return this;
 }
 });
 module.exports = app.SessionView = SessionView;
 
-},{"../collections/dashboard":2,"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"microtemplates":26}],19:[function(require,module,exports){
+},{"../collections/dashboard":2,"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"../models/preferences":11,"microtemplates":26}],19:[function(require,module,exports){
 /* jshint strict: true, node: true */
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
@@ -3223,19 +3220,19 @@ var MainView = Backbone.NativeView.extend({
     this.active_section = this.dom.dashboard_view;
     this.showDashboard();
 
-    // this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
-    this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
-    this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
+    this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
+    // this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
+    // this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
     // this.listenTo(app.IndicatorsModel, 'all', this.somethingOnIndicators);
 
     new app.IndicatorsView();
     new app.DashboardView();
     new app.SessionsView();
   },
-  // somethingOnPreferences: function(ev, res) {
-    // 'use strict';
-    // console.log('got something on Preferences', ev, res.attributes.unit);
-  // },
+  somethingOnPreferences: function(ev, res) {
+    'use strict';
+    console.log('got something on Preferences', ev, res);
+  },
   somethingOnSessions: function(ev, res) {
     'use strict';
     console.log('got something on Sessions', ev, res);
@@ -3524,7 +3521,8 @@ module.exports = app.NewSessionView = NewSessionView;
 var Backbone = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
-var app = app || {};
+var app               = app || {};
+app.PreferencesModel  = require('../models/preferences');
 
 var PreferencesView = Backbone.NativeView.extend({
   el: '#preferences-view',
@@ -3547,6 +3545,10 @@ var PreferencesView = Backbone.NativeView.extend({
   initialize: function() {
   'use strict';
     console.log('PreferencesView initialize');
+    console.log('PreferencesView this.model', this.model);
+    this.model = app.PreferencesModel;
+    // this.model.fetch();
+    this.render();
     // this.listenTo('change', this.render);
   },
 
@@ -3558,13 +3560,17 @@ var PreferencesView = Backbone.NativeView.extend({
   },
 
   render: function() {
-  'use strict';
+    'use strict';
+    this.dom.language_select.value = this.model.get('language');
+    this.dom.unit_select.value = this.model.get('unit');
+    this.dom.gender_select.value = this.model.get('gender');
+    this.dom.birthyear_select.value = this.model.get('birthyear');
     console.log('PreferencesView render');
   }
 });
 module.exports = app.PreferencesView = PreferencesView;
 
-},{"../lib/backbone.nativeview":6,"../lib/exoskeleton":7}],24:[function(require,module,exports){
+},{"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"../models/preferences":11}],24:[function(require,module,exports){
 /* jshint strict: true, node: true */
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');

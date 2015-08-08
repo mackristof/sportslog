@@ -17,8 +17,10 @@ var Dashboard = function() {
       } else {
         console.log(res);
         var dashboard = [];
-        for (var i = 0; i < res.rows.length; i++) {
-          dashboard[i] = res.rows[i].doc;
+        if (res.rows.length !== 0) {
+          for (var i = 0; i < res.rows.length; i++) {
+            dashboard[i] = res.rows[i].doc;
+          }
         }
         callback(null, dashboard);
       }

@@ -17,8 +17,10 @@ var Sessions = function() {
       } else {
         console.log('got sessions doc', res);
         var sessions = [];
-        for (var i = 0; i < res.rows.length; i++) {
-          sessions[i] = res.rows[i].doc;
+        if (res.rows.length !== 0) {
+          for (var i = 0; i < res.rows.length; i++) {
+            sessions[i] = res.rows[i].doc;
+          }
         }
         callback(null, sessions);
       }
