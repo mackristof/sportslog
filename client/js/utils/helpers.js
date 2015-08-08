@@ -87,7 +87,20 @@ var Helpers = function() {
   }
 
   function formatDuration(value) {
-    return (value / 6000).toFixed();
+    var sec = value / 1000;
+    var hh = Math.floor(sec / 3600);
+    var mm = Math.floor((sec - hh * 3600) / 60);
+    var ss = Math.floor(sec - (hh * 3600) - (mm * 60));
+    if (hh < 10) {
+      hh = '0' + hh;
+    }
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    if (ss < 10) {
+      ss = '0' + ss;
+    }
+    return hh + 'h ' + mm + 'm ' + ss + 's';
   }
 
   function calculateCalories(activity, distance, duration) {

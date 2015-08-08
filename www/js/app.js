@@ -2909,7 +2909,20 @@ var Helpers = function() {
   }
 
   function formatDuration(value) {
-    return (value / 6000).toFixed();
+    var sec = value / 1000;
+    var hh = Math.floor(sec / 3600);
+    var mm = Math.floor((sec - hh * 3600) / 60);
+    var ss = Math.floor(sec - (hh * 3600) - (mm * 60));
+    if (hh < 10) {
+      hh = '0' + hh;
+    }
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    if (ss < 10) {
+      ss = '0' + ss;
+    }
+    return hh + 'h ' + mm + 'm ' + ss + 's';
   }
 
   function calculateCalories(activity, distance, duration) {
@@ -3165,6 +3178,10 @@ var Template        = require('microtemplates');
 
 var app             = app || {};
 app.IndicatorsModel = require('../models/indicators');
+app.Preferences     = require('../models/preferences');
+
+var utils           = utils || {};
+utils.Helpers       = require('../utils/helpers');
 
 var IndicatorsView = Backbone.NativeView.extend({
   el: '#indicators',
@@ -3185,18 +3202,27 @@ var IndicatorsView = Backbone.NativeView.extend({
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'sync', this.render);
 
+    this.listenTo(app.Preferences, 'change', this.render);
+
   },
 
   render: function() {
     'use strict';
-    console.log('indicators view is rendered', this);
-    this.el.innerHTML = this.template(this.model.toJSON());
+    // console.log('indicators view is rendered', this);
+   var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), this.model.get('distance'), false);
+    var toRender = {
+      'sessions'  : this.model.get('sessions'),
+      'calories'  : this.model.get('calories'),
+      'distance'  : dist.value + ' ' + dist.unit,
+      'duration'  : utils.Helpers.formatDuration(this.model.get('duration'))
+    };
+    this.el.innerHTML = this.template(toRender);
     return this;
   },
 });
 module.exports = app.IndicatorsView = IndicatorsView;
 
-},{"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"../models/indicators":10,"microtemplates":26}],21:[function(require,module,exports){
+},{"../lib/backbone.nativeview":6,"../lib/exoskeleton":7,"../models/indicators":10,"../models/preferences":11,"../utils/helpers":15,"microtemplates":26}],21:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone              = require('../lib/exoskeleton');
