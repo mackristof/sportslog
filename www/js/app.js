@@ -2412,14 +2412,14 @@ var Backbone  = require('../lib/exoskeleton');
 var app       = app || {};
 
 var DashboardEntryModel = Backbone.Model.extend({
-  defaults: {
+/*  defaults: {
     date      : new Date(),
     time      : new Date(),
     activity  : '',
     distance  : 0,
     duration  : 0,
     type      : 'session'
-  },
+  },*/
 
   idAttribute: '_id',
 
@@ -2611,11 +2611,10 @@ var GPX = function() {
   function __parse(xml, callback) {
     console.log('xml', xml);
     var track = {
-      id        : new Date().toISOString(),
-      name      : null,
+      date      : '',
+      name      : '',
       duration  : 0,
       distance  : 0,
-      date      : '',
       avg_speed : 0,
       calories  : 0,
       alt_max   : 0,
@@ -3118,8 +3117,6 @@ var DashboardView = Backbone.NativeView.extend({
 
   dom: {},
 
-  // sessionTemplate: Template('<h1>TOTO</h1>'),
-
   initialize: function() {
     'use strict';
     this.collection = app.DashboardCollection;
@@ -3163,10 +3160,7 @@ var DashboardView = Backbone.NativeView.extend({
     this.collection.forEach(function(item) {
       this.renderItem(item);
     }, this);
-
-    // this.el.innerHTML = this.template(this.model.toJSON());
-    // return this;
-}
+  },
 });
 module.exports = app.DashboardView = DashboardView;
 
@@ -3496,31 +3490,23 @@ var NewSessionView = Backbone.NativeView.extend({
 
   addNewSession: function() {
     'use strict';
-    /*var activities = document.forms["select-activity"].elements;
-    var activity;
-    for (var i = 0; i < activities.length; i++) {
-      if (activities[i].checked) {
-        activity = activities[i].value;
-     }
-    }
-    this.model.set('date', this.dom.date.value);
-    this.model.set('time', this.dom.time.value);
-    this.model.set('activity', activity);
-    this.model.set('distance', this.dom.distance.value);
-    this.model.set('duration', this.dom.duration.value);*/
-
-    // var session = this.newSessionData();
     console.log('addNewSession', this.model.attributes);
     var s = app.SessionsCollection.add(this.model.attributes);
     s.save();
-    app.DashboardCollection.create({
+    var d = this.model.attributes;
+    if (d.data) {
+      delete d.data;
+    }
+    d.type = 'session';
+    app.DashboardCollection.create(d);
+/*    app.DashboardCollection.create({
       'date'      : this.model.get('date'),
-      'time'      : this.model.get('time'),
+      'time'      : utils.Helpers.formatTime(this.model.get('date')),
       'activity'  : this.model.get('activity'),
       'distance'  : this.model.get('distance'),
       'duration'  : this.model.get('duration'),
       'type'      : 'session'
-    });
+    });*/
   },
 
   newSessionData: function() {

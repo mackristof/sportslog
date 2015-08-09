@@ -31,11 +31,10 @@ var GPX = function() {
   function __parse(xml, callback) {
     console.log('xml', xml);
     var track = {
-      id        : new Date().toISOString(),
-      name      : null,
+      date      : '',
+      name      : '',
       duration  : 0,
       distance  : 0,
-      date      : '',
       avg_speed : 0,
       calories  : 0,
       alt_max   : 0,

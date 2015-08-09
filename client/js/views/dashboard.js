@@ -16,8 +16,6 @@ var DashboardView = Backbone.NativeView.extend({
 
   dom: {},
 
-  // sessionTemplate: Template('<h1>TOTO</h1>'),
-
   initialize: function() {
     'use strict';
     this.collection = app.DashboardCollection;
@@ -61,9 +59,6 @@ var DashboardView = Backbone.NativeView.extend({
     this.collection.forEach(function(item) {
       this.renderItem(item);
     }, this);
-
-    // this.el.innerHTML = this.template(this.model.toJSON());
-    // return this;
-}
+  },
 });
 module.exports = app.DashboardView = DashboardView;

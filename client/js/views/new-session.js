@@ -89,31 +89,23 @@ var NewSessionView = Backbone.NativeView.extend({
 
   addNewSession: function() {
     'use strict';
-    /*var activities = document.forms["select-activity"].elements;
-    var activity;
-    for (var i = 0; i < activities.length; i++) {
-      if (activities[i].checked) {
-        activity = activities[i].value;
-     }
-    }
-    this.model.set('date', this.dom.date.value);
-    this.model.set('time', this.dom.time.value);
-    this.model.set('activity', activity);
-    this.model.set('distance', this.dom.distance.value);
-    this.model.set('duration', this.dom.duration.value);*/
-
-    // var session = this.newSessionData();
     console.log('addNewSession', this.model.attributes);
     var s = app.SessionsCollection.add(this.model.attributes);
     s.save();
-    app.DashboardCollection.create({
+    var d = this.model.attributes;
+    if (d.data) {
+      delete d.data;
+    }
+    d.type = 'session';
+    app.DashboardCollection.create(d);
+/*    app.DashboardCollection.create({
       'date'      : this.model.get('date'),
-      'time'      : this.model.get('time'),
+      'time'      : utils.Helpers.formatTime(this.model.get('date')),
       'activity'  : this.model.get('activity'),
       'distance'  : this.model.get('distance'),
       'duration'  : this.model.get('duration'),
       'type'      : 'session'
-    });
+    });*/
   },
 
   newSessionData: function() {
