@@ -240,6 +240,7 @@
   <script type="text/javascript" src="js/views/preferences.js"></script>
   <script type="text/javascript" src="js/views/main.js"></script> -->
   <script type="text/template" id="session-summary-template">
+  <a href="#" class="session-summary-click">
     <img src="img/activities/<%= activity %>.svg" alt="<%= activity %>" class="activity">
     <div class="time"><%= date %></div>
     <div class="distance">
@@ -254,6 +255,7 @@
       <span class="fa fa-tachometer"></span>
       <span><%= avg_speed %></span>
     </div>
+  </a>
   </script>
   <script type="text/template" id="indicators-template">
     <div class="indicator align-left">

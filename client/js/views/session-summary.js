@@ -13,7 +13,9 @@ utils.Helpers           = require('../utils/helpers');
 var SessionView = Backbone.NativeView.extend({
   tagName: 'li',
 
-  events: {},
+  events: {
+    'click .session-summary-click'  : 'showSessionDetails'
+  },
 
   dom: {},
 
@@ -41,6 +43,11 @@ var SessionView = Backbone.NativeView.extend({
       'activity'  : this.model.get('activity')
     });
     return this;
-}
+  },
+
+  showSessionDetails: function(session) {
+    'use strict';
+    console.log('I want to see details of', session);
+  }
 });
 module.exports = app.SessionView = SessionView;
