@@ -13,7 +13,7 @@ app.NewSession            = require('./new-session');
 app.PreferencesModel      = require('../models/preferences');
 app.SessionModel          = require('../models/session');
 app.DashboardModel        = require('../models/dashboard-entry');
-app.SessionsCollection    = require('../collections/sessions');
+// app.SessionsCollection    = require('../collections/sessions');
 app.DashboardCollection   = require('../collections/dashboard');
 
 var MainView = Backbone.NativeView.extend({

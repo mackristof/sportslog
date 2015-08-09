@@ -2875,7 +2875,7 @@ app.NewSession            = require('./new-session');
 app.PreferencesModel      = require('../models/preferences');
 app.SessionModel          = require('../models/session');
 app.DashboardModel        = require('../models/dashboard-entry');
-app.SessionsCollection    = require('../collections/sessions');
+// app.SessionsCollection    = require('../collections/sessions');
 app.DashboardCollection   = require('../collections/dashboard');
 
 var MainView = Backbone.NativeView.extend({
@@ -3034,7 +3034,7 @@ var MainView = Backbone.NativeView.extend({
 });
 module.exports = app.MainView = MainView;
 
-},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../models/preferences":9,"../models/session":10,"./dashboard":16,"./indicators":17,"./new-session":19,"./preferences":20,"./sessions":22}],19:[function(require,module,exports){
+},{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../models/preferences":9,"../models/session":10,"./dashboard":16,"./indicators":17,"./new-session":19,"./preferences":20,"./sessions":22}],19:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone            = require('../lib/exoskeleton');
@@ -3278,7 +3278,6 @@ var SessionView = Backbone.NativeView.extend({
 
     var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), this.model.get('distance'), false);
     var speed = utils.Helpers.formatSpeed(app.Preferences.get('unit'), this.model.get('avg_speed'));
-    console.log('speed', speed);
     this.el.innerHTML = this.template({
       'date'      : utils.Helpers.formatDate(this.model.get('date')),
       'calories'  : this.model.get('calories'),
@@ -3298,7 +3297,7 @@ var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
 var app                 = app || {};
-app.SessionsCollection  = require('../collections/sessions');
+app.DashboardCollection = require('../collections/dashboard');
 app.SessionSummaryView  = require('../views/session-summary');
 
 var SessionsView = Backbone.NativeView.extend({
@@ -3310,7 +3309,7 @@ var SessionsView = Backbone.NativeView.extend({
 
   initialize: function() {
     'use strict';
-    this.collection = app.SessionsCollection;
+    this.collection = app.DashboardCollection;
     this.collection.fetch();
     this.render();
 
@@ -3331,13 +3330,15 @@ var SessionsView = Backbone.NativeView.extend({
     'use strict';
     this.el.innerHTML = '';
     this.collection.forEach(function(item) {
-      this.renderItem(item);
+      if (item.get('type') === 'session') {
+        this.renderItem(item);
+      }
     }, this);
   },
 });
 module.exports = app.SessionsView = SessionsView;
 
-},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../views/session-summary":21}],23:[function(require,module,exports){
+},{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../views/session-summary":21}],23:[function(require,module,exports){
 // Simple JavaScript Templating
 // Paul Miller (http://paulmillr.com)
 // http://underscorejs.org

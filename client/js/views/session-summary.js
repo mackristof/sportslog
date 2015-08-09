@@ -32,7 +32,6 @@ var SessionView = Backbone.NativeView.extend({
 
     var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), this.model.get('distance'), false);
     var speed = utils.Helpers.formatSpeed(app.Preferences.get('unit'), this.model.get('avg_speed'));
-    console.log('speed', speed);
     this.el.innerHTML = this.template({
       'date'      : utils.Helpers.formatDate(this.model.get('date')),
       'calories'  : this.model.get('calories'),
