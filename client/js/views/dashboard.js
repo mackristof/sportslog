@@ -6,7 +6,7 @@ require('../lib/backbone.nativeview');
 var app                   = app || {};
 app.DashboardCollection   = require('../collections/dashboard');
 app.DashboardEntryModel   = require('../models/dashboard-entry');
-app.DashboardSessionView  = require('../views/dashboard-session');
+app.SessionSummaryView    = require('../views/session-summary');
 app.DashnoardMessageView  = require('../views/dashboard-message');
 
 var DashboardView = Backbone.NativeView.extend({
@@ -38,7 +38,7 @@ var DashboardView = Backbone.NativeView.extend({
     'use strict';
     var view;
     if (item.attributes.type === 'session') {
-      view = new app.DashboardSessionView({
+      view = new app.SessionSummaryView({
         model : item
       });
       this.el.appendChild(view.render().el);
