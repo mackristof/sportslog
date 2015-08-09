@@ -11,7 +11,6 @@ app.PreferencesView       = require('./preferences');
 app.SessionsView          = require('./sessions');
 app.NewSession            = require('./new-session');
 app.PreferencesModel      = require('../models/preferences');
-app.IndicatorsModel       = require('../models/indicators');
 app.SessionModel          = require('../models/session');
 app.DashboardModel        = require('../models/dashboard-entry');
 app.SessionsCollection    = require('../collections/sessions');
@@ -49,7 +48,6 @@ var MainView = Backbone.NativeView.extend({
     // this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
     // this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
     // this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
-    // this.listenTo(app.IndicatorsModel, 'all', this.somethingOnIndicators);
 
     new app.IndicatorsView();
     new app.DashboardView();
@@ -68,11 +66,6 @@ var MainView = Backbone.NativeView.extend({
     console.log('got something on Dashboard', ev, res);
   },
 
-
-  somethingOnIndicators: function(ev, res) {
-   'use strict';
-   console.log('got something on Indicators', ev, res);
-  },
   //
   // // render: function() {
   //   // 'use strict';

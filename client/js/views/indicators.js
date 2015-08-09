@@ -4,7 +4,6 @@ require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
 
 var app                 = app || {};
-// app.IndicatorsModel = require('../models/indicators');
 app.DashboardCollection = require('../collections/dashboard');
 app.Preferences         = require('../models/preferences');
 

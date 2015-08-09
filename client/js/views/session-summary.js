@@ -5,6 +5,10 @@ var Template            = require('microtemplates');
 
 var app                 = app || {};
 app.DashboardCollection = require('../collections/dashboard');
+app.Preferences         = require('../models/preferences');
+
+var utils               = utils || {};
+utils.Helpers           = require('../utils/helpers');
 
 var SessionView = Backbone.NativeView.extend({
   tagName: 'li',
@@ -24,7 +28,16 @@ var SessionView = Backbone.NativeView.extend({
 
   render: function() {
     'use strict';
-    this.el.innerHTML = this.template(this.model.toJSON());
+
+    var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), this.model.get('distance'), false);
+    this.el.innerHTML = this.template({
+      'date'      : utils.Helpers.formatDate(this.model.get('date')),
+      'calories'  : this.model.get('calories'),
+      'distance'  : dist.value + ' ' + dist.unit,
+      'duration'  : utils.Helpers.formatDuration(this.model.get('duration')),
+      'avg_speed' : utils.Helpers.formatSpeed(this.model.get('avg_speed')),
+      'activity'  : this.model.get('activity')
+    });
     return this;
 }
 });
