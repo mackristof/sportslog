@@ -3269,6 +3269,7 @@ var SessionView = Backbone.NativeView.extend({
     'use strict';
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
+    this.listenTo(app.Preferences, 'change', this.render);
 
   },
 
@@ -3276,12 +3277,14 @@ var SessionView = Backbone.NativeView.extend({
     'use strict';
 
     var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), this.model.get('distance'), false);
+    var speed = utils.Helpers.formatSpeed(app.Preferences.get('unit'), this.model.get('avg_speed'));
+    console.log('speed', speed);
     this.el.innerHTML = this.template({
       'date'      : utils.Helpers.formatDate(this.model.get('date')),
       'calories'  : this.model.get('calories'),
       'distance'  : dist.value + ' ' + dist.unit,
       'duration'  : utils.Helpers.formatDuration(this.model.get('duration')),
-      'avg_speed' : utils.Helpers.formatSpeed(this.model.get('avg_speed')),
+      'avg_speed' : speed.value + ' ' + speed.unit,
       'activity'  : this.model.get('activity')
     });
     return this;
