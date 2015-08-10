@@ -2871,7 +2871,9 @@ app.IndicatorsView        = require('./indicators');
 app.DashboardView         = require('./dashboard');
 app.PreferencesView       = require('./preferences');
 app.SessionsView          = require('./sessions');
+app.SessionView           = require('./sessions');
 app.NewSession            = require('./new-session');
+app.SessionSummary        = require('./session-summary');
 app.PreferencesModel      = require('../models/preferences');
 app.SessionModel          = require('../models/session');
 app.DashboardModel        = require('../models/dashboard-entry');
@@ -2914,6 +2916,9 @@ var MainView = Backbone.NativeView.extend({
     new app.IndicatorsView();
     new app.DashboardView();
     new app.SessionsView();
+
+    // console.log('app.SessionSummary', app.SessionSummary);
+    // this.listenTo(app.SessionSummary, 'selected', this.showSession);
   },
   somethingOnPreferences: function(ev, res) {
     'use strict';
@@ -2953,6 +2958,14 @@ var MainView = Backbone.NativeView.extend({
   showSessions: function() {
     'use strict';
     this._viewSection(this.dom.sessions_view);
+  },
+
+  showSession: function(session_id) {
+    'use strict';
+    new app.SessionView({
+      'session_id'  : session_id
+    });
+    this._viewSection(this.dom.session_view);
   },
 
   showReports: function() {
@@ -3034,7 +3047,7 @@ var MainView = Backbone.NativeView.extend({
 });
 module.exports = app.MainView = MainView;
 
-},{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../models/preferences":9,"../models/session":10,"./dashboard":16,"./indicators":17,"./new-session":19,"./preferences":20,"./sessions":22}],19:[function(require,module,exports){
+},{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../models/preferences":9,"../models/session":10,"./dashboard":16,"./indicators":17,"./new-session":19,"./preferences":20,"./session-summary":21,"./sessions":22}],19:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone            = require('../lib/exoskeleton');
@@ -3256,7 +3269,7 @@ app.Preferences         = require('../models/preferences');
 var utils               = utils || {};
 utils.Helpers           = require('../utils/helpers');
 
-var SessionView = Backbone.NativeView.extend({
+var SessionSummaryView = Backbone.NativeView.extend({
   tagName: 'li',
 
   events: {
@@ -3272,8 +3285,11 @@ var SessionView = Backbone.NativeView.extend({
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
     this.listenTo(app.Preferences, 'change', this.render);
+    console.log('SessionSummaryView initialized', this);
 
   },
+
+  extend: Backbone.Events,
 
   render: function() {
     'use strict';
@@ -3281,22 +3297,29 @@ var SessionView = Backbone.NativeView.extend({
     var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), this.model.get('distance'), false);
     var speed = utils.Helpers.formatSpeed(app.Preferences.get('unit'), this.model.get('avg_speed'));
     this.el.innerHTML = this.template({
-      'date'      : utils.Helpers.formatDate(this.model.get('date')),
-      'calories'  : this.model.get('calories'),
-      'distance'  : dist.value + ' ' + dist.unit,
-      'duration'  : utils.Helpers.formatDuration(this.model.get('duration')),
-      'avg_speed' : speed.value + ' ' + speed.unit,
-      'activity'  : this.model.get('activity')
+      'session_id'  : this.model.get('_id'),
+      'date'        : utils.Helpers.formatDate(this.model.get('date')),
+      'calories'    : this.model.get('calories'),
+      'distance'    : dist.value + ' ' + dist.unit,
+      'duration'    : utils.Helpers.formatDuration(this.model.get('duration')),
+      'avg_speed'   : speed.value + ' ' + speed.unit,
+      'activity'    : this.model.get('activity')
     });
     return this;
   },
 
   showSessionDetails: function(session) {
     'use strict';
-    console.log('I want to see details of', session);
+    console.log('I want to see details of', session.target.getAttribute('session_id'));
+    // this.trigger('selected', session.target.getAttribute('session_id'));
+    new app.SessionView({
+      'session_id'  : session_id
+    });
+
   }
 });
-module.exports = app.SessionView = SessionView;
+Backbone.utils.extend(SessionSummaryView, Backbone.events);
+module.exports = app.SessionSummaryView = SessionSummaryView;
 
 },{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/preferences":9,"../utils/helpers":13,"microtemplates":23}],22:[function(require,module,exports){
 /* jshint strict: true, node: true */

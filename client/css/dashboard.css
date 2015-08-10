@@ -16,10 +16,14 @@ section.dashboard-view .indicator.align-right {
 section.dashboard-view li {
   width: 80%;
   border: 1px solid grey;
-  padding: 1rem;
   height: 4rem;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
+}
+
+section.dashboard-view .summary-container {
+  padding: 1rem;
+
 }
 
 section.dashboard-view li div {

@@ -10,7 +10,7 @@ app.Preferences         = require('../models/preferences');
 var utils               = utils || {};
 utils.Helpers           = require('../utils/helpers');
 
-var SessionView = Backbone.NativeView.extend({
+var SessionSummaryView = Backbone.NativeView.extend({
   tagName: 'li',
 
   events: {
@@ -26,8 +26,11 @@ var SessionView = Backbone.NativeView.extend({
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
     this.listenTo(app.Preferences, 'change', this.render);
+    console.log('SessionSummaryView initialized', this);
 
   },
+
+  extend: Backbone.Events,
 
   render: function() {
     'use strict';
@@ -35,19 +38,26 @@ var SessionView = Backbone.NativeView.extend({
     var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), this.model.get('distance'), false);
     var speed = utils.Helpers.formatSpeed(app.Preferences.get('unit'), this.model.get('avg_speed'));
     this.el.innerHTML = this.template({
-      'date'      : utils.Helpers.formatDate(this.model.get('date')),
-      'calories'  : this.model.get('calories'),
-      'distance'  : dist.value + ' ' + dist.unit,
-      'duration'  : utils.Helpers.formatDuration(this.model.get('duration')),
-      'avg_speed' : speed.value + ' ' + speed.unit,
-      'activity'  : this.model.get('activity')
+      'session_id'  : this.model.get('_id'),
+      'date'        : utils.Helpers.formatDate(this.model.get('date')),
+      'calories'    : this.model.get('calories'),
+      'distance'    : dist.value + ' ' + dist.unit,
+      'duration'    : utils.Helpers.formatDuration(this.model.get('duration')),
+      'avg_speed'   : speed.value + ' ' + speed.unit,
+      'activity'    : this.model.get('activity')
     });
     return this;
   },
 
   showSessionDetails: function(session) {
     'use strict';
-    console.log('I want to see details of', session);
+    console.log('I want to see details of', session.target.getAttribute('session_id'));
+    // this.trigger('selected', session.target.getAttribute('session_id'));
+    new app.SessionView({
+      'session_id'  : session_id
+    });
+
   }
 });
-module.exports = app.SessionView = SessionView;
+Backbone.utils.extend(SessionSummaryView, Backbone.events);
+module.exports = app.SessionSummaryView = SessionSummaryView;

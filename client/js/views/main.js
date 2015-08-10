@@ -9,7 +9,9 @@ app.IndicatorsView        = require('./indicators');
 app.DashboardView         = require('./dashboard');
 app.PreferencesView       = require('./preferences');
 app.SessionsView          = require('./sessions');
+app.SessionView           = require('./sessions');
 app.NewSession            = require('./new-session');
+app.SessionSummary        = require('./session-summary');
 app.PreferencesModel      = require('../models/preferences');
 app.SessionModel          = require('../models/session');
 app.DashboardModel        = require('../models/dashboard-entry');
@@ -52,6 +54,9 @@ var MainView = Backbone.NativeView.extend({
     new app.IndicatorsView();
     new app.DashboardView();
     new app.SessionsView();
+
+    // console.log('app.SessionSummary', app.SessionSummary);
+    // this.listenTo(app.SessionSummary, 'selected', this.showSession);
   },
   somethingOnPreferences: function(ev, res) {
     'use strict';
@@ -91,6 +96,14 @@ var MainView = Backbone.NativeView.extend({
   showSessions: function() {
     'use strict';
     this._viewSection(this.dom.sessions_view);
+  },
+
+  showSession: function(session_id) {
+    'use strict';
+    new app.SessionView({
+      'session_id'  : session_id
+    });
+    this._viewSection(this.dom.session_view);
   },
 
   showReports: function() {
