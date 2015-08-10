@@ -13,6 +13,8 @@ utils.Helpers           = require('../utils/helpers');
 var SessionView = Backbone.NativeView.extend({
   el: '#session-view',
 
+  session_id: '',
+
   events: {},
 
   dom: {},
@@ -21,6 +23,7 @@ var SessionView = Backbone.NativeView.extend({
 
   initialize: function() {
     'use strict';
+    console.log('SessionView initialized', this);
   },
 
   render: function() {

@@ -5,6 +5,8 @@ var Template            = require('microtemplates');
 
 var app                 = app || {};
 app.DashboardCollection = require('../collections/dashboard');
+app.SessionsCollection  = require('../collections/sessions');
+app.SessionView         = require('./session');
 app.Preferences         = require('../models/preferences');
 
 var utils               = utils || {};
@@ -53,8 +55,10 @@ var SessionSummaryView = Backbone.NativeView.extend({
     'use strict';
     console.log('I want to see details of', session.target.getAttribute('session_id'));
     // this.trigger('selected', session.target.getAttribute('session_id'));
+    var session_model = app.SessionsCollection.get(session.target.getAttribute('session_id'));
+    console.log('got session to display', session_model);
     new app.SessionView({
-      'session_id'  : session_id
+      'session_id' : session_model
     });
 
   }
