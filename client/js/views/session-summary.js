@@ -16,7 +16,7 @@ var SessionSummaryView = Backbone.NativeView.extend({
   tagName: 'li',
 
   events: {
-    'click .session-summary-click'  : 'showSessionDetails'
+    // 'click .session-summary-click'  : 'showSessionDetails'
   },
 
   dom: {},

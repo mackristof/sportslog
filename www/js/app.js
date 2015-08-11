@@ -2871,24 +2871,26 @@ app.IndicatorsView        = require('./indicators');
 app.DashboardView         = require('./dashboard');
 app.PreferencesView       = require('./preferences');
 app.SessionsView          = require('./sessions');
-app.SessionView           = require('./sessions');
+app.SessionView           = require('./session');
 app.NewSession            = require('./new-session');
 app.SessionSummary        = require('./session-summary');
 app.PreferencesModel      = require('../models/preferences');
 app.SessionModel          = require('../models/session');
 app.DashboardModel        = require('../models/dashboard-entry');
-// app.SessionsCollection    = require('../collections/sessions');
+app.SessionsCollection    = require('../collections/sessions');
 app.DashboardCollection   = require('../collections/dashboard');
 
 var MainView = Backbone.NativeView.extend({
   el: '#app',
 
   events: {
-    'click #new-session-btn'  : 'showNewSession',
-    'click #dashboard-btn'    : 'showDashboard',
-    'click #sessions-btn'     : 'showSessions',
-    'click #reports-btn'      : 'showReports',
-    'click #preferences-btn'  : 'showPreferences',
+    'click #new-session-btn'        : 'showNewSession',
+    'click #dashboard-btn'          : 'showDashboard',
+    'click #sessions-btn'           : 'showSessions',
+    'click #reports-btn'            : 'showReports',
+    'click #preferences-btn'        : 'showPreferences',
+
+    'click .session-summary-click'  : 'showSession'
   },
 
   dom: {
@@ -2960,10 +2962,13 @@ var MainView = Backbone.NativeView.extend({
     this._viewSection(this.dom.sessions_view);
   },
 
-  showSession: function(session_id) {
+  showSession: function(el) {
     'use strict';
+    console.log('show session details', el);
+    var id = app.SessionsCollection.get(el.target.getAttribute('session_id'));
+    var session = app.SessionsCollection.get(id);
     new app.SessionView({
-      'session_id'  : session_id
+      model: session
     });
     this._viewSection(this.dom.session_view);
   },
@@ -3047,7 +3052,7 @@ var MainView = Backbone.NativeView.extend({
 });
 module.exports = app.MainView = MainView;
 
-},{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../models/preferences":9,"../models/session":10,"./dashboard":16,"./indicators":17,"./new-session":19,"./preferences":20,"./session-summary":21,"./sessions":23}],19:[function(require,module,exports){
+},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../models/preferences":9,"../models/session":10,"./dashboard":16,"./indicators":17,"./new-session":19,"./preferences":20,"./session":22,"./session-summary":21,"./sessions":23}],19:[function(require,module,exports){
 /* jshint strict: true, node: true */
 
 var Backbone            = require('../lib/exoskeleton');
@@ -3275,7 +3280,7 @@ var SessionSummaryView = Backbone.NativeView.extend({
   tagName: 'li',
 
   events: {
-    'click .session-summary-click'  : 'showSessionDetails'
+    // 'click .session-summary-click'  : 'showSessionDetails'
   },
 
   dom: {},
@@ -3368,7 +3373,8 @@ var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
 var app                 = app || {};
-app.DashboardCollection = require('../collections/dashboard');
+// app.DashboardCollection = require('../collections/dashboard');
+app.SessionsCollection = require('../collections/sessions');
 app.SessionSummaryView  = require('../views/session-summary');
 
 var SessionsView = Backbone.NativeView.extend({
@@ -3380,7 +3386,8 @@ var SessionsView = Backbone.NativeView.extend({
 
   initialize: function() {
     'use strict';
-    this.collection = app.DashboardCollection;
+    // this.collection = app.DashboardCollection;
+    this.collection = app.SessionsCollection;
     this.collection.fetch();
     this.render();
 
@@ -3401,15 +3408,16 @@ var SessionsView = Backbone.NativeView.extend({
     'use strict';
     this.el.innerHTML = '';
     this.collection.forEach(function(item) {
-      if (item.get('type') === 'session') {
+/*      if (item.get('type') === 'session') {
         this.renderItem(item);
-      }
+      }*/
+      this.renderItem(item);
     }, this);
   },
 });
 module.exports = app.SessionsView = SessionsView;
 
-},{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../views/session-summary":21}],24:[function(require,module,exports){
+},{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../views/session-summary":21}],24:[function(require,module,exports){
 // Simple JavaScript Templating
 // Paul Miller (http://paulmillr.com)
 // http://underscorejs.org

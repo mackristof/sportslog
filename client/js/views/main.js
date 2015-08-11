@@ -9,24 +9,26 @@ app.IndicatorsView        = require('./indicators');
 app.DashboardView         = require('./dashboard');
 app.PreferencesView       = require('./preferences');
 app.SessionsView          = require('./sessions');
-app.SessionView           = require('./sessions');
+app.SessionView           = require('./session');
 app.NewSession            = require('./new-session');
 app.SessionSummary        = require('./session-summary');
 app.PreferencesModel      = require('../models/preferences');
 app.SessionModel          = require('../models/session');
 app.DashboardModel        = require('../models/dashboard-entry');
-// app.SessionsCollection    = require('../collections/sessions');
+app.SessionsCollection    = require('../collections/sessions');
 app.DashboardCollection   = require('../collections/dashboard');
 
 var MainView = Backbone.NativeView.extend({
   el: '#app',
 
   events: {
-    'click #new-session-btn'  : 'showNewSession',
-    'click #dashboard-btn'    : 'showDashboard',
-    'click #sessions-btn'     : 'showSessions',
-    'click #reports-btn'      : 'showReports',
-    'click #preferences-btn'  : 'showPreferences',
+    'click #new-session-btn'        : 'showNewSession',
+    'click #dashboard-btn'          : 'showDashboard',
+    'click #sessions-btn'           : 'showSessions',
+    'click #reports-btn'            : 'showReports',
+    'click #preferences-btn'        : 'showPreferences',
+
+    'click .session-summary-click'  : 'showSession'
   },
 
   dom: {
@@ -98,10 +100,13 @@ var MainView = Backbone.NativeView.extend({
     this._viewSection(this.dom.sessions_view);
   },
 
-  showSession: function(session_id) {
+  showSession: function(el) {
     'use strict';
+    console.log('show session details', el);
+    var id = app.SessionsCollection.get(el.target.getAttribute('session_id'));
+    var session = app.SessionsCollection.get(id);
     new app.SessionView({
-      'session_id'  : session_id
+      model: session
     });
     this._viewSection(this.dom.session_view);
   },
