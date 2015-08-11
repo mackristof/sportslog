@@ -73,14 +73,6 @@ var MainView = Backbone.NativeView.extend({
     console.log('got something on Dashboard', ev, res);
   },
 
-  //
-  // // render: function() {
-  //   // 'use strict';
-  //   // this._viewSection(this.active_section);
-  //   // console.log('collection', this.collection);
-    // this.collection.fetch();
-  // },
-
   showNewSession: function() {
     'use strict';
     // var model = app.SessionsCollection.create({});
@@ -103,11 +95,11 @@ var MainView = Backbone.NativeView.extend({
   showSession: function(el) {
     'use strict';
     console.log('show session details', el);
-    var id = app.SessionsCollection.get(el.target.getAttribute('session_id'));
-    var session = app.SessionsCollection.get(id);
+    var session = app.SessionsCollection.get(el.target.getAttribute('session_id'));
+    var full_session = session.fetch();
     console.log('got session to display', session);
     new app.SessionView({
-      model: session
+      model: full_session
     });
     this._viewSection(this.dom.session_view);
   },

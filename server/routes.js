@@ -26,13 +26,13 @@ router.get('/', function(req, res) {
     });*/
 });
 
-// PTU '/': ??
+// PUT '/': ??
 router.put('/', function(req, res) {
   'use strict';
   console.log('got put /', req, res);
 });
 
-// GET 'sessions': get all stored sessions
+// GET 'sessions': get all stored sessions, truncated (without gps cooordinates)
 router.get('/sessions', function(req, res, next) {
   'use strict';
   Sessions.all(function(err, data) {
@@ -43,6 +43,19 @@ router.get('/sessions', function(req, res, next) {
     }
   });
 });
+
+// GET 'sessions/:id': get one complete session
+router.get('/sessions/:id', function(req, res, next) {
+  'use strict';
+  Sessions.one(function(err, data) {
+    if (err !== null) {
+      next(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
+
 
 // POST 'sessions': save a new session
 router.post('/sessions', function(req, res, next) {
