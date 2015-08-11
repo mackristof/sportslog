@@ -3315,6 +3315,7 @@ var SessionSummaryView = Backbone.NativeView.extend({
     var speed = utils.Helpers.formatSpeed(app.Preferences.get('unit'), this.model.get('avg_speed'));
     this.el.innerHTML = this.template({
       'session_cid' : this.model.get('session_cid'),
+      'collection'  : this.model.get('collection'),
       'date'        : utils.Helpers.formatDate(this.model.get('date')),
       'calories'    : this.model.get('calories'),
       'distance'    : dist.value + ' ' + dist.unit,
@@ -3426,6 +3427,7 @@ var SessionsView = Backbone.NativeView.extend({
 
   renderItem: function(item) {
     'use strict';
+    item.set('session_cid', item.cid);
     var view = new app.SessionSummaryView({
       model: item
     });

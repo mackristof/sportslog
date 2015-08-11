@@ -28,6 +28,7 @@ var SessionsView = Backbone.NativeView.extend({
 
   renderItem: function(item) {
     'use strict';
+    item.set('session_cid', item.cid);
     var view = new app.SessionSummaryView({
       model: item
     });
