@@ -241,21 +241,21 @@
   <script type="text/javascript" src="js/views/main.js"></script> -->
 
   <script type="text/template" id="session-summary-template">
-  <a href="#" class="session-summary-click" session_id="<%= session_id %>">
-  <div class="summary-container" session_id="<%= session_id %>">
-    <img src="img/activities/<%= activity %>.svg" alt="<%= activity %>" class="activity" session_id="<%= session_id %>">
-    <div class="time information" session_id="<%= session_id %>"><%= date %></div>
-    <div class="distance information" session_id="<%= session_id %>">
-      <span class="fa fa-road" session_id="<%= session_id %>"></span>
-      <span session_id="<%= session_id %>"><%= distance %></span>
+  <a href="#" class="session-summary-click" session_id="<%= session_cid %>">
+  <div class="summary-container" session_id="<%= session_cid %>">
+    <img src="img/activities/<%= activity %>.svg" alt="<%= activity %>" class="activity" session_id="<%= session_cid %>">
+    <div class="time information" session_id="<%= session_cid %>"><%= date %></div>
+    <div class="distance information" session_id="<%= session_cid %>">
+      <span class="fa fa-road" session_id="<%= session_cid %>"></span>
+      <span session_id="<%= session_cid %>"><%= distance %></span>
     </div>
-    <div class="duration information" session_id="<%= session_id %>">
-      <span session_id="<%= session_id %>">&#9201;</span>
-      <span session_id="<%= session_id %>"><%= duration %></span>
+    <div class="duration information" session_id="<%= session_cid %>">
+      <span session_id="<%= session_cid %>">&#9201;</span>
+      <span session_id="<%= session_cid %>"><%= duration %></span>
     </div>
-    <div class="speed information" session_id="<%= session_id %>">
-      <span class="fa fa-tachometer" session_id="<%= session_id %>"></span>
-      <span session_id="<%= session_id %>"><%= avg_speed %></span>
+    <div class="speed information" session_id="<%= session_cid %>">
+      <span class="fa fa-tachometer" session_id="<%= session_cid %>"></span>
+      <span session_id="<%= session_cid %>"><%= avg_speed %></span>
     </div>
   </div>
   </a>
@@ -292,27 +292,27 @@
   <div class="width-half text-small align-left">Distance
     <span id="session-date" class="align-right"><%= distance %></span>
   </div>
-  
+
   <div class="width-half text-small align-left">Duration
     <span id="session-date" class="align-right"><%= duration %></span>
   </div>
-  
+
   <div class="width-half text-small align-left">Altitude max.
     <span id="session-date" class="align-right"><%= alt_max %></span>
   </div>
-  
+
   <div class="width-half text-small align-left">Altitude min.
     <span id="session-date" class="align-right"><%= alt_min %></span>
   </div>
-  
+
   <div class="width-half text-small align-left">Average speed.
     <span id="session-date" class="align-right"><%= avg_speed %></span>
   </div>
-  
+
   <div class="width-half text-small align-left">Calories
     <span id="session-date" class="align-right"><%= calories %></span>
   </div>
-  
+
   </div>
 
 

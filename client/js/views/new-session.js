@@ -89,23 +89,32 @@ var NewSessionView = Backbone.NativeView.extend({
 
   addNewSession: function() {
     'use strict';
-    console.log('addNewSession', this.model.attributes);
+    console.log('addNewSession', this.model);
     var s = app.SessionsCollection.add(this.model.attributes);
     s.save();
-    var d = this.model.attributes;
-    if (d.data) {
-      delete d.data;
-    }
-    d.type = 'session';
-    app.DashboardCollection.create(d);
-/*    app.DashboardCollection.create({
-      'date'      : this.model.get('date'),
-      'time'      : utils.Helpers.formatTime(this.model.get('date')),
-      'activity'  : this.model.get('activity'),
-      'distance'  : this.model.get('distance'),
-      'duration'  : this.model.get('duration'),
-      'type'      : 'session'
-    });*/
+    console.log('s', s);
+    // var d = s;
+    var d = new app.DashboardEntryModel();
+    console.log('d', d);
+    d.set({
+      'date'        : s.get('date'),
+      'name'        : s.get('name'),
+      'duration'    : s.get('duration'),
+      'distance'    : s.get('distance'),
+      'time'        : utils.Helpers.formatTime(s.get('date')),
+      'activity'    : s.get('activity'),
+      'calories'    : s.get('calories'),
+      'avg_speed'   : s.get('avg_speed'),
+      'alt_max'     : s.get('alt_max'),
+      'alt_min'     : s.get('alt_min'),
+      'climb_pos'   : s.get('climb_pos'),
+      'climb_neg'   : s.get('climb_neg'),
+      'type'        : 'session',
+      'session_cid' : s.cid
+    });
+    var dd = app.DashboardCollection.add(d.attributes);
+    dd.save();
+    console.log('dd', dd);
   },
 
   newSessionData: function() {

@@ -2912,8 +2912,8 @@ var MainView = Backbone.NativeView.extend({
     this.showDashboard();
 
     // this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
-    // this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
-    // this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
+    this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
+    this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
 
     new app.IndicatorsView();
     new app.DashboardView();
@@ -2967,6 +2967,7 @@ var MainView = Backbone.NativeView.extend({
     console.log('show session details', el);
     var id = app.SessionsCollection.get(el.target.getAttribute('session_id'));
     var session = app.SessionsCollection.get(id);
+    console.log('got session to display', session);
     new app.SessionView({
       model: session
     });
@@ -3144,23 +3145,32 @@ var NewSessionView = Backbone.NativeView.extend({
 
   addNewSession: function() {
     'use strict';
-    console.log('addNewSession', this.model.attributes);
+    console.log('addNewSession', this.model);
     var s = app.SessionsCollection.add(this.model.attributes);
     s.save();
-    var d = this.model.attributes;
-    if (d.data) {
-      delete d.data;
-    }
-    d.type = 'session';
-    app.DashboardCollection.create(d);
-/*    app.DashboardCollection.create({
-      'date'      : this.model.get('date'),
-      'time'      : utils.Helpers.formatTime(this.model.get('date')),
-      'activity'  : this.model.get('activity'),
-      'distance'  : this.model.get('distance'),
-      'duration'  : this.model.get('duration'),
-      'type'      : 'session'
-    });*/
+    console.log('s', s);
+    // var d = s;
+    var d = new app.DashboardEntryModel();
+    console.log('d', d);
+    d.set({
+      'date'        : s.get('date'),
+      'name'        : s.get('name'),
+      'duration'    : s.get('duration'),
+      'distance'    : s.get('distance'),
+      'time'        : utils.Helpers.formatTime(s.get('date')),
+      'activity'    : s.get('activity'),
+      'calories'    : s.get('calories'),
+      'avg_speed'   : s.get('avg_speed'),
+      'alt_max'     : s.get('alt_max'),
+      'alt_min'     : s.get('alt_min'),
+      'climb_pos'   : s.get('climb_pos'),
+      'climb_neg'   : s.get('climb_neg'),
+      'type'        : 'session',
+      'session_cid' : s.cid
+    });
+    var dd = app.DashboardCollection.add(d.attributes);
+    dd.save();
+    console.log('dd', dd);
   },
 
   newSessionData: function() {
@@ -3304,7 +3314,7 @@ var SessionSummaryView = Backbone.NativeView.extend({
     var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), this.model.get('distance'), false);
     var speed = utils.Helpers.formatSpeed(app.Preferences.get('unit'), this.model.get('avg_speed'));
     this.el.innerHTML = this.template({
-      'session_id'  : this.model.get('_id'),
+      'session_cid' : this.model.get('session_cid'),
       'date'        : utils.Helpers.formatDate(this.model.get('date')),
       'calories'    : this.model.get('calories'),
       'distance'    : dist.value + ' ' + dist.unit,
@@ -3314,20 +3324,8 @@ var SessionSummaryView = Backbone.NativeView.extend({
     });
     return this;
   },
-
-  showSessionDetails: function(session) {
-    'use strict';
-    console.log('I want to see details of', session.target.getAttribute('session_id'));
-    // this.trigger('selected', session.target.getAttribute('session_id'));
-    var session_model = app.SessionsCollection.get(session.target.getAttribute('session_id'));
-    console.log('got session to display', session_model);
-    new app.SessionView({
-      'session_id' : session_model
-    });
-
-  }
 });
-Backbone.utils.extend(SessionSummaryView, Backbone.events);
+// Backbone.utils.extend(SessionSummaryView, Backbone.events);
 module.exports = app.SessionSummaryView = SessionSummaryView;
 
 },{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/preferences":9,"../utils/helpers":13,"./session":22,"microtemplates":24}],22:[function(require,module,exports){
@@ -3357,11 +3355,41 @@ var SessionView = Backbone.NativeView.extend({
   initialize: function() {
     'use strict';
     console.log('SessionView initialized', this);
+    this.render();
   },
 
   render: function() {
     'use strict';
+    var dist = utils.Helpers.formatDistance(
+        app.Preferences.get('unit'),
+        this.model.get('distance'),
+        false);
+    var speed = utils.Helpers.formatSpeed(
+        app.Preferences.get('unit'),
+        this.model.get('avg_speed'));
+    var alt_max = utils.Helpers.formatDistance(
+        app.Preferences.get('unit'),
+        this.model.get('alt_max'),
+        false);
+    var alt_min = utils.Helpers.formatDistance(
+        app.Preferences.get('unit'),
+        this.model.get('alt_min'),
+        false);
 
+    this.el.innerHTML = this.template({
+      'session_cid' : this.model.get('session_cid'),
+      'date'        : utils.Helpers.formatDate(this.model.get('date')),
+      'time'        : utils.Helpers.formatTime(this.model.get('date')),
+      'calories'    : this.model.get('calories'),
+      'distance'    : dist.value + ' ' + dist.unit,
+      'duration'    : utils.Helpers.formatDuration(this.model.get('duration')),
+      'avg_speed'   : speed.value + ' ' + speed.unit,
+      'alt_max'     : alt_max.value + ' ' + alt_max.unit,
+      'alt_min'     : alt_min.value + ' ' + alt_min.unit,
+      'activity'    : this.model.get('activity')
+    });
+
+    // this.el.innerHTML = this.template(this.model.toJSON());
     return this;
   },
 });

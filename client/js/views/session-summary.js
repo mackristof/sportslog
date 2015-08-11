@@ -40,7 +40,7 @@ var SessionSummaryView = Backbone.NativeView.extend({
     var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), this.model.get('distance'), false);
     var speed = utils.Helpers.formatSpeed(app.Preferences.get('unit'), this.model.get('avg_speed'));
     this.el.innerHTML = this.template({
-      'session_id'  : this.model.get('_id'),
+      'session_cid' : this.model.get('session_cid'),
       'date'        : utils.Helpers.formatDate(this.model.get('date')),
       'calories'    : this.model.get('calories'),
       'distance'    : dist.value + ' ' + dist.unit,
@@ -50,18 +50,6 @@ var SessionSummaryView = Backbone.NativeView.extend({
     });
     return this;
   },
-
-  showSessionDetails: function(session) {
-    'use strict';
-    console.log('I want to see details of', session.target.getAttribute('session_id'));
-    // this.trigger('selected', session.target.getAttribute('session_id'));
-    var session_model = app.SessionsCollection.get(session.target.getAttribute('session_id'));
-    console.log('got session to display', session_model);
-    new app.SessionView({
-      'session_id' : session_model
-    });
-
-  }
 });
-Backbone.utils.extend(SessionSummaryView, Backbone.events);
+// Backbone.utils.extend(SessionSummaryView, Backbone.events);
 module.exports = app.SessionSummaryView = SessionSummaryView;

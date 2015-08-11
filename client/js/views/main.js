@@ -50,8 +50,8 @@ var MainView = Backbone.NativeView.extend({
     this.showDashboard();
 
     // this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
-    // this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
-    // this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
+    this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
+    this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
 
     new app.IndicatorsView();
     new app.DashboardView();
@@ -105,6 +105,7 @@ var MainView = Backbone.NativeView.extend({
     console.log('show session details', el);
     var id = app.SessionsCollection.get(el.target.getAttribute('session_id'));
     var session = app.SessionsCollection.get(id);
+    console.log('got session to display', session);
     new app.SessionView({
       model: session
     });
