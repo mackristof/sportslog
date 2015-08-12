@@ -1,6 +1,5 @@
 /* jshint strict: true, node: true */
 'use strict';
-
 var Backbone  = require('./lib/exoskeleton');
 Backbone.ajax = require('./lib/backbone.nativeajax');
 

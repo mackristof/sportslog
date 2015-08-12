@@ -1,7 +1,6 @@
 /* jshint strict: true, node: true */
 'use strict';
 var Backbone            = require('../lib/exoskeleton');
-require('../lib/backbone.nativeview');
 
 // var DashboardCollection = require('../collections/dashboard');
 var SessionsCollection = require('../collections/sessions');

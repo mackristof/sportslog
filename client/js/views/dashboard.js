@@ -1,13 +1,12 @@
 /* jshint strict: true, node: true */
 'use strict';
 var Backbone            = require('../lib/exoskeleton');
-require('../lib/backbone.nativeview');
 // var Template            = require('microtemplates');
 
 var DashboardCollection   = require('../collections/dashboard');
-var DashboardEntryModel   = require('../models/dashboard-entry');
+// var DashboardEntryModel   = require('../models/dashboard-entry');
 var SessionSummaryView    = require('../views/session-summary');
-var DashnoardMessageView  = require('../views/dashboard-message');
+var DashboardMessageView  = require('../views/dashboard-message');
 
 var DashboardView = Backbone.NativeView.extend({
   el: '#dashboard',

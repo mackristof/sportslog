@@ -2,7 +2,6 @@
 'use strict';
 
 var Backbone            = require('../lib/exoskeleton');
-require('../lib/backbone.nativeview');
 
 var Preferences         = require('../models/preferences');
 // var SessionModel        = require('../models/session');

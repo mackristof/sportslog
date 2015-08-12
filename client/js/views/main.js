@@ -2,7 +2,6 @@
 'use strict';
 
 var Backbone              = require('../lib/exoskeleton');
-require('../lib/backbone.nativeview');
 // var Template              = require('microtemplates');
 
 var IndicatorsView        = require('./indicators');

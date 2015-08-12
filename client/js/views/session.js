@@ -1,10 +1,9 @@
 /* jshint strict: true, node: true */
 'use strict';
 var Backbone            = require('../lib/exoskeleton');
-require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
 
-var SessionsCollection  = require('../collections/sessions');
+// var SessionsCollection  = require('../collections/sessions');
 var Preferences         = require('../models/preferences');
 
 var utils               = utils || {};
