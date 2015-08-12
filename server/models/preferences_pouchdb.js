@@ -11,33 +11,15 @@ var Preferences = function() {
     db.allDocs({
       include_docs: true,
       attachments:true
-    }, function(err, res) {
-      if (err !== null) {
-        callback(err, null);
-      } else {
-        var preferences = {};
-        if (res.rows.length !== 0) {
-          preferences = res.rows[0].doc;
-        } else {
-          preferences = {
-            language  : 'en',
-            unit      : 'metric',
-            gender    : 'male',
-            birthyear : '1970'
-          };
-        }
-        console.log('sending preferences', preferences);
-        callback(null, preferences);
-      }
-    });
+    }, callback);
   };
 
-  var add = function(bookmark, callback) {
-    db.post(bookmark, callback);
+  var add = function(doc, callback) {
+    db.post(doc, callback);
   };
 
-  var update = function(preferences, callback) {
-    db.put(preferences, callback).then(function() {
+  var update = function(doc, callback) {
+    db.put(doc, callback).then(function() {
       // success
     }).catch(function(err) {
       // error

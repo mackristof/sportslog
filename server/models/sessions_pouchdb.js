@@ -11,38 +11,15 @@ var Sessions = function() {
     db.allDocs({
       include_docs: true,
       attachments:true
-    }, function(err, res) {
-      if (err !== null) {
-        callback(err, null);
-      } else {
-        console.log('got sessions doc', res);
-        var sessions = [];
-        var session;
-        if (res.rows.length !== 0) {
-          for (var i = 0; i < res.rows.length; i++) {
-            session = res.rows[i].doc;
-            /* removing the data attributes so that collection is lighter when transfered in its ine=tegrality */
-            delete session.data;
-            sessions[i] = res.rows[i].doc;
-          }
-        }
-        callback(null, sessions);
-      }
-    });
+    }, callback);
   };
 
-  var add = function(session, callback) {
-    db.post(session, callback);
+  var add = function(doc, callback) {
+    db.post(doc, callback);
   };
 
   var one = function(id, callback) {
-    db.get(id, function(err, doc) {
-      if (err) {
-        callback(err);
-      } else {
-        callback(doc);
-      }
-    });
+    db.get(id, callback);
   };
 
   var remove = function(id, callback) {

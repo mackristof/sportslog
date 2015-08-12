@@ -11,20 +11,7 @@ var Dashboard = function() {
     db.allDocs({
       include_docs: true,
       attachments:true
-    }, function(err, res) {
-      if (err !== null) {
-        callback(err, null);
-      } else {
-        console.log(res);
-        var dashboard = [];
-        if (res.rows.length !== 0) {
-          for (var i = 0; i < res.rows.length; i++) {
-            dashboard[i] = res.rows[i].doc;
-          }
-        }
-        callback(null, dashboard);
-      }
-    });
+    }, callback);
   };
 
   var add = function(bookmark, callback) {
