@@ -2,8 +2,6 @@
 'use strict';
 var Backbone  = require('../lib/exoskeleton');
 
-var app       = app || {};
-
 var DashboardEntryModel = Backbone.Model.extend({
 /*  defaults: {
     date      : new Date(),
@@ -20,4 +18,4 @@ var DashboardEntryModel = Backbone.Model.extend({
     // console.log('DashboardEntryModel initialize', this);
   }
 });
-module.exports = app.DashboardEntryModel = DashboardEntryModel;
+module.exports = DashboardEntryModel;

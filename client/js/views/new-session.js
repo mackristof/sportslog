@@ -4,12 +4,11 @@
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
-var app                 = app || {};
-app.Preferences         = require('../models/preferences');
-app.SessionModel        = require('../models/session');
-app.DashboardEntryModel = require('../models/dashboard-entry');
-app.SessionsCollection  = require('../collections/sessions');
-app.DashboardCollection = require('../collections/dashboard');
+var Preferences         = require('../models/preferences');
+// var SessionModel        = require('../models/session');
+var DashboardEntryModel = require('../models/dashboard-entry');
+var SessionsCollection  = require('../collections/sessions');
+var DashboardCollection = require('../collections/dashboard');
 
 var utils               = utils || {};
 utils.Map               = require('../utils/map');
@@ -45,7 +44,7 @@ var NewSessionView = Backbone.NativeView.extend({
     map         : document.getElementById('new-map-container')
   },
 
-  unit: app.Preferences.get('unit'),
+  unit: Preferences.get('unit'),
 
   initialize: function() {
     console.log('NewSessionView initialize', this.unit);
@@ -86,11 +85,11 @@ var NewSessionView = Backbone.NativeView.extend({
 
   addNewSession: function() {
     console.log('addNewSession', this.model);
-    var s = app.SessionsCollection.add(this.model.attributes);
+    var s = SessionsCollection.add(this.model.attributes);
     s.save();
     console.log('s', s);
     // var d = s;
-    var d = new app.DashboardEntryModel();
+    var d = new DashboardEntryModel();
     console.log('d', d);
     d.set({
       'date'        : s.get('date'),
@@ -108,7 +107,7 @@ var NewSessionView = Backbone.NativeView.extend({
       'type'        : 'session',
       'session_cid' : s.cid
     });
-    var dd = app.DashboardCollection.add(d.attributes);
+    var dd = DashboardCollection.add(d.attributes);
     dd.save();
     console.log('dd', dd);
   },
@@ -135,7 +134,7 @@ var NewSessionView = Backbone.NativeView.extend({
     this.dom.date.value      = utils.Helpers.formatDate(data.date);
     this.dom.time.value      = utils.Helpers.formatTime(data.date);
     // TODO manage distance and speed calculation from preferences choices
-    var distance = utils.Helpers.formatDistance(app.Preferences.get('unit'), data.distance, false);
+    var distance = utils.Helpers.formatDistance(Preferences.get('unit'), data.distance, false);
     this.dom.distance.value  = distance.value + ' ' + distance.unit;
     this.dom.duration.value  = utils.Helpers.formatDuration(data.duration).value;
     this.dom.alt_max.value   = utils.Helpers.formatDistance(this.unit, data.alt_max, false).value;
@@ -152,4 +151,4 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
 });
-module.exports = app.NewSessionView = NewSessionView;
+module.exports = NewSessionView;

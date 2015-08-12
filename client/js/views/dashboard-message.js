@@ -4,9 +4,6 @@ var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 // var Template            = require('microtemplates');
 
-var app                 = app || {};
-app.DashboardCollection = require('../collections/dashboard');
-
 var MessageView = Backbone.NativeView.extend({
   tagName: 'li',
 
@@ -27,4 +24,4 @@ var MessageView = Backbone.NativeView.extend({
     return this;
 }
 });
-module.exports = app.MessageView = MessageView;
+module.exports = MessageView;

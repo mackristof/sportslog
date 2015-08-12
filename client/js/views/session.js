@@ -4,9 +4,8 @@ var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
 
-var app                 = app || {};
-app.SessionsCollection  = require('../collections/sessions');
-app.Preferences         = require('../models/preferences');
+var SessionsCollection  = require('../collections/sessions');
+var Preferences         = require('../models/preferences');
 
 var utils               = utils || {};
 utils.Helpers           = require('../utils/helpers');
@@ -29,18 +28,18 @@ var SessionView = Backbone.NativeView.extend({
 
   render: function() {
     var dist = utils.Helpers.formatDistance(
-        app.Preferences.get('unit'),
+        Preferences.get('unit'),
         this.model.get('distance'),
         false);
     var speed = utils.Helpers.formatSpeed(
-        app.Preferences.get('unit'),
+        Preferences.get('unit'),
         this.model.get('avg_speed'));
     var alt_max = utils.Helpers.formatDistance(
-        app.Preferences.get('unit'),
+        Preferences.get('unit'),
         this.model.get('alt_max'),
         false);
     var alt_min = utils.Helpers.formatDistance(
-        app.Preferences.get('unit'),
+        Preferences.get('unit'),
         this.model.get('alt_min'),
         false);
 
@@ -61,4 +60,4 @@ var SessionView = Backbone.NativeView.extend({
     return this;
   },
 });
-module.exports = app.SessionView = SessionView;
+module.exports = SessionView;

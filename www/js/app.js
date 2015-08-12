@@ -1,59 +1,54 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /* jshint strict: true, browser: true, node: true */
+'use strict';
 
-var Backbone    = require('./lib/exoskeleton');
+var Backbone  = require('./lib/exoskeleton');
 
-var app         = app || {};
-app.Router      = require('./router');
-// app.MainView    =require('./views/main');
 
 document.addEventListener('DOMContentLoaded', function() {
-  'use strict';
+  var Router = require('./router');
   console.log('launching');
-  this.router = new app.Router();
+  this.router = Router;
   Backbone.history.start();
-  // new app.MainView({});
 }, false);
 
 },{"./lib/exoskeleton":6,"./router":11}],2:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 
 var Backbone            = require('../lib/exoskeleton');
 
-var app                 = app || {};
-app.DashboardEntryModel = require('../models/dashboard-entry');
+var DashboardEntryModel = require('../models/dashboard-entry');
 
 var DashboardCollection = Backbone.Collection.extend({
-  model: app.DashboardEntryModel,
+  model: DashboardEntryModel,
 
   url: '/dashboard',
 
   initialize: function() {
-    'use strict';
     console.log('DashboardEntriesCollection initialize');
   }
 });
-module.exports = app.DashboardCollection = new DashboardCollection();
+module.exports = new DashboardCollection();
 
 },{"../lib/exoskeleton":6,"../models/dashboard-entry":8}],3:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 
 var Backbone      = require('../lib/exoskeleton');
 
-var app           = app || {};
-app.SessionModel  = require('../models/session');
+var SessionModel  = require('../models/session');
 
 var SessionsCollection = Backbone.Collection.extend({
-  model: app.SessionModel,
+  model: SessionModel,
 
   url: '/sessions',
 
   initialize: function() {
-    'use strict';
     console.log('SessionsCollection initialize');
   },
 });
-module.exports = app.SessionsCollection =  new SessionsCollection();
+module.exports = new SessionsCollection();
 
 },{"../lib/exoskeleton":6,"../models/session":10}],4:[function(require,module,exports){
 // Backbone.NativeAjax.js 0.4.1
@@ -2147,9 +2142,8 @@ t.removeEventParent(this),o.LayerGroup.prototype.removeLayer.call(this,t),this.f
 return t.watch?this._locationWatchId=navigator.geolocation.watchPosition(e,i,t):navigator.geolocation.getCurrentPosition(e,i,t),this},stopLocate:function(){return navigator.geolocation&&navigator.geolocation.clearWatch(this._locationWatchId),this._locateOptions&&(this._locateOptions.setView=!1),this},_handleGeolocationError:function(t){var e=t.code,i=t.message||(1===e?"permission denied":2===e?"position unavailable":"timeout");this._locateOptions.setView&&!this._loaded&&this.fitWorld(),this.fire("locationerror",{code:e,message:"Geolocation error: "+i+"."})},_handleGeolocationResponse:function(t){var e=t.coords.latitude,i=t.coords.longitude,n=new o.LatLng(e,i),s=n.toBounds(t.coords.accuracy),r=this._locateOptions;if(r.setView){var a=this.getBoundsZoom(s);this.setView(n,r.maxZoom?Math.min(a,r.maxZoom):a)}var h={latlng:n,bounds:s,timestamp:t.timestamp};for(var l in t.coords)"number"==typeof t.coords[l]&&(h[l]=t.coords[l]);this.fire("locationfound",h)}})}(window,document);
 },{}],8:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone  = require('../lib/exoskeleton');
-
-var app       = app || {};
 
 var DashboardEntryModel = Backbone.Model.extend({
 /*  defaults: {
@@ -2164,17 +2158,15 @@ var DashboardEntryModel = Backbone.Model.extend({
   idAttribute: '_id',
 
   initialize: function() {
-  'use strict';
     // console.log('DashboardEntryModel initialize', this);
   }
 });
-module.exports = app.DashboardEntryModel = DashboardEntryModel;
+module.exports = DashboardEntryModel;
 
 },{"../lib/exoskeleton":6}],9:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone          = require('../lib/exoskeleton');
-
-var app               = app || {};
 
 var PreferencesModel = Backbone.Model.extend({
 
@@ -2183,33 +2175,28 @@ var PreferencesModel = Backbone.Model.extend({
   idAttribute: '_id',
 
   initialize: function() {
-    'use strict';
     console.log('PreferencesModel initialize', this);
     // this.save();
   }
 });
-module.exports = app.PreferencesModel = new PreferencesModel({parse: true});
+module.exports = new PreferencesModel({parse: true});
 
 },{"../lib/exoskeleton":6}],10:[function(require,module,exports){
 /* jshint strict: true, node: true */
-
+'use strict';
 var Backbone  = require('../lib/exoskeleton');
 
 var utils     = utils || {};
 utils.GPX     = require('../utils/gpx');
 
-var app = app || {};
-
 var SessionModel = Backbone.Model.extend({
   idAttribute: '_id',
 
   initialize: function() {
-    'use strict';
     // console.log('SessionModel initialize', this);
   },
 
   importFile: function(file) {
-    'use strict';
     var that = this;
     utils.GPX.importFile(file, function(res) {
       if (res.error) {
@@ -2222,16 +2209,16 @@ var SessionModel = Backbone.Model.extend({
     });
   }
 });
-module.exports = app.SessionModel = SessionModel;
+module.exports = SessionModel;
 
 },{"../lib/exoskeleton":6,"../utils/gpx":12}],11:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 
 var Backbone  = require('./lib/exoskeleton');
 Backbone.ajax = require('./lib/backbone.nativeajax');
 
-var app       = app || {};
-app.MainView  = require('./views/main');
+var MainView  = require('./views/main');
 
 var Router = Backbone.Router.extend({
   routes: {
@@ -2239,20 +2226,19 @@ var Router = Backbone.Router.extend({
   },
 
   main: function() {
-    'use strict';
     console.log('starting MainView');
-    new app.MainView({});
+    new MainView({});
   }
 });
-module.exports = app.Router = Router;
+module.exports = new Router();
 
 },{"./lib/backbone.nativeajax":4,"./lib/exoskeleton":6,"./views/main":18}],12:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 
 var utils = utils || {};
 
 var GPX = function() {
-  'use strict';
   var olat      = null;
   var olon      = null;
   var distance  = 0;
@@ -2489,11 +2475,11 @@ module.exports = utils.GPX = GPX;
 
 },{}],13:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 
 var utils = utils || {};
 
 var Helpers = function() {
-  'use strict';
 
   /*
    * param choice: String User choice over unit display.
@@ -2612,13 +2598,13 @@ module.exports = utils.Helpers = Helpers;
 
 },{}],14:[function(require,module,exports){
 /* jshint strict: true, bitwise: false, node: true */
+'use strict';
 
 var L = require('../lib/leaflet');
 
 var utils = utils || {};
 
 var LeafletMap = function() {
-  'use strict';
   var map;
 
   var map_options = {
@@ -2700,12 +2686,10 @@ module.exports = utils.Map = LeafletMap;
 
 },{"../lib/leaflet":7}],15:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
-var Template            = require('microtemplates');
-
-var app                 = app || {};
-app.DashboardCollection = require('../collections/dashboard');
+// var Template            = require('microtemplates');
 
 var MessageView = Backbone.NativeView.extend({
   tagName: 'li',
@@ -2717,31 +2701,29 @@ var MessageView = Backbone.NativeView.extend({
   // template: Template('<img src="img/activities/<%= content.activity %>.svg" alt="running" class="activity"><div class="time"><%= content.date %></div><div class="distance"><span class="fa fa-road"></span><span><%= content.distance %></span></div><div class="duration"><span>&#9201;</span><span><%= content.duration %></span></div><div class="speed"><span class="fa fa-tachometer"></span><span><%= content.avg_speed %></span></div>'),
 
   initialize: function() {
-    'use strict';
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
 
   },
 
   render: function() {
-    'use strict';
     this.el.innerHTML = this.template(this.model.toJSON());
     return this;
 }
 });
-module.exports = app.MessageView = MessageView;
+module.exports = MessageView;
 
-},{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"microtemplates":24}],16:[function(require,module,exports){
+},{"../lib/backbone.nativeview":5,"../lib/exoskeleton":6}],16:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 // var Template            = require('microtemplates');
 
-var app                   = app || {};
-app.DashboardCollection   = require('../collections/dashboard');
-app.DashboardEntryModel   = require('../models/dashboard-entry');
-app.SessionSummaryView    = require('../views/session-summary');
-app.DashnoardMessageView  = require('../views/dashboard-message');
+var DashboardCollection   = require('../collections/dashboard');
+var DashboardEntryModel   = require('../models/dashboard-entry');
+var SessionSummaryView    = require('../views/session-summary');
+var DashnoardMessageView  = require('../views/dashboard-message');
 
 var DashboardView = Backbone.NativeView.extend({
   el: '#dashboard',
@@ -2751,8 +2733,7 @@ var DashboardView = Backbone.NativeView.extend({
   dom: {},
 
   initialize: function() {
-    'use strict';
-    this.collection = app.DashboardCollection;
+    this.collection = DashboardCollection;
     this.collection.fetch();
     this.render();
 
@@ -2762,22 +2743,20 @@ var DashboardView = Backbone.NativeView.extend({
   },
 
   addEntry: function() {
-    'use strict';
     this.collection.forEach(function(item) {
       this.renderItem(item);
     }, this);
   },
 
   renderItem: function(item) {
-    'use strict';
     var view;
     if (item.attributes.type === 'session') {
-      view = new app.SessionSummaryView({
+      view = new SessionSummaryView({
         model : item
       });
       this.el.appendChild(view.render().el);
     } else if (item.attributes.type === 'message') {
-      view = new app.DashboardMessageView({
+      view = new DashboardMessageView({
         model : item
       });
       this.el.appendChild(view.render().el);
@@ -2788,24 +2767,23 @@ var DashboardView = Backbone.NativeView.extend({
   },
 
   render: function() {
-    'use strict';
     this.el.innerHTML = '';
     this.collection.forEach(function(item) {
       this.renderItem(item);
     }, this);
   },
 });
-module.exports = app.DashboardView = DashboardView;
+module.exports = DashboardView;
 
 },{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../views/dashboard-message":15,"../views/session-summary":21}],17:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
 
-var app                 = app || {};
-app.DashboardCollection = require('../collections/dashboard');
-app.Preferences         = require('../models/preferences');
+var DashboardCollection = require('../collections/dashboard');
+var Preferences         = require('../models/preferences');
 
 var utils               = utils || {};
 utils.Helpers           = require('../utils/helpers');
@@ -2816,22 +2794,20 @@ var IndicatorsView = Backbone.NativeView.extend({
   template: Template(document.getElementById('indicators-template').innerHTML),
 
   initialize: function() {
-    'use strict';
 /*    this.model = app.IndicatorsModel;
     this.model.fetch();
     console.log('IndicatorsView is initalize', this);*/
-    this.collection = app.DashboardCollection;
+    this.collection = DashboardCollection;
     this.render();
 
     this.listenTo(this.collection, 'change', this.render);
     this.listenTo(this.collection, 'sync', this.render);
 
-    this.listenTo(app.Preferences, 'change', this.render);
+    this.listenTo(Preferences, 'change', this.render);
 
   },
 
   render: function() {
-    'use strict';
     // console.log('indicators view is rendered', this);
     var totals = {
       'sessions'  : 0,
@@ -2847,7 +2823,9 @@ var IndicatorsView = Backbone.NativeView.extend({
         totals.duration =+ item.get('duration');
       }
     });
-    var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), totals.distance, false);
+    var dist = utils.Helpers.formatDistance(
+        Preferences.get('unit'),
+        totals.distance, false);
     this.el.innerHTML = this.template({
       'sessions'  : totals.sessions,
       'calories'  : totals.calories,
@@ -2857,28 +2835,28 @@ var IndicatorsView = Backbone.NativeView.extend({
     return this;
   },
 });
-module.exports = app.IndicatorsView = IndicatorsView;
+module.exports = IndicatorsView;
 
 },{"../collections/dashboard":2,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/preferences":9,"../utils/helpers":13,"microtemplates":24}],18:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 
 var Backbone              = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 // var Template              = require('microtemplates');
 
-var app                   = app || {};
-app.IndicatorsView        = require('./indicators');
-app.DashboardView         = require('./dashboard');
-app.PreferencesView       = require('./preferences');
-app.SessionsView          = require('./sessions');
-app.SessionView           = require('./session');
-app.NewSession            = require('./new-session');
-app.SessionSummary        = require('./session-summary');
-app.PreferencesModel      = require('../models/preferences');
-app.SessionModel          = require('../models/session');
-app.DashboardModel        = require('../models/dashboard-entry');
-app.SessionsCollection    = require('../collections/sessions');
-app.DashboardCollection   = require('../collections/dashboard');
+var IndicatorsView        = require('./indicators');
+var DashboardView         = require('./dashboard');
+var PreferencesView       = require('./preferences');
+var SessionsView          = require('./sessions');
+var SessionView           = require('./session');
+var NewSession            = require('./new-session');
+// var SessionSummary        = require('./session-summary');
+var PreferencesModel      = require('../models/preferences');
+var SessionModel          = require('../models/session');
+var DashboardModel        = require('../models/dashboard-entry');
+var SessionsCollection    = require('../collections/sessions');
+var DashboardCollection   = require('../collections/dashboard');
 
 var MainView = Backbone.NativeView.extend({
   el: '#app',
@@ -2904,83 +2882,72 @@ var MainView = Backbone.NativeView.extend({
 
 
   initialize: function() {
-    'use strict';
     console.log('MainView initialize', this);
-    app.PreferencesModel.fetch();
+    PreferencesModel.fetch();
 
     this.active_section = this.dom.dashboard_view;
     this.showDashboard();
 
-    // this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
-    this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
-    this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
+    // this.listenTo(PreferencesModel, 'all', this.somethingOnPreferences);
+    this.listenTo(SessionsCollection, 'all', this.somethingOnSessions);
+    this.listenTo(DashboardCollection, 'all', this.somethingOnDashboard);
 
-    new app.IndicatorsView();
-    new app.DashboardView();
-    new app.SessionsView();
+    new IndicatorsView();
+    new DashboardView();
+    new SessionsView();
 
-    // console.log('app.SessionSummary', app.SessionSummary);
-    // this.listenTo(app.SessionSummary, 'selected', this.showSession);
+    // console.log('SessionSummary', SessionSummary);
+    // this.listenTo(SessionSummary, 'selected', this.showSession);
   },
   somethingOnPreferences: function(ev, res) {
-    'use strict';
     console.log('got something on Preferences', ev, res);
   },
   somethingOnSessions: function(ev, res) {
-    'use strict';
     console.log('got something on Sessions', ev, res);
   },
   somethingOnDashboard: function(ev, res) {
-    'use strict';
     console.log('got something on Dashboard', ev, res);
   },
 
   showNewSession: function() {
-    'use strict';
     // var model = app.SessionsCollection.create({});
-    new app.NewSession({
-      model: new app.SessionModel()
+    new NewSession({
+      model: new SessionModel()
     });
     this._viewSection(this.dom.new_session_view);
   },
 
   showDashboard: function() {
-    'use strict';
     this._viewSection(this.dom.dashboard_view);
   },
 
   showSessions: function() {
-    'use strict';
     this._viewSection(this.dom.sessions_view);
   },
 
   showSession: function(el) {
-    'use strict';
     console.log('show session details', el);
-    var session = app.SessionsCollection.get(el.target.getAttribute('session_id'));
+    var session = SessionsCollection.get(el.target.getAttribute('session_id'));
     var full_session = session.fetch();
     console.log('got session to display', session);
-    new app.SessionView({
+    new SessionView({
       model: full_session
     });
     this._viewSection(this.dom.session_view);
   },
 
   showReports: function() {
-    'use strict';
     this._viewSection(this.dom.reports_view);
   },
 
   showPreferences: function() {
-    'use strict';
-    new app.PreferencesView({
-      model: app.PreferencesModel
+    new PreferencesView({
+      model: PreferencesModel
     });
     this._viewSection(this.dom.preference_view);
   },
 
   _viewSection: function(section) {
-    'use strict';
     console.log('view section', section);
     if (section !== this.active_section) {
       this.active_section.setAttribute('disabled', 'true');
@@ -2990,11 +2957,10 @@ var MainView = Backbone.NativeView.extend({
   },
 
   sessionAdded: function(session) {
-    'use strict';
     console.log('sessionAdded', session);
     // console.log('app.SessionsCollection', app.SessionsCollection);
     // Render newly added session to its view
-    var view = new app.SessionsView({
+    var view = new SessionsView({
       model: session
     });
     this.dom.sessions_view.appendChild(view.render().el);
@@ -3005,7 +2971,7 @@ var MainView = Backbone.NativeView.extend({
     // Create a new Session Summary and add it to the Dashboard Collection
     session = session.attributes;
     // TODO quelle est la différence entre Collection.create et Collection.add
-    app.DashboardCollection.create( new app.DashboardModel({
+    DashboardCollection.create( new DashboardModel({
       date    : session.date,
       type    : 'session',
       content : {
@@ -3043,20 +3009,20 @@ var MainView = Backbone.NativeView.extend({
     this.dom.dashboard_view.appendChild(view.render().el);
   },*/
 });
-module.exports = app.MainView = MainView;
+module.exports = MainView;
 
-},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../models/preferences":9,"../models/session":10,"./dashboard":16,"./indicators":17,"./new-session":19,"./preferences":20,"./session":22,"./session-summary":21,"./sessions":23}],19:[function(require,module,exports){
+},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../models/preferences":9,"../models/session":10,"./dashboard":16,"./indicators":17,"./new-session":19,"./preferences":20,"./session":22,"./sessions":23}],19:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
-var app                 = app || {};
-app.Preferences         = require('../models/preferences');
-app.SessionModel        = require('../models/session');
-app.DashboardEntryModel = require('../models/dashboard-entry');
-app.SessionsCollection  = require('../collections/sessions');
-app.DashboardCollection = require('../collections/dashboard');
+var Preferences         = require('../models/preferences');
+// var SessionModel        = require('../models/session');
+var DashboardEntryModel = require('../models/dashboard-entry');
+var SessionsCollection  = require('../collections/sessions');
+var DashboardCollection = require('../collections/dashboard');
 
 var utils               = utils || {};
 utils.Map               = require('../utils/map');
@@ -3069,7 +3035,7 @@ var NewSessionView = Backbone.NativeView.extend({
     'click #select-activity'  : 'activitySelected',
     'change #import-file'     : 'enableImport',
     'click #import-btn'       : 'importFile',
-    'onsubmit #import-form'   : function() {'use strict'; return false;},
+    'onsubmit #import-form'   : function() {return false;},
     'click #confirm-add-btn'  : 'addNewSession'
   },
 
@@ -3092,10 +3058,9 @@ var NewSessionView = Backbone.NativeView.extend({
     map         : document.getElementById('new-map-container')
   },
 
-  unit: app.Preferences.get('unit'),
+  unit: Preferences.get('unit'),
 
   initialize: function() {
-    'use strict';
     console.log('NewSessionView initialize', this.unit);
 
     this.listenTo(this.model, 'change', this.renderModel);
@@ -3103,7 +3068,6 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   activitySelected: function(element) {
-    'use strict';
     console.log('activity selected', element);
     if(element.target.nodeName === 'INPUT') {
       var activity = element.target.value;
@@ -3121,7 +3085,6 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   enableImport: function() {
-    'use strict';
     var file_list = this.dom.import_file.files;
     if (file_list.length > 0) {
       this.dom.import_btn.removeAttribute('disabled');
@@ -3131,18 +3094,16 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   importFile: function() {
-    'use strict';
     this.model.importFile(this.dom.import_file.files);
   },
 
   addNewSession: function() {
-    'use strict';
     console.log('addNewSession', this.model);
-    var s = app.SessionsCollection.add(this.model.attributes);
+    var s = SessionsCollection.add(this.model.attributes);
     s.save();
     console.log('s', s);
     // var d = s;
-    var d = new app.DashboardEntryModel();
+    var d = new DashboardEntryModel();
     console.log('d', d);
     d.set({
       'date'        : s.get('date'),
@@ -3160,13 +3121,12 @@ var NewSessionView = Backbone.NativeView.extend({
       'type'        : 'session',
       'session_cid' : s.cid
     });
-    var dd = app.DashboardCollection.add(d.attributes);
+    var dd = DashboardCollection.add(d.attributes);
     dd.save();
     console.log('dd', dd);
   },
 
   newSessionData: function() {
-    'use strict';
     var activities = document.forms["select-activity"].elements;
     var activity;
     for (var i = 0; i < activities.length; i++) {
@@ -3184,12 +3144,11 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   renderModel: function() {
-    'use strict';
     var data = this.model.attributes;
     this.dom.date.value      = utils.Helpers.formatDate(data.date);
     this.dom.time.value      = utils.Helpers.formatTime(data.date);
     // TODO manage distance and speed calculation from preferences choices
-    var distance = utils.Helpers.formatDistance(app.Preferences.get('unit'), data.distance, false);
+    var distance = utils.Helpers.formatDistance(Preferences.get('unit'), data.distance, false);
     this.dom.distance.value  = distance.value + ' ' + distance.unit;
     this.dom.duration.value  = utils.Helpers.formatDuration(data.duration).value;
     this.dom.alt_max.value   = utils.Helpers.formatDistance(this.unit, data.alt_max, false).value;
@@ -3199,7 +3158,6 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   renderMap: function() {
-    'use strict';
     console.log('rendering map', this.model.attributes.data);
     utils.Map.initialize('new-map');
     utils.Map.getMap(this.model.attributes.data);
@@ -3207,15 +3165,15 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
 });
-module.exports = app.NewSessionView = NewSessionView;
+module.exports = NewSessionView;
 
-},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../models/preferences":9,"../models/session":10,"../utils/helpers":13,"../utils/map":14}],20:[function(require,module,exports){
+},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/dashboard-entry":8,"../models/preferences":9,"../utils/helpers":13,"../utils/map":14}],20:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
-var app               = app || {};
-app.PreferencesModel  = require('../models/preferences');
+var PreferencesModel  = require('../models/preferences');
 
 var PreferencesView = Backbone.NativeView.extend({
   el: '#preferences-view',
@@ -3236,24 +3194,21 @@ var PreferencesView = Backbone.NativeView.extend({
   },
 
   initialize: function() {
-  'use strict';
     console.log('PreferencesView initialize');
     console.log('PreferencesView this.model', this.model);
-    this.model = app.PreferencesModel;
+    this.model = PreferencesModel;
     // this.model.fetch();
     this.render();
     // this.listenTo('change', this.render);
   },
 
   preferenceChanged: function(el) {
-    'use strict';
     var preference  = el.target;
     this.model.set(preference.id, preference[preference.selectedIndex].value);
     this.model.save();
   },
 
   render: function() {
-    'use strict';
     this.dom.language_select.value = this.model.get('language');
     this.dom.unit_select.value = this.model.get('unit');
     this.dom.gender_select.value = this.model.get('gender');
@@ -3261,19 +3216,19 @@ var PreferencesView = Backbone.NativeView.extend({
     console.log('PreferencesView render');
   }
 });
-module.exports = app.PreferencesView = PreferencesView;
+module.exports = PreferencesView;
 
 },{"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/preferences":9}],21:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
 
-var app                 = app || {};
-app.DashboardCollection = require('../collections/dashboard');
-app.SessionsCollection  = require('../collections/sessions');
-app.SessionView         = require('./session');
-app.Preferences         = require('../models/preferences');
+// var DashboardCollection = require('../collections/dashboard');
+// var SessionsCollection  = require('../collections/sessions');
+// var SessionView         = require('./session');
+var Preferences         = require('../models/preferences');
 
 var utils               = utils || {};
 utils.Helpers           = require('../utils/helpers');
@@ -3290,10 +3245,9 @@ var SessionSummaryView = Backbone.NativeView.extend({
   template: Template(document.getElementById('session-summary-template').innerHTML),
 
   initialize: function() {
-    'use strict';
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
-    this.listenTo(app.Preferences, 'change', this.render);
+    this.listenTo(Preferences, 'change', this.render);
     console.log('SessionSummaryView initialized', this);
 
   },
@@ -3301,10 +3255,12 @@ var SessionSummaryView = Backbone.NativeView.extend({
   extend: Backbone.Events,
 
   render: function() {
-    'use strict';
-
-    var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), this.model.get('distance'), false);
-    var speed = utils.Helpers.formatSpeed(app.Preferences.get('unit'), this.model.get('avg_speed'));
+    var dist = utils.Helpers.formatDistance(
+        Preferences.get('unit'),
+        this.model.get('distance'), false);
+    var speed = utils.Helpers.formatSpeed(
+        Preferences.get('unit'),
+        this.model.get('avg_speed'));
     this.el.innerHTML = this.template({
       'session_cid' : this.model.get('session_cid'),
       'collection'  : this.model.get('collection'),
@@ -3319,17 +3275,17 @@ var SessionSummaryView = Backbone.NativeView.extend({
   },
 });
 // Backbone.utils.extend(SessionSummaryView, Backbone.events);
-module.exports = app.SessionSummaryView = SessionSummaryView;
+module.exports = SessionSummaryView;
 
-},{"../collections/dashboard":2,"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/preferences":9,"../utils/helpers":13,"./session":22,"microtemplates":24}],22:[function(require,module,exports){
+},{"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/preferences":9,"../utils/helpers":13,"microtemplates":24}],22:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
 
-var app                 = app || {};
-app.SessionsCollection  = require('../collections/sessions');
-app.Preferences         = require('../models/preferences');
+var SessionsCollection  = require('../collections/sessions');
+var Preferences         = require('../models/preferences');
 
 var utils               = utils || {};
 utils.Helpers           = require('../utils/helpers');
@@ -3346,26 +3302,24 @@ var SessionView = Backbone.NativeView.extend({
   template: Template(document.getElementById('session-details-template').innerHTML),
 
   initialize: function() {
-    'use strict';
     console.log('SessionView initialized', this);
     this.render();
   },
 
   render: function() {
-    'use strict';
     var dist = utils.Helpers.formatDistance(
-        app.Preferences.get('unit'),
+        Preferences.get('unit'),
         this.model.get('distance'),
         false);
     var speed = utils.Helpers.formatSpeed(
-        app.Preferences.get('unit'),
+        Preferences.get('unit'),
         this.model.get('avg_speed'));
     var alt_max = utils.Helpers.formatDistance(
-        app.Preferences.get('unit'),
+        Preferences.get('unit'),
         this.model.get('alt_max'),
         false);
     var alt_min = utils.Helpers.formatDistance(
-        app.Preferences.get('unit'),
+        Preferences.get('unit'),
         this.model.get('alt_min'),
         false);
 
@@ -3386,17 +3340,17 @@ var SessionView = Backbone.NativeView.extend({
     return this;
   },
 });
-module.exports = app.SessionView = SessionView;
+module.exports = SessionView;
 
 },{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../models/preferences":9,"../utils/helpers":13,"microtemplates":24}],23:[function(require,module,exports){
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
-var app                 = app || {};
-// app.DashboardCollection = require('../collections/dashboard');
-app.SessionsCollection = require('../collections/sessions');
-app.SessionSummaryView  = require('../views/session-summary');
+// var DashboardCollection = require('../collections/dashboard');
+var SessionsCollection = require('../collections/sessions');
+var SessionSummaryView  = require('../views/session-summary');
 
 var SessionsView = Backbone.NativeView.extend({
   el: '#sessions-view',
@@ -3406,9 +3360,8 @@ var SessionsView = Backbone.NativeView.extend({
   dom: {},
 
   initialize: function() {
-    'use strict';
     // this.collection = app.DashboardCollection;
-    this.collection = app.SessionsCollection;
+    this.collection = SessionsCollection;
     this.collection.fetch();
     this.render();
 
@@ -3418,16 +3371,14 @@ var SessionsView = Backbone.NativeView.extend({
   },
 
   renderItem: function(item) {
-    'use strict';
     item.set('session_cid', item.cid);
-    var view = new app.SessionSummaryView({
+    var view = new SessionSummaryView({
       model: item
     });
     this.el.appendChild(view.render().el);
   },
 
   render: function() {
-    'use strict';
     this.el.innerHTML = '';
     this.collection.forEach(function(item) {
 /*      if (item.get('type') === 'session') {
@@ -3437,7 +3388,7 @@ var SessionsView = Backbone.NativeView.extend({
     }, this);
   },
 });
-module.exports = app.SessionsView = SessionsView;
+module.exports = SessionsView;
 
 },{"../collections/sessions":3,"../lib/backbone.nativeview":5,"../lib/exoskeleton":6,"../views/session-summary":21}],24:[function(require,module,exports){
 // Simple JavaScript Templating

@@ -3,11 +3,10 @@
 
 var Backbone            = require('../lib/exoskeleton');
 
-var app                 = app || {};
-app.DashboardEntryModel = require('../models/dashboard-entry');
+var DashboardEntryModel = require('../models/dashboard-entry');
 
 var DashboardCollection = Backbone.Collection.extend({
-  model: app.DashboardEntryModel,
+  model: DashboardEntryModel,
 
   url: '/dashboard',
 
@@ -15,4 +14,4 @@ var DashboardCollection = Backbone.Collection.extend({
     console.log('DashboardEntriesCollection initialize');
   }
 });
-module.exports = app.DashboardCollection = new DashboardCollection();
+module.exports = new DashboardCollection();

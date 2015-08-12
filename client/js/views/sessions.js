@@ -3,10 +3,9 @@
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
-var app                 = app || {};
-// app.DashboardCollection = require('../collections/dashboard');
-app.SessionsCollection = require('../collections/sessions');
-app.SessionSummaryView  = require('../views/session-summary');
+// var DashboardCollection = require('../collections/dashboard');
+var SessionsCollection = require('../collections/sessions');
+var SessionSummaryView  = require('../views/session-summary');
 
 var SessionsView = Backbone.NativeView.extend({
   el: '#sessions-view',
@@ -17,7 +16,7 @@ var SessionsView = Backbone.NativeView.extend({
 
   initialize: function() {
     // this.collection = app.DashboardCollection;
-    this.collection = app.SessionsCollection;
+    this.collection = SessionsCollection;
     this.collection.fetch();
     this.render();
 
@@ -28,7 +27,7 @@ var SessionsView = Backbone.NativeView.extend({
 
   renderItem: function(item) {
     item.set('session_cid', item.cid);
-    var view = new app.SessionSummaryView({
+    var view = new SessionSummaryView({
       model: item
     });
     this.el.appendChild(view.render().el);
@@ -44,4 +43,4 @@ var SessionsView = Backbone.NativeView.extend({
     }, this);
   },
 });
-module.exports = app.SessionsView = SessionsView;
+module.exports = SessionsView;

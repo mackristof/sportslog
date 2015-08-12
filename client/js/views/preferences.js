@@ -3,8 +3,7 @@
 var Backbone = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
-var app               = app || {};
-app.PreferencesModel  = require('../models/preferences');
+var PreferencesModel  = require('../models/preferences');
 
 var PreferencesView = Backbone.NativeView.extend({
   el: '#preferences-view',
@@ -27,7 +26,7 @@ var PreferencesView = Backbone.NativeView.extend({
   initialize: function() {
     console.log('PreferencesView initialize');
     console.log('PreferencesView this.model', this.model);
-    this.model = app.PreferencesModel;
+    this.model = PreferencesModel;
     // this.model.fetch();
     this.render();
     // this.listenTo('change', this.render);
@@ -47,4 +46,4 @@ var PreferencesView = Backbone.NativeView.extend({
     console.log('PreferencesView render');
   }
 });
-module.exports = app.PreferencesView = PreferencesView;
+module.exports = PreferencesView;

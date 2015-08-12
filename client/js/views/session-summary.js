@@ -4,11 +4,10 @@ var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
 
-var app                 = app || {};
-app.DashboardCollection = require('../collections/dashboard');
-app.SessionsCollection  = require('../collections/sessions');
-app.SessionView         = require('./session');
-app.Preferences         = require('../models/preferences');
+// var DashboardCollection = require('../collections/dashboard');
+// var SessionsCollection  = require('../collections/sessions');
+// var SessionView         = require('./session');
+var Preferences         = require('../models/preferences');
 
 var utils               = utils || {};
 utils.Helpers           = require('../utils/helpers');
@@ -27,7 +26,7 @@ var SessionSummaryView = Backbone.NativeView.extend({
   initialize: function() {
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
-    this.listenTo(app.Preferences, 'change', this.render);
+    this.listenTo(Preferences, 'change', this.render);
     console.log('SessionSummaryView initialized', this);
 
   },
@@ -35,8 +34,12 @@ var SessionSummaryView = Backbone.NativeView.extend({
   extend: Backbone.Events,
 
   render: function() {
-    var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), this.model.get('distance'), false);
-    var speed = utils.Helpers.formatSpeed(app.Preferences.get('unit'), this.model.get('avg_speed'));
+    var dist = utils.Helpers.formatDistance(
+        Preferences.get('unit'),
+        this.model.get('distance'), false);
+    var speed = utils.Helpers.formatSpeed(
+        Preferences.get('unit'),
+        this.model.get('avg_speed'));
     this.el.innerHTML = this.template({
       'session_cid' : this.model.get('session_cid'),
       'collection'  : this.model.get('collection'),
@@ -51,4 +54,4 @@ var SessionSummaryView = Backbone.NativeView.extend({
   },
 });
 // Backbone.utils.extend(SessionSummaryView, Backbone.events);
-module.exports = app.SessionSummaryView = SessionSummaryView;
+module.exports = SessionSummaryView;

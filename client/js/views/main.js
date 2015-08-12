@@ -5,19 +5,18 @@ var Backbone              = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 // var Template              = require('microtemplates');
 
-var app                   = app || {};
-app.IndicatorsView        = require('./indicators');
-app.DashboardView         = require('./dashboard');
-app.PreferencesView       = require('./preferences');
-app.SessionsView          = require('./sessions');
-app.SessionView           = require('./session');
-app.NewSession            = require('./new-session');
-app.SessionSummary        = require('./session-summary');
-app.PreferencesModel      = require('../models/preferences');
-app.SessionModel          = require('../models/session');
-app.DashboardModel        = require('../models/dashboard-entry');
-app.SessionsCollection    = require('../collections/sessions');
-app.DashboardCollection   = require('../collections/dashboard');
+var IndicatorsView        = require('./indicators');
+var DashboardView         = require('./dashboard');
+var PreferencesView       = require('./preferences');
+var SessionsView          = require('./sessions');
+var SessionView           = require('./session');
+var NewSession            = require('./new-session');
+// var SessionSummary        = require('./session-summary');
+var PreferencesModel      = require('../models/preferences');
+var SessionModel          = require('../models/session');
+var DashboardModel        = require('../models/dashboard-entry');
+var SessionsCollection    = require('../collections/sessions');
+var DashboardCollection   = require('../collections/dashboard');
 
 var MainView = Backbone.NativeView.extend({
   el: '#app',
@@ -44,21 +43,21 @@ var MainView = Backbone.NativeView.extend({
 
   initialize: function() {
     console.log('MainView initialize', this);
-    app.PreferencesModel.fetch();
+    PreferencesModel.fetch();
 
     this.active_section = this.dom.dashboard_view;
     this.showDashboard();
 
-    // this.listenTo(app.PreferencesModel, 'all', this.somethingOnPreferences);
-    this.listenTo(app.SessionsCollection, 'all', this.somethingOnSessions);
-    this.listenTo(app.DashboardCollection, 'all', this.somethingOnDashboard);
+    // this.listenTo(PreferencesModel, 'all', this.somethingOnPreferences);
+    this.listenTo(SessionsCollection, 'all', this.somethingOnSessions);
+    this.listenTo(DashboardCollection, 'all', this.somethingOnDashboard);
 
-    new app.IndicatorsView();
-    new app.DashboardView();
-    new app.SessionsView();
+    new IndicatorsView();
+    new DashboardView();
+    new SessionsView();
 
-    // console.log('app.SessionSummary', app.SessionSummary);
-    // this.listenTo(app.SessionSummary, 'selected', this.showSession);
+    // console.log('SessionSummary', SessionSummary);
+    // this.listenTo(SessionSummary, 'selected', this.showSession);
   },
   somethingOnPreferences: function(ev, res) {
     console.log('got something on Preferences', ev, res);
@@ -72,8 +71,8 @@ var MainView = Backbone.NativeView.extend({
 
   showNewSession: function() {
     // var model = app.SessionsCollection.create({});
-    new app.NewSession({
-      model: new app.SessionModel()
+    new NewSession({
+      model: new SessionModel()
     });
     this._viewSection(this.dom.new_session_view);
   },
@@ -88,10 +87,10 @@ var MainView = Backbone.NativeView.extend({
 
   showSession: function(el) {
     console.log('show session details', el);
-    var session = app.SessionsCollection.get(el.target.getAttribute('session_id'));
+    var session = SessionsCollection.get(el.target.getAttribute('session_id'));
     var full_session = session.fetch();
     console.log('got session to display', session);
-    new app.SessionView({
+    new SessionView({
       model: full_session
     });
     this._viewSection(this.dom.session_view);
@@ -102,8 +101,8 @@ var MainView = Backbone.NativeView.extend({
   },
 
   showPreferences: function() {
-    new app.PreferencesView({
-      model: app.PreferencesModel
+    new PreferencesView({
+      model: PreferencesModel
     });
     this._viewSection(this.dom.preference_view);
   },
@@ -121,7 +120,7 @@ var MainView = Backbone.NativeView.extend({
     console.log('sessionAdded', session);
     // console.log('app.SessionsCollection', app.SessionsCollection);
     // Render newly added session to its view
-    var view = new app.SessionsView({
+    var view = new SessionsView({
       model: session
     });
     this.dom.sessions_view.appendChild(view.render().el);
@@ -132,7 +131,7 @@ var MainView = Backbone.NativeView.extend({
     // Create a new Session Summary and add it to the Dashboard Collection
     session = session.attributes;
     // TODO quelle est la différence entre Collection.create et Collection.add
-    app.DashboardCollection.create( new app.DashboardModel({
+    DashboardCollection.create( new DashboardModel({
       date    : session.date,
       type    : 'session',
       content : {
@@ -170,4 +169,4 @@ var MainView = Backbone.NativeView.extend({
     this.dom.dashboard_view.appendChild(view.render().el);
   },*/
 });
-module.exports = app.MainView = MainView;
+module.exports = MainView;

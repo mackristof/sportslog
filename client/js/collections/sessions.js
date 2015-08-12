@@ -3,11 +3,10 @@
 
 var Backbone      = require('../lib/exoskeleton');
 
-var app           = app || {};
-app.SessionModel  = require('../models/session');
+var SessionModel  = require('../models/session');
 
 var SessionsCollection = Backbone.Collection.extend({
-  model: app.SessionModel,
+  model: SessionModel,
 
   url: '/sessions',
 
@@ -15,4 +14,4 @@ var SessionsCollection = Backbone.Collection.extend({
     console.log('SessionsCollection initialize');
   },
 });
-module.exports = app.SessionsCollection =  new SessionsCollection();
+module.exports = new SessionsCollection();

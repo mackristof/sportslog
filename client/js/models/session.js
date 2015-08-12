@@ -5,8 +5,6 @@ var Backbone  = require('../lib/exoskeleton');
 var utils     = utils || {};
 utils.GPX     = require('../utils/gpx');
 
-var app = app || {};
-
 var SessionModel = Backbone.Model.extend({
   idAttribute: '_id',
 
@@ -27,4 +25,4 @@ var SessionModel = Backbone.Model.extend({
     });
   }
 });
-module.exports = app.SessionModel = SessionModel;
+module.exports = SessionModel;

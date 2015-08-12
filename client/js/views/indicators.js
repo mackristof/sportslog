@@ -4,9 +4,8 @@ var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
 
-var app                 = app || {};
-app.DashboardCollection = require('../collections/dashboard');
-app.Preferences         = require('../models/preferences');
+var DashboardCollection = require('../collections/dashboard');
+var Preferences         = require('../models/preferences');
 
 var utils               = utils || {};
 utils.Helpers           = require('../utils/helpers');
@@ -20,13 +19,13 @@ var IndicatorsView = Backbone.NativeView.extend({
 /*    this.model = app.IndicatorsModel;
     this.model.fetch();
     console.log('IndicatorsView is initalize', this);*/
-    this.collection = app.DashboardCollection;
+    this.collection = DashboardCollection;
     this.render();
 
     this.listenTo(this.collection, 'change', this.render);
     this.listenTo(this.collection, 'sync', this.render);
 
-    this.listenTo(app.Preferences, 'change', this.render);
+    this.listenTo(Preferences, 'change', this.render);
 
   },
 
@@ -46,7 +45,9 @@ var IndicatorsView = Backbone.NativeView.extend({
         totals.duration =+ item.get('duration');
       }
     });
-    var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), totals.distance, false);
+    var dist = utils.Helpers.formatDistance(
+        Preferences.get('unit'),
+        totals.distance, false);
     this.el.innerHTML = this.template({
       'sessions'  : totals.sessions,
       'calories'  : totals.calories,
@@ -56,4 +57,4 @@ var IndicatorsView = Backbone.NativeView.extend({
     return this;
   },
 });
-module.exports = app.IndicatorsView = IndicatorsView;
+module.exports = IndicatorsView;

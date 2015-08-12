@@ -4,11 +4,10 @@ var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 // var Template            = require('microtemplates');
 
-var app                   = app || {};
-app.DashboardCollection   = require('../collections/dashboard');
-app.DashboardEntryModel   = require('../models/dashboard-entry');
-app.SessionSummaryView    = require('../views/session-summary');
-app.DashnoardMessageView  = require('../views/dashboard-message');
+var DashboardCollection   = require('../collections/dashboard');
+var DashboardEntryModel   = require('../models/dashboard-entry');
+var SessionSummaryView    = require('../views/session-summary');
+var DashnoardMessageView  = require('../views/dashboard-message');
 
 var DashboardView = Backbone.NativeView.extend({
   el: '#dashboard',
@@ -18,7 +17,7 @@ var DashboardView = Backbone.NativeView.extend({
   dom: {},
 
   initialize: function() {
-    this.collection = app.DashboardCollection;
+    this.collection = DashboardCollection;
     this.collection.fetch();
     this.render();
 
@@ -36,12 +35,12 @@ var DashboardView = Backbone.NativeView.extend({
   renderItem: function(item) {
     var view;
     if (item.attributes.type === 'session') {
-      view = new app.SessionSummaryView({
+      view = new SessionSummaryView({
         model : item
       });
       this.el.appendChild(view.render().el);
     } else if (item.attributes.type === 'message') {
-      view = new app.DashboardMessageView({
+      view = new DashboardMessageView({
         model : item
       });
       this.el.appendChild(view.render().el);
@@ -58,4 +57,4 @@ var DashboardView = Backbone.NativeView.extend({
     }, this);
   },
 });
-module.exports = app.DashboardView = DashboardView;
+module.exports = DashboardView;

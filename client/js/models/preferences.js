@@ -2,8 +2,6 @@
 'use strict';
 var Backbone          = require('../lib/exoskeleton');
 
-var app               = app || {};
-
 var PreferencesModel = Backbone.Model.extend({
 
   urlRoot: '/preferences',
@@ -15,4 +13,4 @@ var PreferencesModel = Backbone.Model.extend({
     // this.save();
   }
 });
-module.exports = app.PreferencesModel = new PreferencesModel({parse: true});
+module.exports = new PreferencesModel({parse: true});
