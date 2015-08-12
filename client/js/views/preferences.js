@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
@@ -24,7 +25,6 @@ var PreferencesView = Backbone.NativeView.extend({
   },
 
   initialize: function() {
-  'use strict';
     console.log('PreferencesView initialize');
     console.log('PreferencesView this.model', this.model);
     this.model = app.PreferencesModel;
@@ -34,14 +34,12 @@ var PreferencesView = Backbone.NativeView.extend({
   },
 
   preferenceChanged: function(el) {
-    'use strict';
     var preference  = el.target;
     this.model.set(preference.id, preference[preference.selectedIndex].value);
     this.model.save();
   },
 
   render: function() {
-    'use strict';
     this.dom.language_select.value = this.model.get('language');
     this.dom.unit_select.value = this.model.get('unit');
     this.dom.gender_select.value = this.model.get('gender');

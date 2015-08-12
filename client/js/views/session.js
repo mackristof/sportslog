@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
@@ -22,13 +23,11 @@ var SessionView = Backbone.NativeView.extend({
   template: Template(document.getElementById('session-details-template').innerHTML),
 
   initialize: function() {
-    'use strict';
     console.log('SessionView initialized', this);
     this.render();
   },
 
   render: function() {
-    'use strict';
     var dist = utils.Helpers.formatDistance(
         app.Preferences.get('unit'),
         this.model.get('distance'),

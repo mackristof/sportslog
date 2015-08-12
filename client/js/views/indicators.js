@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
@@ -16,7 +17,6 @@ var IndicatorsView = Backbone.NativeView.extend({
   template: Template(document.getElementById('indicators-template').innerHTML),
 
   initialize: function() {
-    'use strict';
 /*    this.model = app.IndicatorsModel;
     this.model.fetch();
     console.log('IndicatorsView is initalize', this);*/
@@ -31,7 +31,6 @@ var IndicatorsView = Backbone.NativeView.extend({
   },
 
   render: function() {
-    'use strict';
     // console.log('indicators view is rendered', this);
     var totals = {
       'sessions'  : 0,

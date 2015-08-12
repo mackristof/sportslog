@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 
 var Backbone  = require('./lib/exoskeleton');
 Backbone.ajax = require('./lib/backbone.nativeajax');
@@ -12,7 +13,6 @@ var Router = Backbone.Router.extend({
   },
 
   main: function() {
-    'use strict';
     console.log('starting MainView');
     new app.MainView({});
   }

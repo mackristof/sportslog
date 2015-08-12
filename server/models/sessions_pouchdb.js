@@ -1,9 +1,9 @@
 /* jshint strict: true, node: true */
+'use strict';
 
 var PouchDB = require('pouchdb');
 
 var Sessions = function() {
-  'use strict';
 
   var db = new PouchDB('sessions');
 

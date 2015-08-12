@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 
 var express = require('express');
 var path = require('path');
@@ -27,7 +28,6 @@ app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  'use strict';
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -39,7 +39,6 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res) {
-    'use strict';
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -51,7 +50,6 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res) {
-  'use strict';
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
@@ -75,7 +73,6 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 server.listen(port, function() {
-  'use strict';
   console.log('Server listening to %s:%d within %s environment',
       host, port, app.get('env'));
 });
@@ -108,7 +105,6 @@ server.on('listening', onListening);
  * Event listener for HTTP server "error" event.
  */
 function onError(error) {
-  'use strict';
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -132,7 +128,6 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 function onListening() {
-  'use strict';
   var addr = server.address();
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);

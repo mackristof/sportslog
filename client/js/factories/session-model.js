@@ -1,10 +1,10 @@
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone  = require('../exoskeleton');
 
 var factories = factories || {};
 
 var SessionModel = function() {
-  'use strict;
   function Model() {
     return Backbone.Model.extends({});
   }

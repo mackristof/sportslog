@@ -1,11 +1,11 @@
 /* jshint strict: true, bitwise: false, node: true */
+'use strict';
 
 var L = require('../lib/leaflet');
 
 var utils = utils || {};
 
 var LeafletMap = function() {
-  'use strict';
   var map;
 
   var map_options = {

@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 
 var express     = require('express');
 var router      = express.Router();
@@ -11,7 +12,6 @@ var Sessions    = require('./models/sessions_pouchdb');
 var Dashboard   = require('./models/dashboard_pouchdb');
 
 router.use(function(req, res, next) {
-  'use strict';
   console.log('%s %s %s', req.method, req.url, req.path, req.body);
   next();
 });
@@ -20,7 +20,6 @@ router.use(bodyParser.urlencoded({extended: true}));
 
 // GET '/': render main page
 router.get('/', function(req, res) {
-  'use strict';
   res.render('index'); /*, function(err, html) {
       res.status(200).send(html);
     });*/
@@ -28,13 +27,11 @@ router.get('/', function(req, res) {
 
 // PUT '/': ??
 router.put('/', function(req, res) {
-  'use strict';
   console.log('got put /', req, res);
 });
 
 // GET 'sessions': get all stored sessions, truncated (without gps cooordinates)
 router.get('/sessions', function(req, res, next) {
-  'use strict';
   Sessions.all(function(err, data) {
     if (err !== null) {
       next(err);
@@ -46,7 +43,6 @@ router.get('/sessions', function(req, res, next) {
 
 // GET 'sessions/:id': get one complete session
 router.get('/sessions/:id', function(req, res, next) {
-  'use strict';
   Sessions.one(function(err, data) {
     if (err !== null) {
       next(err);
@@ -59,7 +55,6 @@ router.get('/sessions/:id', function(req, res, next) {
 
 // POST 'sessions': save a new session
 router.post('/sessions', function(req, res, next) {
-  'use strict';
   console.log('post /sessions', req, res);
   Sessions.add(req.body, function(err) {
     if (err !== null) {
@@ -72,7 +67,6 @@ router.post('/sessions', function(req, res, next) {
 
 // PUT '/sessions:id': update a session
 router.put('/sessions/:id', function(req, res, next) {
-  'use strict';
   Sessions.add(req.body, function(err) {
     if (err !== null) {
       next(err);
@@ -84,7 +78,6 @@ router.put('/sessions/:id', function(req, res, next) {
 
 // GET '/dashboard : get all stored dashboard entries
 router.get('/dashboard', function(req, res, next) {
-  'use strict';
   Dashboard.all(function(err, data) {
     if (err !== null) {
       next(err);
@@ -97,7 +90,6 @@ router.get('/dashboard', function(req, res, next) {
 
 // POST '/dashboard: add a nex dashboard entry
 router.post('/dashboard',function(req, res, next) {
-  'use strict';
   console.log('post /dashboard', req, res);
   Dashboard.add(req.body, function(err) {
     if (err !== null) {
@@ -111,7 +103,6 @@ router.post('/dashboard',function(req, res, next) {
 
 // PUT '/dashboard: add a nex dashboard entry
 router.put('/dashboard',function(req, res, next) {
-  'use strict';
   // console.log('put /dashboard', req.body);
   Dashboard.add(req.body, function(err) {
     if (err !== null) {
@@ -124,7 +115,6 @@ router.put('/dashboard',function(req, res, next) {
 
 // GET '/preferences': get preferences
 router.get('/preferences', function(req, res, next) {
-  'use strict';
   console.log('get /preferences', res);
   Preferences.all(function(err, data) {
     if (err !== null) {
@@ -138,7 +128,6 @@ router.get('/preferences', function(req, res, next) {
 
 // GET '/preferences:id': get preferences
 router.get('/preferences/:id', function(req, res, next) {
-  'use strict';
   console.log('get /preferences/:id', res);
   Preferences.all(function(err, data) {
     if (err !== null) {
@@ -152,7 +141,6 @@ router.get('/preferences/:id', function(req, res, next) {
 
 // POST '/preferences': save preferences
 router.post('/preferences',function(req, res, next) {
-  'use strict';
   console.log('post /preferences', req);
   Preferences.update(req.body, function(err) {
     if (err !== null) {
@@ -166,7 +154,6 @@ router.post('/preferences',function(req, res, next) {
 
 // PUT '/preferences': save preferences
 router.put('/preferences',function(req, res, next) {
-  'use strict';
   console.log('put /preferences', req);
   Preferences.update(req.body, function(err) {
     if (err !== null) {
@@ -179,7 +166,6 @@ router.put('/preferences',function(req, res, next) {
 
 // PUT '/preferences/:id': save preferences
 router.put('/preferences/:id',function(req, res, next) {
-  'use strict';
   console.log('put /preferences/:id', req);
   Preferences.update(req.body, function(err) {
     if (err !== null) {

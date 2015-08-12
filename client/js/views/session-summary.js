@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 var Template            = require('microtemplates');
@@ -24,7 +25,6 @@ var SessionSummaryView = Backbone.NativeView.extend({
   template: Template(document.getElementById('session-summary-template').innerHTML),
 
   initialize: function() {
-    'use strict';
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
     this.listenTo(app.Preferences, 'change', this.render);
@@ -35,8 +35,6 @@ var SessionSummaryView = Backbone.NativeView.extend({
   extend: Backbone.Events,
 
   render: function() {
-    'use strict';
-
     var dist = utils.Helpers.formatDistance(app.Preferences.get('unit'), this.model.get('distance'), false);
     var speed = utils.Helpers.formatSpeed(app.Preferences.get('unit'), this.model.get('avg_speed'));
     this.el.innerHTML = this.template({

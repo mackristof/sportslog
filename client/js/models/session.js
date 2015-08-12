@@ -1,5 +1,5 @@
 /* jshint strict: true, node: true */
-
+'use strict';
 var Backbone  = require('../lib/exoskeleton');
 
 var utils     = utils || {};
@@ -11,12 +11,10 @@ var SessionModel = Backbone.Model.extend({
   idAttribute: '_id',
 
   initialize: function() {
-    'use strict';
     // console.log('SessionModel initialize', this);
   },
 
   importFile: function(file) {
-    'use strict';
     var that = this;
     utils.GPX.importFile(file, function(res) {
       if (res.error) {

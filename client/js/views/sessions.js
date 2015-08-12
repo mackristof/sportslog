@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 
@@ -15,7 +16,6 @@ var SessionsView = Backbone.NativeView.extend({
   dom: {},
 
   initialize: function() {
-    'use strict';
     // this.collection = app.DashboardCollection;
     this.collection = app.SessionsCollection;
     this.collection.fetch();
@@ -27,7 +27,6 @@ var SessionsView = Backbone.NativeView.extend({
   },
 
   renderItem: function(item) {
-    'use strict';
     item.set('session_cid', item.cid);
     var view = new app.SessionSummaryView({
       model: item
@@ -36,7 +35,6 @@ var SessionsView = Backbone.NativeView.extend({
   },
 
   render: function() {
-    'use strict';
     this.el.innerHTML = '';
     this.collection.forEach(function(item) {
 /*      if (item.get('type') === 'session') {

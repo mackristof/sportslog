@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 
 var Backbone      = require('../lib/exoskeleton');
 
@@ -11,7 +12,6 @@ var SessionsCollection = Backbone.Collection.extend({
   url: '/sessions',
 
   initialize: function() {
-    'use strict';
     console.log('SessionsCollection initialize');
   },
 });

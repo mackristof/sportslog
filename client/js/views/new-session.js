@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
@@ -21,7 +22,7 @@ var NewSessionView = Backbone.NativeView.extend({
     'click #select-activity'  : 'activitySelected',
     'change #import-file'     : 'enableImport',
     'click #import-btn'       : 'importFile',
-    'onsubmit #import-form'   : function() {'use strict'; return false;},
+    'onsubmit #import-form'   : function() {return false;},
     'click #confirm-add-btn'  : 'addNewSession'
   },
 
@@ -47,7 +48,6 @@ var NewSessionView = Backbone.NativeView.extend({
   unit: app.Preferences.get('unit'),
 
   initialize: function() {
-    'use strict';
     console.log('NewSessionView initialize', this.unit);
 
     this.listenTo(this.model, 'change', this.renderModel);
@@ -55,7 +55,6 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   activitySelected: function(element) {
-    'use strict';
     console.log('activity selected', element);
     if(element.target.nodeName === 'INPUT') {
       var activity = element.target.value;
@@ -73,7 +72,6 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   enableImport: function() {
-    'use strict';
     var file_list = this.dom.import_file.files;
     if (file_list.length > 0) {
       this.dom.import_btn.removeAttribute('disabled');
@@ -83,12 +81,10 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   importFile: function() {
-    'use strict';
     this.model.importFile(this.dom.import_file.files);
   },
 
   addNewSession: function() {
-    'use strict';
     console.log('addNewSession', this.model);
     var s = app.SessionsCollection.add(this.model.attributes);
     s.save();
@@ -118,7 +114,6 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   newSessionData: function() {
-    'use strict';
     var activities = document.forms["select-activity"].elements;
     var activity;
     for (var i = 0; i < activities.length; i++) {
@@ -136,7 +131,6 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   renderModel: function() {
-    'use strict';
     var data = this.model.attributes;
     this.dom.date.value      = utils.Helpers.formatDate(data.date);
     this.dom.time.value      = utils.Helpers.formatTime(data.date);
@@ -151,7 +145,6 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   renderMap: function() {
-    'use strict';
     console.log('rendering map', this.model.attributes.data);
     utils.Map.initialize('new-map');
     utils.Map.getMap(this.model.attributes.data);

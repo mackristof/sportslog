@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 
 var Backbone              = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
@@ -42,7 +43,6 @@ var MainView = Backbone.NativeView.extend({
 
 
   initialize: function() {
-    'use strict';
     console.log('MainView initialize', this);
     app.PreferencesModel.fetch();
 
@@ -61,20 +61,16 @@ var MainView = Backbone.NativeView.extend({
     // this.listenTo(app.SessionSummary, 'selected', this.showSession);
   },
   somethingOnPreferences: function(ev, res) {
-    'use strict';
     console.log('got something on Preferences', ev, res);
   },
   somethingOnSessions: function(ev, res) {
-    'use strict';
     console.log('got something on Sessions', ev, res);
   },
   somethingOnDashboard: function(ev, res) {
-    'use strict';
     console.log('got something on Dashboard', ev, res);
   },
 
   showNewSession: function() {
-    'use strict';
     // var model = app.SessionsCollection.create({});
     new app.NewSession({
       model: new app.SessionModel()
@@ -83,17 +79,14 @@ var MainView = Backbone.NativeView.extend({
   },
 
   showDashboard: function() {
-    'use strict';
     this._viewSection(this.dom.dashboard_view);
   },
 
   showSessions: function() {
-    'use strict';
     this._viewSection(this.dom.sessions_view);
   },
 
   showSession: function(el) {
-    'use strict';
     console.log('show session details', el);
     var session = app.SessionsCollection.get(el.target.getAttribute('session_id'));
     var full_session = session.fetch();
@@ -105,12 +98,10 @@ var MainView = Backbone.NativeView.extend({
   },
 
   showReports: function() {
-    'use strict';
     this._viewSection(this.dom.reports_view);
   },
 
   showPreferences: function() {
-    'use strict';
     new app.PreferencesView({
       model: app.PreferencesModel
     });
@@ -118,7 +109,6 @@ var MainView = Backbone.NativeView.extend({
   },
 
   _viewSection: function(section) {
-    'use strict';
     console.log('view section', section);
     if (section !== this.active_section) {
       this.active_section.setAttribute('disabled', 'true');
@@ -128,7 +118,6 @@ var MainView = Backbone.NativeView.extend({
   },
 
   sessionAdded: function(session) {
-    'use strict';
     console.log('sessionAdded', session);
     // console.log('app.SessionsCollection', app.SessionsCollection);
     // Render newly added session to its view

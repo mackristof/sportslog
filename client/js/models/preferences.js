@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone          = require('../lib/exoskeleton');
 
 var app               = app || {};
@@ -10,7 +11,6 @@ var PreferencesModel = Backbone.Model.extend({
   idAttribute: '_id',
 
   initialize: function() {
-    'use strict';
     console.log('PreferencesModel initialize', this);
     // this.save();
   }

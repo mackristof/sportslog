@@ -1,9 +1,9 @@
 /* jshint strict: true, node: true */
+'use strict';
 
 var utils = utils || {};
 
 var Helpers = function() {
-  'use strict';
 
   /*
    * param choice: String User choice over unit display.

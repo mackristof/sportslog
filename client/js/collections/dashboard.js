@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 
 var Backbone            = require('../lib/exoskeleton');
 
@@ -11,7 +12,6 @@ var DashboardCollection = Backbone.Collection.extend({
   url: '/dashboard',
 
   initialize: function() {
-    'use strict';
     console.log('DashboardEntriesCollection initialize');
   }
 });

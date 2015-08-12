@@ -1,9 +1,9 @@
 /* jshint strict: true, node: true */
+'use strict';
 
 var utils = utils || {};
 
 var GPX = function() {
-  'use strict';
   var olat      = null;
   var olon      = null;
   var distance  = 0;

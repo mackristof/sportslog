@@ -1,4 +1,5 @@
 /* jshint strict: true, node: true */
+'use strict';
 var Backbone            = require('../lib/exoskeleton');
 require('../lib/backbone.nativeview');
 // var Template            = require('microtemplates');
@@ -17,7 +18,6 @@ var DashboardView = Backbone.NativeView.extend({
   dom: {},
 
   initialize: function() {
-    'use strict';
     this.collection = app.DashboardCollection;
     this.collection.fetch();
     this.render();
@@ -28,14 +28,12 @@ var DashboardView = Backbone.NativeView.extend({
   },
 
   addEntry: function() {
-    'use strict';
     this.collection.forEach(function(item) {
       this.renderItem(item);
     }, this);
   },
 
   renderItem: function(item) {
-    'use strict';
     var view;
     if (item.attributes.type === 'session') {
       view = new app.SessionSummaryView({
@@ -54,7 +52,6 @@ var DashboardView = Backbone.NativeView.extend({
   },
 
   render: function() {
-    'use strict';
     this.el.innerHTML = '';
     this.collection.forEach(function(item) {
       this.renderItem(item);
