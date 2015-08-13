@@ -9,6 +9,8 @@ var DashboardEntryModel = require('../models/dashboard-entry');
 var SessionsCollection  = require('../collections/sessions');
 var DashboardCollection = require('../collections/dashboard');
 
+var Factory             = require('../factories/session-model');
+
 var utils               = utils || {};
 utils.Map               = require('../utils/map');
 utils.Helpers           = require('../utils/helpers');
@@ -54,7 +56,17 @@ var NewSessionView = Backbone.NativeView.extend({
 
   activitySelected: function(element) {
     console.log('activity selected', element);
-    if(element.target.nodeName === 'INPUT') {
+    if (element.target.nodeName === 'INPUT') {
+      var activity = element.target.value;
+      var session = Factory.get(
+          activity,
+          {
+            'activity'  : activity
+          });
+      console.log('model session', session);
+    }
+
+    /*if(element.target.nodeName === 'INPUT') {
       var activity = element.target.value;
       if (activity === 'weight') {
         this.dom.import_form.className = 'hidden behind';
@@ -66,7 +78,7 @@ var NewSessionView = Backbone.NativeView.extend({
         this.dom.weight_form.className = 'hidden behind';
       }
       this.model.set('activity', activity);
-    }
+    }*/
   },
 
   enableImport: function() {
@@ -84,7 +96,7 @@ var NewSessionView = Backbone.NativeView.extend({
 
   addNewSession: function() {
     console.log('addNewSession', this.model);
-    var s = SessionsCollection.add(this.model.attributes);
+    /*var s = SessionsCollection.add(this.model.attributes);
     s.save();
     console.log('s', s);
     // var d = s;
@@ -108,7 +120,7 @@ var NewSessionView = Backbone.NativeView.extend({
     });
     var dd = DashboardCollection.add(d.attributes);
     dd.save();
-    console.log('dd', dd);
+    console.log('dd', dd);*/
   },
 
   newSessionData: function() {
