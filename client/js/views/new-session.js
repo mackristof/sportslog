@@ -13,6 +13,7 @@ var Factory             = require('../factories/session-model');
 
 var utils               = utils || {};
 utils.Map               = require('../utils/map');
+utils.GPX               = require('../utils/gpx');
 utils.Helpers           = require('../utils/helpers');
 
 var NewSessionView = Backbone.NativeView.extend({
@@ -63,12 +64,8 @@ var NewSessionView = Backbone.NativeView.extend({
           {
             'activity'  : activity
           });
-      console.log('model session', session);
-    }
-
-    /*if(element.target.nodeName === 'INPUT') {
-      var activity = element.target.value;
-      if (activity === 'weight') {
+      // TODO write a factory for UI components linked to the session family
+      if (session.family === 'body') {
         this.dom.import_form.className = 'hidden behind';
         this.dom.activity.className = 'hidden behind';
         this.dom.weight_form.className = '';
@@ -77,8 +74,8 @@ var NewSessionView = Backbone.NativeView.extend({
         this.dom.activity.className = '';
         this.dom.weight_form.className = 'hidden behind';
       }
-      this.model.set('activity', activity);
-    }*/
+      this.model.set(session);
+    }
   },
 
   enableImport: function() {
@@ -91,17 +88,26 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   importFile: function() {
-    this.model.importFile(this.dom.import_file.files);
+    var that = this;
+    utils.GPX.importFile(this.dom.import_file.files, function(res) {
+      if (res.error) {
+        // TODO create a modal view for error or information display
+        console.log('error while importing', res.res);
+      } else {
+        console.log('success while importing', res.res);
+        that.model.set(res.res);
+        console.log('new session imported', that.model.attributes);
+      }
+    });
   },
 
   addNewSession: function() {
     console.log('addNewSession', this.model);
-    /*var s = SessionsCollection.add(this.model.attributes);
+    var s = SessionsCollection.add(this.model.attributes);
     s.save();
-    console.log('s', s);
-    // var d = s;
+    // console.log('s', s);
     var d = new DashboardEntryModel();
-    console.log('d', d);
+    // console.log('d', d);
     d.set({
       'date'        : s.get('date'),
       'name'        : s.get('name'),
@@ -120,7 +126,7 @@ var NewSessionView = Backbone.NativeView.extend({
     });
     var dd = DashboardCollection.add(d.attributes);
     dd.save();
-    console.log('dd', dd);*/
+    // console.log('dd', dd);
   },
 
   newSessionData: function() {
@@ -155,10 +161,13 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   renderMap: function() {
-    console.log('rendering map', this.model.attributes.data);
-    utils.Map.initialize('new-map');
-    utils.Map.getMap(this.model.attributes.data);
-    this.dom.map.className = 'new-line';
+    var map = this.model.get('map');
+    if (map !== false) {
+      console.log('rendering map', this.model.attributes);
+      utils.Map.initialize('new-map');
+      utils.Map.getMap(this.model.get('data'));
+      this.dom.map.className = 'new-line';
+    }
   },
 
 });

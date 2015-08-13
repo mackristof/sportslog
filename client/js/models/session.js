@@ -12,7 +12,7 @@ var SessionModel = Backbone.Model.extend({
     // console.log('SessionModel initialize', this);
   },
 
-  importFile: function(file) {
+/*  importFile: function(file) {
     var that = this;
     utils.GPX.importFile(file, function(res) {
       if (res.error) {
@@ -23,6 +23,6 @@ var SessionModel = Backbone.Model.extend({
         console.log('new session imported', that.attributes);
       }
     });
-  }
+  }*/
 });
 module.exports = SessionModel;

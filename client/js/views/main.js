@@ -48,8 +48,8 @@ var MainView = Backbone.NativeView.extend({
     this.showDashboard();
 
     // this.listenTo(PreferencesModel, 'all', this.somethingOnPreferences);
-    this.listenTo(SessionsCollection, 'all', this.somethingOnSessions);
-    this.listenTo(DashboardCollection, 'all', this.somethingOnDashboard);
+    // this.listenTo(SessionsCollection, 'all', this.somethingOnSessions);
+    // this.listenTo(DashboardCollection, 'all', this.somethingOnDashboard);
 
     new IndicatorsView();
     new DashboardView();
