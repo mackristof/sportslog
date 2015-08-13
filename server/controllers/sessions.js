@@ -22,11 +22,11 @@ module.exports.getAll = function(req, res) {
 };
 
 module.exports.getOne = function(req, res) {
-  db.one( function(err, data) {
+  db.one(req.params.id, function(err, data) {
     if (err !== null) {
       res.status(500).send({error: 'Could not retreive one session.'});
     } else {
-      res.send(data.doc);
+      res.send(data);
     }
   });
 };

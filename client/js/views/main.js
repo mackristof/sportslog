@@ -85,14 +85,21 @@ var MainView = Backbone.NativeView.extend({
   },
 
   showSession: function(el) {
-    console.log('show session details', el);
+    var that = this;
     var session = SessionsCollection.get(el.target.getAttribute('session_id'));
-    var full_session = session.fetch();
-    console.log('got session to display', session);
-    new SessionView({
-      model: full_session
+    console.log('show session details', session);
+    session.fetch({
+      success : function(res) {
+        console.log('success', res);
+        new SessionView({
+          model: res
+        });
+        that._viewSection(that.dom.session_view);
+      },
+      error   : function(model, response) {
+        console.log('error', model, response);
+      }
     });
-    this._viewSection(this.dom.session_view);
   },
 
   showReports: function() {
