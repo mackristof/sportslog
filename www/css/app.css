@@ -28,7 +28,8 @@ section h2 {
 }
 
 .map {
-  height: 320px;
+  height: 480px;
+  width: 480px;
 }
 /* section.add-view h1,
 section.dashboard-view ul,

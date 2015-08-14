@@ -8,6 +8,7 @@ var Preferences         = require('../models/preferences');
 
 var utils               = utils || {};
 utils.Helpers           = require('../utils/helpers');
+utils.Map               = require('../utils/map');
 
 var SessionView = Backbone.NativeView.extend({
   el: '#session-view',
@@ -16,7 +17,9 @@ var SessionView = Backbone.NativeView.extend({
 
   events: {},
 
-  dom: {},
+  dom: {
+    map : document.getElementById('session-map-container')
+  },
 
   template: Template(document.getElementById('session-details-template').innerHTML),
 
@@ -54,8 +57,13 @@ var SessionView = Backbone.NativeView.extend({
       'alt_min'     : alt_min.value + ' ' + alt_min.unit,
       'activity'    : this.model.get('activity')
     });
+    var map = this.model.get('map');
+    if (map !== false) {
+      utils.Map.initialize('session-map');
+      utils.Map.getMap(this.model.get('data'));
+      document.getElementById('session-map-container').className = 'new-line';
+    }
 
-    // this.el.innerHTML = this.template(this.model.toJSON());
     return this;
   },
 });
