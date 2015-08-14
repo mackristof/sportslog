@@ -31,6 +31,10 @@ section h2 {
   height: 480px;
   width: 480px;
 }
+.session-graph {
+  height: 480px;
+  width: 860px
+}
 /* section.add-view h1,
 section.dashboard-view ul,
 section.sessions-view ul,
