@@ -6,7 +6,6 @@ var router      = express.Router();
 var bodyParser  = require('body-parser');
 
 var Sessions    = require('./controllers/sessions');
-var Dashboard    = require('./controllers/dashboard');
 var Preferences    = require('./controllers/preferences');
 
 router.use(function(req, res, next) {
@@ -39,15 +38,6 @@ router.post('/sessions', Sessions.add);
 
 // PUT '/sessions:id': update a session
 router.put('/sessions/:id', Sessions.add);
-
-// GET '/dashboard : get all stored dashboard entries
-router.get('/dashboard', Dashboard.getAll);
-
-// POST '/dashboard: add a nex dashboard entry
-router.post('/dashboard', Dashboard.add);
-
-// PUT '/dashboard: add a nex dashboard entry
-router.put('/dashboard', Dashboard.add);
 
 // GET '/preferences': get preferences
 router.get('/preferences', Preferences.getAll);

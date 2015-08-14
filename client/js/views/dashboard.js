@@ -3,10 +3,8 @@
 var Backbone            = require('../lib/exoskeleton');
 // var Template            = require('microtemplates');
 
-var DashboardCollection   = require('../collections/dashboard');
-// var DashboardEntryModel   = require('../models/dashboard-entry');
-var SessionSummaryView    = require('../views/session-summary');
-var DashboardMessageView  = require('../views/dashboard-message');
+var SessionsCollection    = require('../collections/sessions');
+var SessionSummaryView    = require('./session-summary');
 
 var DashboardView = Backbone.NativeView.extend({
   el: '#dashboard',
@@ -16,13 +14,13 @@ var DashboardView = Backbone.NativeView.extend({
   dom: {},
 
   initialize: function() {
-    this.collection = DashboardCollection;
+    this.collection = SessionsCollection;
     this.collection.fetch();
     this.render();
 
     this.listenTo(this.collection, 'add', this.render);
     this.listenTo(this.collection, 'reset', this.render);
-
+    console.log('DashboardView initialize', this);
   },
 
   addEntry: function() {
@@ -32,21 +30,11 @@ var DashboardView = Backbone.NativeView.extend({
   },
 
   renderItem: function(item) {
-    var view;
-    if (item.attributes.type === 'session') {
-      view = new SessionSummaryView({
-        model : item
-      });
-      this.el.appendChild(view.render().el);
-    } else if (item.attributes.type === 'message') {
-      view = new DashboardMessageView({
-        model : item
-      });
-      this.el.appendChild(view.render().el);
-    } else {
-      // TODO manage when an error generated an unknown type
-      console.log('Dashboard Entry is neither session nor message');
-    }
+    var view = new SessionSummaryView({
+      model : item
+    });
+    this.listenTo(item, 'selected', this.modelSelected);
+    this.el.appendChild(view.render().el);
   },
 
   render: function() {
@@ -55,5 +43,9 @@ var DashboardView = Backbone.NativeView.extend({
       this.renderItem(item);
     }, this);
   },
+
+  modelSelected: function(model) {
+    this.collection.trigger('model-selected', model);
+  }
 });
 module.exports = DashboardView;

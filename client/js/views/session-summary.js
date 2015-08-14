@@ -3,9 +3,6 @@
 var Backbone            = require('../lib/exoskeleton');
 var Template            = require('microtemplates');
 
-// var DashboardCollection = require('../collections/dashboard');
-// var SessionsCollection  = require('../collections/sessions');
-// var SessionView         = require('./session');
 var Preferences         = require('../models/preferences');
 
 var utils               = utils || {};
@@ -15,7 +12,7 @@ var SessionSummaryView = Backbone.NativeView.extend({
   tagName: 'li',
 
   events: {
-    // 'click .session-summary-click'  : 'showSessionDetails'
+    'click .session-summary-click'  : 'showSessionDetails'
   },
 
   dom: {},
@@ -26,7 +23,7 @@ var SessionSummaryView = Backbone.NativeView.extend({
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
     this.listenTo(Preferences, 'change', this.render);
-    // console.log('SessionSummaryView initialized', this);
+    console.log('SessionSummaryView initialized', this);
   },
 
   extend: Backbone.Events,
@@ -50,6 +47,11 @@ var SessionSummaryView = Backbone.NativeView.extend({
     });
     return this;
   },
+
+  showSessionDetails: function(el) {
+    console.log('clicked', el, this.model);
+    this.model.trigger('selected', this.model);
+  }
 });
 // Backbone.utils.extend(SessionSummaryView, Backbone.events);
 module.exports = SessionSummaryView;

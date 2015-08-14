@@ -3,7 +3,7 @@
 var Backbone            = require('../lib/exoskeleton');
 var Template            = require('microtemplates');
 
-var DashboardCollection = require('../collections/dashboard');
+var SessionsCollection  = require('../collections/sessions');
 var Preferences         = require('../models/preferences');
 
 var utils               = utils || {};
@@ -18,7 +18,7 @@ var IndicatorsView = Backbone.NativeView.extend({
 /*    this.model = app.IndicatorsModel;
     this.model.fetch();
     console.log('IndicatorsView is initalize', this);*/
-    this.collection = DashboardCollection;
+    this.collection = SessionsCollection;
     this.render();
 
     this.listenTo(this.collection, 'change', this.render);
@@ -37,12 +37,10 @@ var IndicatorsView = Backbone.NativeView.extend({
       'duration'  : 0
     };
     this.collection.forEach(function(item) {
-      if (item.get('type') === 'session') {
-        totals.sessions += 1;
-        totals.calories += item.get('calories');
-        totals.distance =+ item.get('distance');
-        totals.duration =+ item.get('duration');
-      }
+      totals.sessions += 1;
+      totals.calories += item.get('calories');
+      totals.distance =+ item.get('distance');
+      totals.duration =+ item.get('duration');
     });
     var dist = utils.Helpers.formatDistance(
         Preferences.get('unit'),

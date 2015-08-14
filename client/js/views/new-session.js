@@ -5,9 +5,7 @@ var Backbone            = require('../lib/exoskeleton');
 
 var Preferences         = require('../models/preferences');
 // var SessionModel        = require('../models/session');
-var DashboardEntryModel = require('../models/dashboard-entry');
 var SessionsCollection  = require('../collections/sessions');
-var DashboardCollection = require('../collections/dashboard');
 
 var Factory             = require('../factories/session-model');
 
@@ -105,28 +103,6 @@ var NewSessionView = Backbone.NativeView.extend({
     // console.log('addNewSession', this.model);
     var s = SessionsCollection.add(this.model.attributes);
     s.save();
-    // console.log('s', s);
-    var d = new DashboardEntryModel();
-    // console.log('d', d);
-    d.set({
-      'date'        : s.get('date'),
-      'name'        : s.get('name'),
-      'duration'    : s.get('duration'),
-      'distance'    : s.get('distance'),
-      'time'        : utils.Helpers.formatTime(s.get('date')),
-      'activity'    : s.get('activity'),
-      'calories'    : s.get('calories'),
-      'avg_speed'   : s.get('avg_speed'),
-      'alt_max'     : s.get('alt_max'),
-      'alt_min'     : s.get('alt_min'),
-      'climb_pos'   : s.get('climb_pos'),
-      'climb_neg'   : s.get('climb_neg'),
-      'type'        : 'session',
-      'session_cid' : s.cid
-    });
-    var dd = DashboardCollection.add(d.attributes);
-    dd.save();
-    // console.log('dd', dd);
   },
 
   newSessionData: function() {
