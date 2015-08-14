@@ -49,14 +49,14 @@ var NewSessionView = Backbone.NativeView.extend({
   unit: Preferences.get('unit'),
 
   initialize: function() {
-    console.log('NewSessionView initialize', this.unit);
+    // console.log('NewSessionView initialize', this.unit);
 
     this.listenTo(this.model, 'change', this.renderModel);
     this.listenTo(this.model, 'change:map', this.renderMap);
   },
 
   activitySelected: function(element) {
-    console.log('activity selected', element);
+    // console.log('activity selected', element);
     if (element.target.nodeName === 'INPUT') {
       var activity = element.target.value;
       var session = Factory.get(
@@ -94,15 +94,15 @@ var NewSessionView = Backbone.NativeView.extend({
         // TODO create a modal view for error or information display
         console.log('error while importing', res.res);
       } else {
-        console.log('success while importing', res.res);
+        // console.log('success while importing', res.res);
         that.model.set(res.res);
-        console.log('new session imported', that.model.attributes);
+        // console.log('new session imported', that.model.attributes);
       }
     });
   },
 
   addNewSession: function() {
-    console.log('addNewSession', this.model);
+    // console.log('addNewSession', this.model);
     var s = SessionsCollection.add(this.model.attributes);
     s.save();
     // console.log('s', s);
@@ -163,7 +163,7 @@ var NewSessionView = Backbone.NativeView.extend({
   renderMap: function() {
     var map = this.model.get('map');
     if (map !== false) {
-      console.log('rendering map', this.model.attributes);
+      // console.log('rendering map', this.model.attributes);
       utils.Map.initialize('new-map');
       utils.Map.getMap(this.model.get('data'));
       this.dom.map.className = 'new-line';

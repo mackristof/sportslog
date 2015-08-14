@@ -17,7 +17,7 @@ var GPX = function() {
     var reader = new FileReader();
     reader.onloadend = function() {
       var p = new DOMParser();
-      console.log('p', p);
+      // console.log('p', p);
       __parse(p.parseFromString(reader.result, 'text/xml'), callback);
     };
     reader.onerror = function(e) {
@@ -29,7 +29,7 @@ var GPX = function() {
   function exportToFile() {}
 
   function __parse(xml, callback) {
-    console.log('xml', xml);
+    // console.log('xml', xml);
     var track = {
       date      : '',
       name      : '',
