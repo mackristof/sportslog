@@ -93,8 +93,8 @@ var GPX = function() {
           for (var pt_nb = 0; pt_nb < trkpt.length; pt_nb++) {
             var point = {};
             var p = trkpt[pt_nb];
-            point.latitude = p.getAttribute('lat');
-            point.longitude = p.getAttribute('lon');
+            point.latitude = parseFloat(p.getAttribute('lat'));
+            point.longitude = parseFloat(p.getAttribute('lon'));
             distance = __getDistance(point.latitude, point.longitude);
             tag = p.getElementsByTagName('time');
             if (tag.length > 0) {
@@ -112,8 +112,8 @@ var GPX = function() {
             }
             tag = p.getElementsByTagName('ele');
             if (tag.length > 0) {
-              point.altitude = tag[0].textContent;
-              var alt = parseFloat(point.altitude);
+              point.altitude = parseFloat(tag[0].textContent);
+              var alt = point.altitude;
               if (track.alt_min === 0 || alt > track.alt_min) {
                 track.min_alt = alt;
               }
@@ -138,22 +138,22 @@ var GPX = function() {
 
             tag = p.getElementsByTagName('speed');
             if (tag.length > 0) {
-              point.speed = tag[0].textContent;
+              point.speed = parseFloat(tag[0].textContent);
             }
 
             tag = p.getElementsByTagName('time');
             if (tag.length > 0) {
-              point.date = tag[0].textContent;
+              point.date = new Date(tag[0].textContent);
             }
 
             tag = p.getElementsByTagName('hdop');
             if (tag.length > 0) {
-              point.accuracy = tag[0].textContent;
+              point.accuracy = parseFloat(tag[0].textContent);
             }
 
             tag = p.getElementsByTagName('vdhop');
             if (tag.length > 0) {
-              point.vertAccuracy = tag[0].textContent;
+              point.vertAccuracy = parseFloat(tag[0].textContent);
             }
             track.data[seg_nb].push(point);
           }
