@@ -23,7 +23,7 @@ var SessionSummaryView = Backbone.NativeView.extend({
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
     this.listenTo(Preferences, 'change', this.render);
-    console.log('SessionSummaryView initialized', this);
+    // console.log('SessionSummaryView initialized', this);
   },
 
   extend: Backbone.Events,
@@ -48,8 +48,8 @@ var SessionSummaryView = Backbone.NativeView.extend({
     return this;
   },
 
-  showSessionDetails: function(el) {
-    console.log('clicked', el, this.model);
+  showSessionDetails: function() {
+    // console.log('clicked', el, this.model);
     this.model.trigger('selected', this.model);
   }
 });

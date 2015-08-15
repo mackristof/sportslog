@@ -2,6 +2,8 @@
 'use strict';
 var Backbone            = require('../lib/exoskeleton');
 var Template            = require('microtemplates');
+var d3                  = require('../lib/d3');
+var crossfilter         = require('../lib/crossfilter');
 var dc                  = require('../lib/dc');
 
 // var SessionsCollection  = require('../collections/sessions');
@@ -61,16 +63,30 @@ var SessionView = Backbone.NativeView.extend({
     /*
      * building the map
      */
-    var map = this.model.get('map');
+    /*var map = this.model.get('map');
     if (map !== false) {
       utils.Map.initialize('session-map');
       utils.Map.getMap(this.model.get('data'));
       document.getElementById('session-map-container').className = 'new-line';
-    }
+    }*/
     /*
      * building the Altitude graph
      */
-    var alt_line = dc.lineChart('#session-alt-grap');
+    var alt_table = dc.dataTable('#session-alt-table'),
+        alt_graph = dc.lineChart('#session-alt-graph');
+
+    var ndx = crossfilter.crossfilter(this.model.get('data')[0]),
+        timeDim = ndx.dimension(function(d) {return d.date;}),
+        altGroup = timeDim.group(function(d) {return d.altitude;});
+    console.log('ndx', ndx);
+
+    alt_graph
+      .width(640).height(480)
+      .dimension(timeDim)
+      .group(altGroup)
+      .x(d3.scale.linear().domain([0,20]));
+
+    alt_graph.render();
 
     return this;
   },

@@ -78,7 +78,7 @@ var MainView = Backbone.NativeView.extend({
   },
 
   showSession: function(model) {
-    console.log('will display model', model);
+    // console.log('will display model', model);
     var that = this;
     model.fetch({
       success : function(res) {
@@ -106,7 +106,7 @@ var MainView = Backbone.NativeView.extend({
   },
 
   _viewSection: function(section) {
-    console.log('view section', section);
+    // console.log('view section', section);
     if (section !== this.active_section) {
       this.active_section.setAttribute('disabled', 'true');
       section.setAttribute('disabled', 'false');
