@@ -72,21 +72,29 @@ var SessionView = Backbone.NativeView.extend({
     /*
      * building the Altitude graph
      */
-    var alt_table = dc.dataTable('#session-alt-table'),
-        alt_graph = dc.lineChart('#session-alt-graph');
+    // var alt_table = dc.dataTable('#session-alt-table'),
+    var alt_graph = dc.lineChart('#session-alt-graph');
 
-    var ndx = crossfilter.crossfilter(this.model.get('data')[0]),
+    var data = this.model.get('data')[0];
+    console.log('data', data);
+    data.forEach(function(d) {
+      d.date = new Date(d.date);
+    });
+
+    var ndx = crossfilter.crossfilter(data),
         timeDim = ndx.dimension(function(d) {return d.date;}),
-        altGroup = timeDim.group(function(d) {return d.altitude;});
+        dateMin = timeDim.bottom(1)[0].date,
+        dateMax = timeDim.top(1)[0].date,
+        altGroup = timeDim.group().reduceSum(function(d) {return d.altitude;});
     console.log('ndx', ndx);
 
     alt_graph
-      .width(640).height(480)
+      .width(960).height(200)
       .dimension(timeDim)
       .group(altGroup)
-      .x(d3.scale.linear().domain([0,20]));
+      .x(d3.time.scale().domain([dateMin, dateMax]));
 
-    alt_graph.render();
+    dc.renderAll();
 
     return this;
   },
