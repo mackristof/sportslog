@@ -72,8 +72,8 @@ var SessionView = Backbone.NativeView.extend({
     /*
      * building the Altitude graph
      */
-    // var alt_table = dc.dataTable('#session-alt-table'),
-    var alt_graph = dc.lineChart('#session-alt-graph');
+    var alt_table = dc.dataTable('#session-alt-table'),
+        alt_graph = dc.lineChart('#session-alt-graph');
 
     var data = this.model.get('data')[0];
     console.log('data', data);
@@ -94,6 +94,13 @@ var SessionView = Backbone.NativeView.extend({
       .group(altGroup)
       .x(d3.time.scale().domain([dateMin, dateMax]));
 
+    alt_table
+      .dimension(timeDim)
+      .group(function(d) {return d.date;})
+      .columns([
+        function(d) {return d.date;},
+        function(d) {return d.altitude;}
+      ]);
     dc.renderAll();
 
     return this;
