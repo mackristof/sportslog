@@ -151,7 +151,7 @@ var GPX = function() {
               point.accuracy = parseFloat(tag[0].textContent);
             }
 
-            tag = p.getElementsByTagName('vdhop');
+            tag = p.getElementsByTagName('vdop');
             if (tag.length > 0) {
               point.vertAccuracy = parseFloat(tag[0].textContent);
             }
