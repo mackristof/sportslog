@@ -12,8 +12,8 @@ var GPX = function() {
     olat      = null;
     olon      = null;
     distance  = 0;
-
-    var file = inPath[0];
+    __parse(inPath, callback);
+    /*var file = inPath[0];
     var reader = new FileReader();
     reader.onloadend = function() {
       var p = new DOMParser();
@@ -23,7 +23,7 @@ var GPX = function() {
     reader.onerror = function(e) {
       callback({error: true, res: e});
     };
-    reader.readAsText(file);
+    reader.readAsText(file);*/
   }
 
   function exportToFile() {}
@@ -114,8 +114,8 @@ var GPX = function() {
             if (tag.length > 0) {
               point.altitude = parseFloat(tag[0].textContent);
               var alt = point.altitude;
-              if (track.alt_min === 0 || alt > track.alt_min) {
-                track.min_alt = alt;
+              if (track.alt_min === 0 || alt < track.alt_min) {
+                track.alt_min = alt;
               }
               if (track.alt_max === 0 || alt > track.alt_max) {
                 track.alt_max = alt;
@@ -177,6 +177,7 @@ var GPX = function() {
       track.avg_speed = track.distance / track.duration * 1000;
     }
     track.map = true;
+    console.log('track.data[0][5]', track.data[0][5]);
     callback({error: false, res: track});
   }
 

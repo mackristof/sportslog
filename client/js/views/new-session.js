@@ -86,7 +86,23 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   importFile: function() {
+    var reader = new FileReader();
     var that = this;
+    reader.onloadend = function() {
+      var p = new DOMParser();
+      utils.GPX.importFile(p.parseFromString(reader.result, 'text/xml'), function(result) {
+        if (result.error) {
+          // TODO create a modal view for error or information display
+          console.log('error while importing', result.res);
+        } else {
+          // console.log('success while importing', res.res);
+          that.model.set(result.res);
+          // console.log('new session imported', that.model.attributes);
+        }
+      });
+    };
+    reader.readAsText(this.dom.import_file.files[0]);
+    /*var that = this;
     utils.GPX.importFile(this.dom.import_file.files, function(res) {
       if (res.error) {
         // TODO create a modal view for error or information display
@@ -96,7 +112,7 @@ var NewSessionView = Backbone.NativeView.extend({
         that.model.set(res.res);
         // console.log('new session imported', that.model.attributes);
       }
-    });
+    });*/
   },
 
   addNewSession: function() {
