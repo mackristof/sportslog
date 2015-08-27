@@ -34,6 +34,7 @@ describe('GPX', function() {
           point.accuracy.should.eql(3);
           point.vertAccuracy.should.eql(3);
           point.distance.should.eql(3.2301912864078397);
+          point.cumulDistance.should.eql(17.936068540734794);
         }
      });
     });

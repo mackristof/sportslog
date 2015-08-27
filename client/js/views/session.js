@@ -77,7 +77,27 @@ var SessionView = Backbone.NativeView.extend({
 
     var data = this.model.get('data')[0];
     console.log('data', data);
-    data.forEach(function(d) {
+
+    var ndx = crossfilter.crossfilter(data),
+        distDim = ndx.dimension(function(d) {return d.cumulDistance / 1000;}),
+        distMin = 0,
+        distMax = this.model.get('distance') / 1000,
+        altGroup = distDim.group().reduceSum(function(d) {return d.altitude;});
+    console.log('dist', distMin, distMax);
+    alt_graph
+      .width(960).height(200)
+      .dimension(distDim)
+      .group(altGroup)
+      .x(d3.scale.linear().domain([distMin, distMax]));
+    alt_table
+      .dimension(distDim)
+      .group(function(d) {return d.cumulDistance;})
+      .columns([
+        function(d) {return d.cumulDistance / 1000;},
+        function(d) {return d.altitude;}
+      ]);
+    // Altitude Graph and Table based on time
+    /*data.forEach(function(d) {
       d.date = new Date(d.date);
     });
 
@@ -86,7 +106,6 @@ var SessionView = Backbone.NativeView.extend({
         dateMin = timeDim.bottom(1)[0].date,
         dateMax = timeDim.top(1)[0].date,
         altGroup = timeDim.group().reduceSum(function(d) {return d.altitude;});
-    console.log('ndx', ndx);
 
     alt_graph
       .width(960).height(200)
@@ -100,7 +119,7 @@ var SessionView = Backbone.NativeView.extend({
       .columns([
         function(d) {return d.date;},
         function(d) {return d.altitude;}
-      ]);
+      ]);*/
     dc.renderAll();
 
     return this;

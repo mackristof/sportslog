@@ -97,6 +97,7 @@ var GPX = function() {
             point.longitude = parseFloat(p.getAttribute('lon'));
             point.distance = __getDistance(point.latitude, point.longitude);
             distance += point.distance;
+            point.cumulDistance = distance;
             tag = p.getElementsByTagName('time');
             if (tag.length > 0) {
               point.date = tag[0].textContent;
