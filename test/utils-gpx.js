@@ -1,7 +1,7 @@
 /* jshint strict: true, node: true */
 'use strict';
 
-var assert = require('assert');
+// var assert = require('assert');
 require('should');
 var domParser = require('xmldom').DOMParser;
 
@@ -33,7 +33,7 @@ describe('GPX', function() {
           point.speed.should.eql(2.9929583072662354);
           point.accuracy.should.eql(3);
           point.vertAccuracy.should.eql(3);
-          point.distance.should.eql(1);
+          point.distance.should.eql(3.2301912864078397);
         }
      });
     });

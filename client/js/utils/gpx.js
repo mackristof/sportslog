@@ -95,7 +95,8 @@ var GPX = function() {
             var p = trkpt[pt_nb];
             point.latitude = parseFloat(p.getAttribute('lat'));
             point.longitude = parseFloat(p.getAttribute('lon'));
-            distance = __getDistance(point.latitude, point.longitude);
+            point.distance = __getDistance(point.latitude, point.longitude);
+            distance += point.distance;
             tag = p.getElementsByTagName('time');
             if (tag.length > 0) {
               point.date = tag[0].textContent;
@@ -177,7 +178,7 @@ var GPX = function() {
       track.avg_speed = track.distance / track.duration * 1000;
     }
     track.map = true;
-    console.log('track.data[0][5]', track.data[0][5]);
+    // console.log('track.data[0][5]', track.data[0][5]);
     callback({error: false, res: track});
   }
 
@@ -209,12 +210,13 @@ var GPX = function() {
   }
 
   function __getDistance(lat, lon) {
+    var dist = 0;
     if (olat !== null) {
-      distance += __distanceFromPrev(olat, olon, lat, lon);
+      dist = __distanceFromPrev(olat, olon, lat, lon);
     }
     olat = lat;
     olon = lon;
-    return distance;
+    return dist;
   }
 
   function __distanceFromPrev(lat1, lon1, lat2, lon2) {
