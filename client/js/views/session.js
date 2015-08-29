@@ -77,6 +77,32 @@ var SessionView = Backbone.NativeView.extend({
 
     var data = this.model.get('data')[0];
     console.log('data', data);
+    var sumData = [];
+    var i = 0;
+    data.forEach(function(d) {
+      if (i === 0) {
+        sumData[i] = {};
+        sumData[i].distance   = d.cumulDistance;
+        sumData[i].time       = '';
+        sumData[i].latitude   = d.latitude;
+        sumData[i].longitude  = d.longitude;
+        sumData[i].altitude   = d.altitude;
+        sumData[i].climb      = '';
+        sumData[i].speed      = '';
+
+      } else if (d.cumulDistance >= sumData[i].distance + 1000) {
+        i += 1;
+        sumData[i] = {};
+        sumData[i].distance   = d.cumulDistance;
+        sumData[i].time       = d.date - sumData[i - 1].time;
+        sumData[i].latitude   = d.latitude;
+        sumData[i].longitude  = d.longitude;
+        sumData[i].altitude   = d.altitude;
+        sumData[i].climb      = d.altitude - sumData[i - 1].altitude;
+        sumData[i].speed      = (d.cumulDistance - sumData[i -1].distance) / sumData[i].time;
+      }
+    });
+    console.log('sumData', sumData);
 
     var ndx = crossfilter.crossfilter(data),
         distDim = ndx.dimension(function(d) {return d.cumulDistance / 1000;}),
