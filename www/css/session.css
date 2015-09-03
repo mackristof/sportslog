@@ -1,0 +1,45 @@
+.accordeon {
+  margin: 10px auto;
+  padding: 10px;
+}
+.accordeon section {
+  overflow: hidden;
+  margin: 3px;
+  position: static;
+}
+.accordeon section input[type="checkbox"] {
+  display: none;
+}
+.accordeon section label {
+  display: block;
+  background-color: cadetblue;
+  cursor: pointer;
+}
+.accordeon section label:hover {
+  background-color: grey;
+}
+.accordeon section:hover {
+  backgroud: grey;
+}
+.accordeon section table {
+  /* display: none; */
+}
+.accordeon section h3:target ~ table {
+  display: block;
+}
+h2,
+h3,
+.map {
+  clear: both;
+}
+h3 {
+  background-color: cadetblue;
+}
+.map {
+  width: 600px;
+  height: 500px;
+}
+table th {
+  width: 140px;
+}
+

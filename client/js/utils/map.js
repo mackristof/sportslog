@@ -27,6 +27,17 @@ var LeafletMap = function() {
     })
   };
 
+  var interval_marker = {
+    clickable : false,
+    icon      : new L.Icon({
+      iconUrl       : './img/marker-icon.png',
+      iconSize      : [18, 34],
+      iconAnchor    : [5, 34],
+      shadowUrl     : './img/marker-shadow.png',
+      shadowSize    : [34, 34],
+      shadowAnchor  : [5, 41]
+    })
+  };
 
   function initialize(element) {
     if(map !== undefined) {
@@ -60,6 +71,9 @@ var LeafletMap = function() {
         );
         if (pt === 0 || pt === len -1) {
           marker = new L.marker(point, marker_options);
+          layers.addLayer(marker);
+        } else if (segment[pt].interval) {
+          marker = new L.Marker(point, interval_marker);
           layers.addLayer(marker);
         }
         coordinates.push(point);

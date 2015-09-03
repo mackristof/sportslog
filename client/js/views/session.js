@@ -32,6 +32,9 @@ var SessionView = Backbone.NativeView.extend({
   },
 
   render: function() {
+    var user_unit = Preferences.get('unit');
+    console.log('user_unit', user_unit);
+
     var dist = utils.Helpers.formatDistance(
         Preferences.get('unit'),
         this.model.get('distance'),
@@ -60,94 +63,179 @@ var SessionView = Backbone.NativeView.extend({
       'alt_min'     : alt_min.value + ' ' + alt_min.unit,
       'activity'    : this.model.get('activity')
     });
-    /*
-     * building the map
-     */
-    /*var map = this.model.get('map');
-    if (map !== false) {
-      utils.Map.initialize('session-map');
-      utils.Map.getMap(this.model.get('data'));
-      document.getElementById('session-map-container').className = 'new-line';
-    }*/
-    /*
-     * building the Altitude graph
-     */
-    var alt_table = dc.dataTable('#session-alt-table'),
-        alt_graph = dc.lineChart('#session-alt-graph');
+    var scale;
+    if (user_unit === 'metric') {
+      scale = 1000;
+    } else {
+      scale = 1609;
+    }
 
-    var data = this.model.get('data')[0];
-    console.log('data', data);
-    var sumData = [];
-    var i = 0;
-    data.forEach(function(d) {
-      if (i === 0) {
-        sumData[i] = {};
-        sumData[i].distance   = d.cumulDistance;
-        sumData[i].time       = '';
-        sumData[i].latitude   = d.latitude;
-        sumData[i].longitude  = d.longitude;
-        sumData[i].altitude   = d.altitude;
-        sumData[i].climb      = '';
-        sumData[i].speed      = '';
-
-      } else if (d.cumulDistance >= sumData[i].distance + 1000) {
-        i += 1;
-        sumData[i] = {};
-        sumData[i].distance   = d.cumulDistance;
-        sumData[i].time       = d.date - sumData[i - 1].time;
-        sumData[i].latitude   = d.latitude;
-        sumData[i].longitude  = d.longitude;
-        sumData[i].altitude   = d.altitude;
-        sumData[i].climb      = d.altitude - sumData[i - 1].altitude;
-        sumData[i].speed      = (d.cumulDistance - sumData[i -1].distance) / sumData[i].time;
+    var data = this.model.get('data');
+    var complete_data = data.reduce(function(a, b) {
+      return a.concat(b);
+    });
+    console.log('complete_data', complete_data);
+    var previous = {
+      'date'      : complete_data[0].date,
+      'time'      : 0,
+      'climb'     : 0,
+      'speed'     : 0,
+      'altitude'  : 0,
+      'distance'  : 0
+    };
+    var summary_data = complete_data.map(function(value, index) {
+      if (value.cumulDistance === 0 || value.cumulDistance >= previous.distance + scale) {
+        var time = new Date(value.date).valueOf() - new Date(previous.date).valueOf();
+        // TODO Create some kind of average value for speed
+        var speed = (value.cumulDistance - previous.distance) / (time / 1000);
+        if (isNaN(speed)) {
+          speed = 0;
+        } else {
+          speed = utils.Helpers.formatSpeed(user_unit, speed).value;
+        }
+        var newbe = {
+          'date'      : value.date,
+          'distance'  : value.cumulDistance,
+          'latitude'  : value.latitude,
+          'longitude' : value.longitude,
+          'altitude'  : value.altitude,
+          'time'      : time,
+          'climb'     : value.altitude - previous.altitude,
+          'speed'     : speed
+        };
+        previous = newbe;
+        complete_data[index].interval = true;
+        return newbe;
+      }
+    }).filter(function(value) {
+      if (!value) {
+        return false;
+      } else {
+        return true;
       }
     });
-    console.log('sumData', sumData);
+    console.log('summary_data', summary_data);
 
-    var ndx = crossfilter.crossfilter(data),
-        distDim = ndx.dimension(function(d) {return d.cumulDistance / 1000;}),
-        distMin = 0,
-        distMax = this.model.get('distance') / 1000,
-        altGroup = distDim.group().reduceSum(function(d) {return d.altitude;});
-    console.log('dist', distMin, distMax);
+    // TODO manage small distance unit for Imperial
+    var small_unit = utils.Helpers.formatDistance('', 0, false).unit;
+    var big_unit = utils.Helpers.formatDistance(user_unit, 0, false).unit;
+    var speed_unit = utils.Helpers.formatSpeed(user_unit, 0).unit;
+
+
+    var map = this.model.get('map');
+    if (map !== false) {
+      utils.Map.initialize('session-map');
+      utils.Map.getMap(data);
+    }
+
+    var geo_table = dc.dataTable('#geo_table');
+    var alt_graph = dc.lineChart('#alt_graph');
+    var alt_table = dc.dataTable('#alt_table');
+    var speed_graph = dc.lineChart('#speed_graph');
+    var speed_table = dc.dataTable('#speed_table');
+
+    var complete_ndx    = crossfilter.crossfilter(complete_data),
+        distDim         = complete_ndx.dimension(function(d) {return d.cumulDistance / scale;}),
+        distMin         = 0,
+        distMax         = this.model.get('distance') / scale,
+        altGroup        = distDim.group().reduceSum(function(d) {return d.altitude;}),
+        speedGroup      = distDim.group().reduceSum(function(d) {
+          return utils.Helpers.formatSpeed(user_unit, d.speed).value;
+        });
+    var summary_ndx     = crossfilter.crossfilter(summary_data),
+        summary_distDim = summary_ndx.dimension(function(d) {return d.distance;});
+
+    geo_table
+      .width(960)
+      .size(summary_data.length)
+      .dimension(summary_distDim)
+      .group(function() {return '';})
+      .columns([
+        {
+          label   :'Distance (' + big_unit +')',
+          format  : function(d) {return parseInt(utils.Helpers.formatDistance(user_unit, d.distance, false).value, 0);}
+        },
+        {
+          label   : 'Duration',
+          format  : function(d) {return utils.Helpers.formatDuration(d.time);}
+        },
+        {
+          label   : 'Latitude',
+          format  : function(d) {return d.latitude;}
+        },
+        {
+          label   : 'Longitude',
+          format  : function(d) {return d.longitude;}
+        }
+      ]);
     alt_graph
       .width(960).height(200)
       .dimension(distDim)
+      .mouseZoomable(false)
+      .renderHorizontalGridLines(true)
+      .renderVerticalGridLines(true)
+      .brushOn(false)
       .group(altGroup)
+      .title(function(d) {
+        return 'Distance: ' + d.key.toFixed(2) + ' ' + big_unit + '\n' + 'Altitude: ' + d.value + ' ' + small_unit;
+      })
       .x(d3.scale.linear().domain([distMin, distMax]));
     alt_table
-      .dimension(distDim)
-      .group(function(d) {return d.cumulDistance;})
+      .width(960)
+      .size(summary_data.length)
+      .dimension(summary_distDim)
+      .group(function() {return '';})
       .columns([
-        function(d) {return d.cumulDistance / 1000;},
-        function(d) {return d.altitude;}
+        {
+          label   :'Distance (' + big_unit +')',
+          format  : function(d) {return parseInt(utils.Helpers.formatDistance(user_unit, d.distance, false).value, 0);}
+        },
+        {
+          label   : 'Duration',
+          format  : function(d) {return utils.Helpers.formatDuration(d.time);}
+        },
+        {
+          label   : 'Altitude (' + small_unit +')',
+          format  : function(d) {return d.altitude;}
+        },
+        {
+          label   : 'Climb (' + small_unit +')',
+          format  : function(d) {return d.climb;}
+        }
       ]);
-    // Altitude Graph and Table based on time
-    /*data.forEach(function(d) {
-      d.date = new Date(d.date);
-    });
-
-    var ndx = crossfilter.crossfilter(data),
-        timeDim = ndx.dimension(function(d) {return d.date;}),
-        dateMin = timeDim.bottom(1)[0].date,
-        dateMax = timeDim.top(1)[0].date,
-        altGroup = timeDim.group().reduceSum(function(d) {return d.altitude;});
-
-    alt_graph
+      speed_graph
       .width(960).height(200)
-      .dimension(timeDim)
-      .group(altGroup)
-      .x(d3.time.scale().domain([dateMin, dateMax]));
-
-    alt_table
-      .dimension(timeDim)
-      .group(function(d) {return d.date;})
+      .dimension(distDim)
+      .mouseZoomable(false)
+      .renderHorizontalGridLines(true)
+      .renderVerticalGridLines(true)
+      .brushOn(false)
+      .group(speedGroup)
+      .title(function(d) {
+        return 'Distance: ' + d.key.toFixed(2) + ' ' + big_unit + '\n' + 'Speed: ' + d.value + ' ' + speed_unit;
+      })
+      .x(d3.scale.linear().domain([distMin, distMax]));
+    speed_table
+      .width(960)
+      .size(summary_data.length)
+      .dimension(summary_distDim)
+      .group(function() {return '';})
       .columns([
-        function(d) {return d.date;},
-        function(d) {return d.altitude;}
-      ]);*/
-    dc.renderAll();
+        {
+          label   :'Distance (' + big_unit +')',
+          format  : function(d) {return parseInt(utils.Helpers.formatDistance(user_unit, d.distance, false).value, 0);}
+        },
+        {
+          label   : 'Duration',
+          format  : function(d) {return utils.Helpers.formatDuration(d.time);}
+        },
+        {
+          label   : 'Speed (' + speed_unit +')',
+          format  : function(d) {return d.speed;}
+        }
+      ]);
 
+    dc.renderAll();
     return this;
   },
 });
