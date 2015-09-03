@@ -53,6 +53,7 @@ var MainView = Backbone.NativeView.extend({
     new SessionsView();
 
     this.listenTo(SessionsCollection, 'model-selected', this.showSession);
+    this.listenTo(SessionsCollection, 'add', this.showSession);
   },
   somethingOnPreferences: function(ev, res) {
     console.log('got something on Preferences', ev, res);
