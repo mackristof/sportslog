@@ -119,6 +119,7 @@ var NewSessionView = Backbone.NativeView.extend({
     // console.log('addNewSession', this.model);
     var s = SessionsCollection.add(this.model.attributes);
     s.save();
+    SessionsCollection.trigger('add-new', s);
   },
 
   newSessionData: function() {

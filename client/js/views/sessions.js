@@ -7,7 +7,7 @@ var SessionsCollection = require('../collections/sessions');
 var SessionSummaryView  = require('../views/session-summary');
 
 var SessionsView = Backbone.NativeView.extend({
-  el: '#sessions-view',
+  el: '#sessions-list',
 
   events: {},
 
