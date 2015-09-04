@@ -95,7 +95,18 @@ var NewSessionView = Backbone.NativeView.extend({
           // TODO create a modal view for error or information display
           console.log('error while importing', result.res);
         } else {
-          // console.log('success while importing', res.res);
+          var calories = utils.Helpers.calculateCalories(
+              Preferences.get('gender'),
+              Preferences.get('weight'),
+              Preferences.get('height'),
+              new Date().getFullYear() - Preferences.get('birthyear'),
+              result.res.distance,
+              result.res.duration,
+              that.model.get('activity')
+          );
+          console.log('calories', calories);
+          result.res.calories = calories;
+          console.log('success while importing', result.res);
           that.model.set(result.res);
           // console.log('new session imported', that.model.attributes);
         }
@@ -144,7 +155,10 @@ var NewSessionView = Backbone.NativeView.extend({
     this.dom.date.value      = utils.Helpers.formatDate(data.date);
     this.dom.time.value      = utils.Helpers.formatTime(data.date);
     // TODO manage distance and speed calculation from preferences choices
-    var distance = utils.Helpers.formatDistance(Preferences.get('unit'), data.distance, false);
+    var distance = utils.Helpers.formatDistance(
+        Preferences.get('unit'),
+        data.distance,
+        false);
     this.dom.distance.value  = distance.value + ' ' + distance.unit;
     this.dom.duration.value  = utils.Helpers.formatDuration(data.duration).value;
     this.dom.alt_max.value   = utils.Helpers.formatDistance(this.unit, data.alt_max, false).value;
