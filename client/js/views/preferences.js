@@ -8,10 +8,11 @@ var PreferencesView = Backbone.NativeView.extend({
   el: '#preferences-view',
 
   events: {
-    'change #language'  : 'preferenceChanged',
-    'change #unit'      : 'preferenceChanged',
-    'change #gender'    : 'preferenceChanged',
-    'change #birthyear' : 'preferenceChanged'
+    'change #language'            : 'preferenceChanged',
+    'change #unit'                : 'preferenceChanged',
+    'change #gender'              : 'preferenceChanged',
+    'change #birthyear'           : 'preferenceChanged',
+    'click #save-preferences-btn' : 'preferencesChanged'
   },
 
   dom: {
@@ -19,7 +20,9 @@ var PreferencesView = Backbone.NativeView.extend({
     unit_select       : document.getElementById('unit'),
     gender_select     : document.getElementById('gender'),
     birthyear_select  : document.getElementById('birthyear'),
-    // save_btn          : document.getElementById('save-preferences-btn')
+    height_input      : document.getElementById('height'),
+    weight_input      : document.getElementById('initial_weight'),
+    save_btn          : document.getElementById('save-preferences-btn')
   },
 
   initialize: function() {
@@ -34,6 +37,19 @@ var PreferencesView = Backbone.NativeView.extend({
   preferenceChanged: function(el) {
     var preference  = el.target;
     this.model.set(preference.id, preference[preference.selectedIndex].value);
+    this.model.save();
+  },
+
+  preferencesChanged: function() {
+    console.log('preferences changed');
+    this.model.set({
+      'language'  : this.dom.language_select[this.dom.language_select.selectedIndex].value,
+      'unit'      : this.dom.unit_select[this.dom.unit_select.selectedIndex].value,
+      'gender'    : this.dom.gender_select[this.dom.gender_select.selectedIndex].value,
+      'birthyear' : parseInt(this.dom.birthyear_select[this.dom.birthyear_select.selectedIndex].value, 10),
+      'height'    : parseInt(this.dom.height_input.value, 10),
+      'weight'    : parseFloat(this.dom.weight_input.value, 2)
+    });
     this.model.save();
   },
 
