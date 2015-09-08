@@ -86,8 +86,10 @@ var Helpers = function() {
     }
   }
 
-  function formatDuration(value) {
-    var sec = value / 1000;
+  function formatDuration(sec) {
+    if (sec === 0) {
+      return '00:00:00';
+    }
     var hh = Math.floor(sec / 3600);
     var mm = Math.floor((sec - hh * 3600) / 60);
     var ss = Math.floor(sec - (hh * 3600) - (mm * 60));
@@ -100,15 +102,22 @@ var Helpers = function() {
     if (ss < 10) {
       ss = '0' + ss;
     }
-    return hh + 'h ' + mm + 'm ' + ss + 's';
+    return hh + ':' + mm + ':' + ss;
   }
 
   function calculateCalories(gender, weigth, height, age, distance, duration, activity) {
     console.log('calculate calories');
-    var bmr = __RevisedHarrisBenedictEquation(gender, weigth, height, age, distance, duration);
+    // TODO verify the validity of each value
+    if (distance === 0 || duration === 0) {
+      return 0;
+    }
+    //var bmr = __originalHarrisBenedictEquation(gender, weigth, height, age, distance, duration);
+    //var bmr = __RevisedHarrisBenedictEquation(gender, weigth, height, age, distance, duration);
+    var bmr = __MifftlinStJeorEquation(gender, weigth, height, age, distance, duration);
+    console.log('RevisedHarrisBenedictEquation', bmr);
 
     var rate = 0;
-    var speed = distance / duration;
+    var speed = distance / duration * 3.6; // we calculate speed in km/h to not have to recalculate all intervals :D
     if (activity === 'walking') {
       if (speed <= 4.2) {
         rate = 3;
@@ -131,23 +140,25 @@ var Helpers = function() {
       } else if (speed <= 8.8) {
         rate = 9;
       } else if (speed <= 10) {
-        rate = 9.8;
+        rate = 10;
       } else if (speed <= 10.8) {
-        rate = 10.5;
-      } else if (speed <= 12.3) {
         rate = 11;
-      } else if (speed <= 13.2) {
+      } else if (speed <= 11.5) {
         rate = 11.5;
+      } else if (speed <= 12.3) {
+        rate = 12.5;
+      } else if (speed <= 13.2) {
+        rate = 13.5;
       } else if (speed <= 14) {
-        rate = 11.8;
+        rate = 14;
       } else if (speed <= 15.8) {
-        rate = 12.3;
+        rate = 15;
       } else if (speed <= 17.2) {
-        rate = 12.8;
-      } else if (speed <= 18.4) {
-        rate = 14.5;
-      } else if (speed <= 20.2) {
         rate = 16;
+      } else if (speed <= 18.4) {
+        rate = 17;
+      } else if (speed <= 20.2) {
+        rate = 18;
       } else if (speed <= 21.5) {
         rate = 19;
       } else if (speed <= 22.5) {
@@ -194,35 +205,35 @@ var Helpers = function() {
     } else if (activity === 'climbing') {
       rate = 7;
     }
-    var calories = Math.round((bmr * rate) * (duration / 1440));
+    var calories = Math.round((bmr * rate / 86400) * duration );
     return calories;
   }
 
 /*  function __originalHarrisBenedictEquation(g, w, h, a) {
     if (g === 'male') {
-      return 66.473 + (13.7516 * w) + (5.0033 * h) + (6.7550 * a); // male
+      return 66.473 + (13.7516 * w) + (5.0033 * h) - (6.7550 * a); // male
     } else {
-      return 655.0955 + (9.5634 * w) + (1.8496 * h) + (4.6756 * a); // female
-    }
-  }*/
-
-  function __RevisedHarrisBenedictEquation(g, w, h, a) {
-    if (g === 'male') {
-      return 88.362 + (13.397 * w) + (4.799 * h) + (5.677 * a); // male
-    } else {
-      return 447.593 + (9.247 * w) + (3.098 * h) + (4.330 * a); // female
+      return 655.0955 + (9.5634 * w) + (1.8496 * h) - (4.6756 * a); // female
     }
   }
 
-/*  function __MifftlinStJeorEquation(g, w, h, a) {
+  function __RevisedHarrisBenedictEquation(g, w, h, a) {
+    if (g === 'male') {
+      return 88.362 + (13.397 * w) + (4.799 * h) - (5.677 * a); // male
+    } else {
+      return 447.593 + (9.247 * w) + (3.098 * h) - (4.330 * a); // female
+    }
+  }*/
+
+  function __MifftlinStJeorEquation(g, w, h, a) {
     var s;
     if (g === 'male') {
       s = 5; // male
     } else {
       s = -161; // female
     }
-    return (10 * w) + (6.25 * h) + (5 * a) + s;
-  }*/
+    return (10 * w) + (6.25 * h) - (5 * a) + s;
+  }
 
   return {
     formatDistance    : formatDistance,

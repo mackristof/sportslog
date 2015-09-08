@@ -49,7 +49,8 @@ var NewSessionView = Backbone.NativeView.extend({
   initialize: function() {
     // console.log('NewSessionView initialize', this.unit);
 
-    this.listenTo(this.model, 'change', this.renderModel);
+    this.listenTo(this.model, 'init', this.renderModel);
+    this.listenTo(this.model, 'import', this.renderModel);
     this.listenTo(this.model, 'change:map', this.renderMap);
   },
 
@@ -74,6 +75,7 @@ var NewSessionView = Backbone.NativeView.extend({
       }
       this.model.set(session);
     }
+    this.model.trigger('init');
   },
 
   enableImport: function() {
@@ -108,22 +110,12 @@ var NewSessionView = Backbone.NativeView.extend({
           result.res.calories = calories;
           console.log('success while importing', result.res);
           that.model.set(result.res);
+          that.model.trigger('import');
           // console.log('new session imported', that.model.attributes);
         }
       });
     };
     reader.readAsText(this.dom.import_file.files[0]);
-    /*var that = this;
-    utils.GPX.importFile(this.dom.import_file.files, function(res) {
-      if (res.error) {
-        // TODO create a modal view for error or information display
-        console.log('error while importing', res.res);
-      } else {
-        // console.log('success while importing', res.res);
-        that.model.set(res.res);
-        // console.log('new session imported', that.model.attributes);
-      }
-    });*/
   },
 
   addNewSession: function() {
@@ -152,6 +144,7 @@ var NewSessionView = Backbone.NativeView.extend({
 
   renderModel: function() {
     var data = this.model.attributes;
+    console.log('inital data', data);
     this.dom.date.value      = utils.Helpers.formatDate(data.date);
     this.dom.time.value      = utils.Helpers.formatTime(data.date);
     // TODO manage distance and speed calculation from preferences choices
@@ -160,11 +153,11 @@ var NewSessionView = Backbone.NativeView.extend({
         data.distance,
         false);
     this.dom.distance.value  = distance.value + ' ' + distance.unit;
-    this.dom.duration.value  = utils.Helpers.formatDuration(data.duration).value;
+    this.dom.duration.value  = utils.Helpers.formatDuration(data.duration);
     this.dom.alt_max.value   = utils.Helpers.formatDistance(this.unit, data.alt_max, false).value;
     this.dom.alt_min.value   = utils.Helpers.formatDistance(this.unit, data.alt_min, false).value;
     this.dom.avg_speed.value = utils.Helpers.formatSpeed(this.unit, data.avg_speed).value;
-    this.dom.calories.value  = utils.Helpers.calculateCalories(data.activity, data.distance, data.duration);
+    this.dom.calories.value  = data.calories;
   },
 
   renderMap: function() {
@@ -176,6 +169,11 @@ var NewSessionView = Backbone.NativeView.extend({
       this.dom.map.className = 'new-line';
     }
   },
+
+  render: function() {
+    this.dom.date.value = utils.Helpers.formatDate(new Date());
+    this.dom.time.value = utils.Helpers.formatTime(new Date());
+  }
 
 });
 module.exports = NewSessionView;
