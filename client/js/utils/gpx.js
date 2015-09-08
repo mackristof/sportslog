@@ -167,7 +167,7 @@ var GPX = function() {
       callback({error: true, res: 'Could not parse track segment from file'});
     }
     if (end_time && start_time) {
-      track.duration = end_time - start_time;
+      track.duration = (end_time - start_time) / 1000;
     } else {
       track.duration = 0;
     }
@@ -176,7 +176,7 @@ var GPX = function() {
     }
     track.distance = distance;
     if (track.duration !== '') {
-      track.avg_speed = track.distance / track.duration * 1000;
+      track.avg_speed = track.distance / track.duration;
     }
     track.map = true;
     // console.log('track.data[0][5]', track.data[0][5]);
