@@ -4,7 +4,7 @@
 var Mountaineering = function(options) {
   this.family     = options.family    || 'mountaineering';
   this.activity   = options.activity  || '';
-  this.date       = options.date      || '';
+  this.date       = options.date      || new Date();
   this.name       = options.name      || '';
   this.duration   = options.duration  || 0;
   this.distance   = options.distance  || 0;
