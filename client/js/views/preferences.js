@@ -12,6 +12,8 @@ var PreferencesView = Backbone.NativeView.extend({
     'change #unit'                : 'preferenceChanged',
     'change #gender'              : 'preferenceChanged',
     'change #birthyear'           : 'preferenceChanged',
+    'change #height'              : 'preferenceChanged',
+    'change #weight'              : 'preferenceChanged',
     'click #save-preferences-btn' : 'preferencesChanged'
   },
 
@@ -21,7 +23,7 @@ var PreferencesView = Backbone.NativeView.extend({
     gender_select     : document.getElementById('gender'),
     birthyear_select  : document.getElementById('birthyear'),
     height_input      : document.getElementById('height'),
-    weight_input      : document.getElementById('initial_weight'),
+    weight_input      : document.getElementById('weight'),
     save_btn          : document.getElementById('save-preferences-btn')
   },
 
@@ -36,7 +38,11 @@ var PreferencesView = Backbone.NativeView.extend({
 
   preferenceChanged: function(el) {
     var preference  = el.target;
-    this.model.set(preference.id, preference[preference.selectedIndex].value);
+    if (preference.nodeName === 'SELECT') {
+      this.model.set(preference.id, preference[preference.selectedIndex].value);
+    } else if (preference.nodeName === 'INPUT') {
+      this.model.set(preference.id, parseFloat(preference.value, 10));
+    }
     this.model.save();
   },
 
@@ -58,6 +64,8 @@ var PreferencesView = Backbone.NativeView.extend({
     this.dom.unit_select.value = this.model.get('unit');
     this.dom.gender_select.value = this.model.get('gender');
     this.dom.birthyear_select.value = this.model.get('birthyear');
+    this.dom.height_input.value = this.model.get('height');
+    this.dom.weight_input.value = this.model.get('weight');
     console.log('PreferencesView render');
   }
 });

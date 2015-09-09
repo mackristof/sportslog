@@ -8,7 +8,7 @@ module.exports.getAll = function(req, res) {
       res.status(500).send({error: 'Could not retreive Preferences.'});
     } else {
       var preferences = {};
-      console.log('preferences data', data);
+      console.log('preferences data', data.rows);
       if (data.rows.length !== 0) {
         preferences = data.rows[0].doc;
       } else {
@@ -16,7 +16,9 @@ module.exports.getAll = function(req, res) {
           language  : 'en',
           unit      : 'metric',
           gender    : 'male',
-          birthyear : '1970'
+          birthyear : 1970,
+          height    : 180,
+          weight    : 75
         };
         db.add(preferences, function(err, ans) {
           if (err !== null) {
@@ -32,6 +34,7 @@ module.exports.getAll = function(req, res) {
 };
 
 module.exports.update = function(req, res) {
+  console.log('Update Preferences', req.body);
   db.update(req.body, function(err, ans) {
     if (err !== null) {
       res.status(500).send({error: 'An error occured - ' + err});

@@ -33,6 +33,21 @@ var Preferences = function() {
     });
   };
 
+  // Better update managment found on:
+  // https://github.com/pouchdb/pouchdb/issues/1691
+  var retryUntilWritten = function(doc) {
+    return db.get(doc._id).then(function (origDoc) {
+      doc._rev = origDoc._rev;
+      return db.put(doc);
+    }).catch(function (err) {
+      if (err.status === 409) {
+        return retryUntilWritten(doc);
+      } else { // new doc
+        return db.put(doc);
+      }
+   });
+  };
+
   var remove = function(id, callback) {
     db.get(id, function(err, doc) {
       if (err) {
@@ -46,7 +61,7 @@ var Preferences = function() {
   return {
     all     : all,
     add     : add,
-    update  : update,
+    update  : retryUntilWritten,
     remove  : remove
   };
 }();
