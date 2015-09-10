@@ -39,8 +39,8 @@ var IndicatorsView = Backbone.NativeView.extend({
     this.collection.forEach(function(item) {
       totals.sessions += 1;
       totals.calories += item.get('calories');
-      totals.distance =+ item.get('distance');
-      totals.duration =+ item.get('duration');
+      totals.distance += item.get('distance');
+      totals.duration += item.get('duration');
     });
     var dist = utils.Helpers.distanceMeterToChoice(
         Preferences.get('unit'),
@@ -52,6 +52,7 @@ var IndicatorsView = Backbone.NativeView.extend({
       'distance'  : dist.value + ' ' + dist.unit,
       'duration'  : duration.hour + ':' + duration.min + ':' + duration.sec
     });
+    console.log('totals', totals);
     return this;
   },
 });
