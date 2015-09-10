@@ -31,6 +31,16 @@ var Helpers = function() {
     return distance;
   }
 
+  function inputDistanceToM(choice, value) {
+    var distance = 0;
+    if (choice === 'metric') {
+      distance = value * 1000;
+    } else if (choice === 'imperial') {
+      distance = (value * 1609.344).toFixed(1);
+    }
+    return distance;
+  }
+
   function formatSpeed(choice, value) {
     var speed = {};
     if (value === null|| value === undefined   || value < 0 || isNaN(value) || value === Infinity) {
@@ -88,7 +98,11 @@ var Helpers = function() {
 
   function formatDuration(sec) {
     if (sec === 0) {
-      return '00:00:00';
+      return {
+        hour  : 0,
+        min   : 0,
+        sec   : 0
+      };
     }
     var hh = Math.floor(sec / 3600);
     var mm = Math.floor((sec - hh * 3600) / 60);
@@ -102,7 +116,12 @@ var Helpers = function() {
     if (ss < 10) {
       ss = '0' + ss;
     }
-    return hh + ':' + mm + ':' + ss;
+    return {
+      hour  : hh,
+      min   : mm,
+      sec   : ss
+    };
+    // return hh + ':' + mm + ':' + ss;
   }
 
   function calculateCalories(gender, weigth, height, age, distance, duration, activity) {
@@ -235,8 +254,100 @@ var Helpers = function() {
     return (10 * w) + (6.25 * h) - (5 * a) + s;
   }
 
+  /*
+   * Convert a distance from meters into km or miles depending choice
+   * param {String}   choice      User choice over unit display.
+   * param {Number}   value       Distance value in meter.
+   * param {Boolean}  canNegative Tells if returned value can be negative or not
+   *
+   * return {Array}   d           Contains converted distance (as a Number) and unit (as a String)
+   */
+  function distanceMeterToChoice(choice, value, canNegative) {
+    var d = {};
+    if (value === null || value === undefined || (value < 0 && !canNegative)) {
+      d.value = '--';
+    } else {
+      if (choice === 'metric') {
+        d.value = (value / 1000).toFixed(1);
+        d.unit = 'km';
+      } else if (choice === 'imperial') {
+        d.value = (value / 1609.344).toFixed(1);
+        d.unit = 'miles';
+      } else {
+        d.value = value.toFixed(1);
+        d.unit = 'm';
+      }
+    }
+    return d;
+  }
+
+  /*
+   * Convert a distance from km or miles to meters
+   * param {String}   choice      User choice over unit display.
+   * param {Number}   value       Distance value in km or miles.
+   *
+   * return {Number}  d           Distance value in meters
+   */
+  function distanceChoiceToMeter(choice, value) {
+    var d = 0;
+    if (choice === 'metric') {
+      d = value * 1000;
+    } else if (choice === 'imperial') {
+      d = (value * 1609.344).toFixed(1);
+    }
+    return d;
+  }
+
+  /*
+   * Convert a velocity from meters per second into km/h or mph depending choice
+   * param {String}   choice      User choice over unit display.
+   * param {Number}   value       Speed in m/s
+   *
+   * return {Array}   s           Contains converted speed (as a Number) and unit (as a String)
+   */
+  function speedMsToChoice(choice, value) {
+    var s = {};
+    if (value === null || value === undefined || value < 0 || isNaN(value) || value === Infinity) {
+      s.value = '--';
+    } else {
+      if (choice === 'metric') {
+        s.value = (value * 3.6).toFixed(1);
+        s.unit = 'km/h';
+      } else if (choice === 'imperial') {
+        s.value = (value * 2.237).toFixed(1);
+        s.unit = 'mph';
+      } else {
+        s.value = value.toFixed(1);
+        s.unit = 'm/s';
+      }
+    }
+    return s;
+  }
+
+  /*
+   * Convert a velocity from km/h or mph to meters per second
+   * param {String}   choice      User choice over unit display.
+   * param {Number}   value       Speed in km/h or mph
+   *
+   * return {Float}   s           converted speed in m/s
+   */
+  function speedChoiceToMs(choice, value) {
+    var s = 0;
+    if (choice === 'metric') {
+      s = (value / 3.6).toFixed(1);
+    } else if (choice === 'imperial') {
+      s = (value / 2.237).toFixed(1);
+    }
+    return s;
+  }
+
   return {
+    distanceMeterToChoice : distanceMeterToChoice,
+    distanceChoiceToMeter : distanceChoiceToMeter,
+    speedMsToChoice       : speedMsToChoice,
+    speedChoiceToMs       : speedChoiceToMs,
     formatDistance    : formatDistance,
+    inputDistanceToM  : inputDistanceToM,
     formatSpeed       : formatSpeed,
     formatDate        : formatDate,
     formatTime        : formatTime,
@@ -245,4 +356,3 @@ var Helpers = function() {
   };
 }();
 module.exports = utils.Helpers = Helpers;
-

@@ -100,8 +100,8 @@
     </label>
 
     <label for="weight">
-      <input type="radio" name="select-activity" value="weight" id="weight" />
-      <img src="img/activities/weight.png" alt="weight" />
+      <input type="radio" name="select-activity" value="weight" id="weight_act" />
+      <img src="img/activities/weight_act.png" alt="weight" />
     </label>
 
   </form>
@@ -111,40 +111,46 @@
   </form>
   <form id="weight-form" class="hidden behind">
     <div class="width-half text-small align-left">Date
-      <input id="new-weight-date" class="align-right" placeHolder="Date" type="text" />
+      <input id="new-weight-date" class="align-right" type="text" />
     </div>
     <div class="width-half text-small align-left">Weight
-      <input id="new-weight" class="align-right" placeHolder="Weight" type="text" />
+      <input id="new-weight" class="align-right" type="text" />
     </div>
   </form>
   <div id="new-activity-details" class="hidden behind">
-    <div class="width-half text-small align-left">Date
-      <input id="new-session-date" class="align-right" placeHolder="Date" type="text" />
+    <div class="width-half text-small align-left">Date (dd/mm/yyy)
+      <input id="new-session-date" class="align-right" type="date" />
     </div>
-    <div class="width-half text-small align-left">Start time
-      <input id="new-session-time" class="align-right" placeHolder="Time" type="text" />
+    <div class="width-half text-small align-left">Start time (hh:mm)
+      <input id="new-session-time" class="align-right" type="time" />
     </div>
     <div class="width-half text-small align-left">Distance
-      <input id="new-session-distance" class="align-right" placeHolder="Distance" type="text" />
+      <input id="new-session-distance" class="align-right" type="number" step="0.01" />
     </div>
     <div class="width-half text-small align-left">Duration
-      <input id="new-session-duration" class="align-right" placeHolder="Duration" type="text" />
+      <div class="align-right">
+        <input id="new-session-duration-hour" class="duration" type="number" />
+        <span>:</span>
+        <input id="new-session-duration-min" class="duration" type="number" />
+        <span>:</span>
+        <input id="new-session-duration-sec" class="duration" type="number" />
+      </div>
     </div>
 
     <div class="width-half text-small align-left">Altitude max.
-      <input id="new-session-alt-max" class="align-right" placeHolder="Altitude max" type="text" disabled />
+      <input id="new-session-alt-max" class="align-right" type="number" disabled />
     </div>
 
     <div class="width-half text-small align-left">Altitude min.
-      <input id="new-session-alt-min" class="align-right" placeHolder="Altitude min" type="text" disabled />
+      <input id="new-session-alt-min" class="align-right" type="number" disabled />
     </div>
 
 
     <div class="width-half text-small align-left">Average Speed
-      <input id="new-session-avg-speed" class="align-right" placeHolder="Average speed" type="text" disabled />
+      <input id="new-session-avg-speed" class="align-right" type="number" disabled />
     </div>
     <div class="width-half text-small align-left">Calories
-      <input id="new-session-calories" class="align-right" placeHolder="Calories" type="text" disabled />
+      <input id="new-session-calories" class="align-right" type="number" disabled />
     </div>
 
   </div>
@@ -221,7 +227,7 @@
         <input id="height" type="text" />
       </li>
       <li><span>Weight (in kg)</span>
-        <input id="initial_weight" type="text" />
+        <input id="weight" type="text" />
       </li>
       <li><span>Année de naissance</span>
         <select name="birthyear" id="birthyear">
@@ -370,4 +376,3 @@
 
 </body>
 </html>
-

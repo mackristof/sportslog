@@ -42,14 +42,15 @@ var IndicatorsView = Backbone.NativeView.extend({
       totals.distance =+ item.get('distance');
       totals.duration =+ item.get('duration');
     });
-    var dist = utils.Helpers.formatDistance(
+    var dist = utils.Helpers.distanceMeterToChoice(
         Preferences.get('unit'),
         totals.distance, false);
+    var duration = utils.Helpers.formatDuration(totals.duration);
     this.el.innerHTML = this.template({
       'sessions'  : totals.sessions,
       'calories'  : totals.calories,
       'distance'  : dist.value + ' ' + dist.unit,
-      'duration'  : utils.Helpers.formatDuration(totals.duration)
+      'duration'  : duration.hour + ':' + duration.min + ':' + duration.sec
     });
     return this;
   },

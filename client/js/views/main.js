@@ -64,6 +64,7 @@ var MainView = Backbone.NativeView.extend({
 
   showNewSession: function() {
     // var model = app.SessionsCollection.create({});
+    console.log('showNewSession');
     new NewSession({
       model: new SessionModel()
     });

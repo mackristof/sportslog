@@ -42,4 +42,9 @@
   width: 10rem;
   float: input;
 }
-
+#new-activity-details .duration {
+  width: 2.5rem;
+}
+#new-activity-details span {
+  font-size: 2rem;
+}

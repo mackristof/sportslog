@@ -33,23 +33,22 @@ var SessionView = Backbone.NativeView.extend({
 
   render: function() {
     var user_unit = Preferences.get('unit');
-    console.log('user_unit', user_unit);
-
-    var dist = utils.Helpers.formatDistance(
-        Preferences.get('unit'),
+    var dist = utils.Helpers.distanceMeterToChoice(
+        user_unit,
         this.model.get('distance'),
         false);
-    var speed = utils.Helpers.formatSpeed(
-        Preferences.get('unit'),
+    var speed = utils.Helpers.speedMsToChoice(
+        user_unit,
         this.model.get('avg_speed'));
-    var alt_max = utils.Helpers.formatDistance(
-        Preferences.get('unit'),
+    var alt_max = utils.Helpers.distanceMeterToChoice(
+        user_unit,
         this.model.get('alt_max'),
         false);
-    var alt_min = utils.Helpers.formatDistance(
-        Preferences.get('unit'),
+    var alt_min = utils.Helpers.distanceMeterToChoice(
+        user_unit,
         this.model.get('alt_min'),
         false);
+    var duration = utils.Helpers.formatDuration(this.model.get('duration'));
 
     this.el.innerHTML = this.template({
       'session_cid' : this.model.get('session_cid'),
@@ -57,12 +56,21 @@ var SessionView = Backbone.NativeView.extend({
       'time'        : utils.Helpers.formatTime(this.model.get('date')),
       'calories'    : this.model.get('calories'),
       'distance'    : dist.value + ' ' + dist.unit,
-      'duration'    : utils.Helpers.formatDuration(this.model.get('duration')),
+      'duration'    : duration.hour + ':' + duration.min + ':' + duration.sec,
       'avg_speed'   : speed.value + ' ' + speed.unit,
       'alt_max'     : alt_max.value + ' ' + alt_max.unit,
       'alt_min'     : alt_min.value + ' ' + alt_min.unit,
       'activity'    : this.model.get('activity')
     });
+
+    var data = this.model.get('data');
+    if (data.length !== 0) {
+      this.renderData(data);
+    }
+  },
+
+  renderData: function(data) {
+    var user_unit = Preferences.get('unit');
     var scale;
     if (user_unit === 'metric') {
       scale = 1000;
@@ -70,7 +78,6 @@ var SessionView = Backbone.NativeView.extend({
       scale = 1609;
     }
 
-    var data = this.model.get('data');
     var complete_data = data.reduce(function(a, b) {
       return a.concat(b);
     });
@@ -91,7 +98,7 @@ var SessionView = Backbone.NativeView.extend({
         if (isNaN(speed)) {
           speed = 0;
         } else {
-          speed = utils.Helpers.formatSpeed(user_unit, speed).value;
+          speed = utils.Helpers.speedMsToChoice(user_unit, speed).value;
         }
         var newbe = {
           'date'      : value.date,
@@ -117,9 +124,9 @@ var SessionView = Backbone.NativeView.extend({
     console.log('summary_data', summary_data);
 
     // TODO manage small distance unit for Imperial
-    var small_unit = utils.Helpers.formatDistance('', 0, false).unit;
-    var big_unit = utils.Helpers.formatDistance(user_unit, 0, false).unit;
-    var speed_unit = utils.Helpers.formatSpeed(user_unit, 0).unit;
+    var small_unit = utils.Helpers.distanceMeterToChoice('', 0, false).unit;
+    var big_unit = utils.Helpers.distanceMeterToChoice(user_unit, 0, false).unit;
+    var speed_unit = utils.Helpers.speedMsToChoice(user_unit, 0).unit;
 
 
     var map = this.model.get('map');
@@ -140,7 +147,7 @@ var SessionView = Backbone.NativeView.extend({
         distMax         = this.model.get('distance') / scale,
         altGroup        = distDim.group().reduceSum(function(d) {return d.altitude;}),
         speedGroup      = distDim.group().reduceSum(function(d) {
-          return utils.Helpers.formatSpeed(user_unit, d.speed).value;
+          return utils.Helpers.speedMsToChoice(user_unit, d.speed).value;
         });
     var summary_ndx     = crossfilter.crossfilter(summary_data),
         summary_distDim = summary_ndx.dimension(function(d) {return d.distance;});
@@ -153,7 +160,7 @@ var SessionView = Backbone.NativeView.extend({
       .columns([
         {
           label   :'Distance (' + big_unit +')',
-          format  : function(d) {return parseInt(utils.Helpers.formatDistance(user_unit, d.distance, false).value, 0);}
+          format  : function(d) {return parseInt(utils.Helpers.distanceMeterToChoice(user_unit, d.distance, false).value, 0);}
         },
         {
           label   : 'Duration',
@@ -188,7 +195,7 @@ var SessionView = Backbone.NativeView.extend({
       .columns([
         {
           label   :'Distance (' + big_unit +')',
-          format  : function(d) {return parseInt(utils.Helpers.formatDistance(user_unit, d.distance, false).value, 0);}
+          format  : function(d) {return parseInt(utils.Helpers.distanceMeterToChoice(user_unit, d.distance, false).value, 0);}
         },
         {
           label   : 'Duration',
@@ -223,7 +230,7 @@ var SessionView = Backbone.NativeView.extend({
       .columns([
         {
           label   :'Distance (' + big_unit +')',
-          format  : function(d) {return parseInt(utils.Helpers.formatDistance(user_unit, d.distance, false).value, 0);}
+          format  : function(d) {return parseInt(utils.Helpers.distanceMeterToChoice(user_unit, d.distance, false).value, 0);}
         },
         {
           label   : 'Duration',

@@ -9,7 +9,7 @@ var SessionModel = Backbone.Model.extend({
   idAttribute: '_id',
 
   initialize: function() {
-    // console.log('SessionModel initialize', this);
+    console.log('SessionModel initialize', this);
   },
 
 /*  importFile: function(file) {
