@@ -1,12 +1,12 @@
 /* jshint strict: true, node: true */
 'use strict';
-var Athletics       = require('./athletics');
-var Cycling         = require('./cycling');
-var Mountaineering  = require('./mountaineering');
-var Swimming        = require('./swimming');
-var Sliding         = require('./sliding');
-var WaterSport      = require('./watersport');
-var Body            = require('./body');
+var Athletics       = require('./session-models/athletics');
+var Cycling         = require('./session-models/cycling');
+var Mountaineering  = require('./session-models/mountaineering');
+var Swimming        = require('./session-models/swimming');
+var Sliding         = require('./session-models/sliding');
+var WaterSport      = require('./session-models/watersport');
+var Body            = require('./session-models/body');
 
 var abstractFactory = (function() {
   var types = {

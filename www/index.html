@@ -109,56 +109,6 @@
     <input id="import-file" type="file"></input>
     <button id="import-btn" disabled='disabled'>Importer</button>
   </form>
-  <form id="weight-form" class="hidden behind">
-    <div class="width-half text-small align-left">Date
-      <input id="new-weight-date" class="align-right" type="text" />
-    </div>
-    <div class="width-half text-small align-left">Weight
-      <input id="new-weight" class="align-right" type="text" />
-    </div>
-  </form>
-  <div id="new-activity-details" class="hidden behind">
-    <div class="width-half text-small align-left">Date (dd/mm/yyy)
-      <input id="new-session-date" class="align-right" type="date" />
-    </div>
-    <div class="width-half text-small align-left">Start time (hh:mm)
-      <input id="new-session-time" class="align-right" type="time" />
-    </div>
-    <div class="width-half text-small align-left">Distance
-      <input id="new-session-distance" class="align-right" type="number" step="0.01" />
-    </div>
-    <div class="width-half text-small align-left">Duration
-      <div class="align-right">
-        <input id="new-session-duration-hour" class="duration" type="number" />
-        <span>:</span>
-        <input id="new-session-duration-min" class="duration" type="number" />
-        <span>:</span>
-        <input id="new-session-duration-sec" class="duration" type="number" />
-      </div>
-    </div>
-
-    <div class="width-half text-small align-left">Altitude max.
-      <input id="new-session-alt-max" class="align-right" type="number" disabled />
-    </div>
-
-    <div class="width-half text-small align-left">Altitude min.
-      <input id="new-session-alt-min" class="align-right" type="number" disabled />
-    </div>
-
-
-    <div class="width-half text-small align-left">Average Speed
-      <input id="new-session-avg-speed" class="align-right" type="number" disabled />
-    </div>
-    <div class="width-half text-small align-left">Calories
-      <input id="new-session-calories" class="align-right" type="number" disabled />
-    </div>
-
-  </div>
-
-  <div id="new-map-container" class="new-line hidden behind">
-    <h2>Map</h2>
-    <div id='new-map' class="map"></div>
-  </div>
 
   </div>
   </section>
@@ -259,25 +209,75 @@
   <script type="text/javascript" src="js/views/preferences.js"></script>
   <script type="text/javascript" src="js/views/main.js"></script> -->
 
+  <script type="text/template" id="new-session-template-1">
+    <form id="weight-form" class="hidden behind">
+      <div class="width-half text-small align-left">Date
+        <input id="new-weight-date" class="align-right" type="date" value="<%= date %>" />
+      </div>
+      <div class="width-half text-small align-left">Weight
+        <input id="new-weight" class="align-right" type="number" value="<%= weight %>" />
+      </div>
+    </form>
+  </script>
+  
+  <script type="text/template" id="new-session-template-2">
+    <div class="width-half text-small align-left">Date (dd/mm/yyy)
+      <input id="new-session-date" class="align-right" type="date" value="<%= date %>" />
+    </div>
+    <div class="width-half text-small align-left">Start time (hh:mm)
+      <input id="new-session-time" class="align-right" type="time" value="<%= time %>" />
+    </div>
+    <div class="width-half text-small align-left">Distance (<%= distance_unit %>)
+      <input id="new-session-distance" class="align-right" type="number" step="0.01" value="<%= distance %>" />
+    </div>
+    <div class="width-half text-small align-left">Duration
+      <div class="align-right">
+        <input id="new-session-duration-hour" class="duration" type="number" value="<%= durationH %>" />
+        <span>:</span>
+        <input id="new-session-duration-min" class="duration" type="number" value="<%= durationM %>" />
+        <span>:</span>
+        <input id="new-session-duration-sec" class="duration" type="number" value="<%= durationS %>" />
+      </div>
+    </div>
+    <div class="width-half text-small align-left">Altitude max. (<%= alt_unit %>)
+      <input id="new-session-alt-max" class="align-right" type="number" disabled value="<%= alt_max %>" />
+    </div>
+    <div class="width-half text-small align-left">Altitude min. (<%= alt_unit %>)
+      <input id="new-session-alt-min" class="align-right" type="number" disabled value="<%= alt_min %>" />
+    </div>
+    <div class="width-half text-small align-left">Average Speed (<%= speed_unit %>)
+      <input id="new-session-avg-speed" class="align-right" type="number" disabled value="<%= avg_speed %>" />
+    </div>
+    <div class="width-half text-small align-left">Calories (kcal)
+      <input id="new-session-calories" class="align-right" type="number" disabled value="<%= calories %>" />
+    </div>
+    <div id="new-map-container" class="new-line hidden behind">
+      <h2>Map</h2>
+      <div id='new-map' class="map"></div>
+    </div>
+  </script>
+  
+  
+  
   <script type="text/template" id="session-summary-template">
-<a href="#" class="session-summary-click" session_id="<%= session_cid %>">
-  <div class="summary-container" session_id="<%= session_cid %>">
-    <img src="img/activities/<%= activity %>.svg" alt="<%= activity %>" class="activity" session_id="<%= session_cid %>">
-    <div class="time information" session_id="<%= session_cid %>"><%= date %></div>
-    <div class="distance information" session_id="<%= session_cid %>">
-      <span class="fa fa-road" session_id="<%= session_cid %>"></span>
-      <span session_id="<%= session_cid %>"><%= distance %></span>
-    </div>
-    <div class="duration information" session_id="<%= session_cid %>">
-      <span session_id="<%= session_cid %>">&#9201;</span>
-      <span session_id="<%= session_cid %>"><%= duration %></span>
-    </div>
-    <div class="speed information" session_id="<%= session_cid %>">
-      <span class="fa fa-tachometer" session_id="<%= session_cid %>"></span>
-      <span session_id="<%= session_cid %>"><%= avg_speed %></span>
-    </div>
-  </div>
-  </a>
+    <a href="#" class="session-summary-click" session_id="<%= session_cid %>">
+      <div class="summary-container" session_id="<%= session_cid %>">
+        <img src="img/activities/<%= activity %>.svg" alt="<%= activity %>" class="activity" session_id="<%= session_cid %>">
+        <div class="time information" session_id="<%= session_cid %>"><%= date %></div>
+        <div class="distance information" session_id="<%= session_cid %>">
+          <span class="fa fa-road" session_id="<%= session_cid %>"></span>
+          <span session_id="<%= session_cid %>"><%= distance %></span>
+        </div>
+        <div class="duration information" session_id="<%= session_cid %>">
+          <span session_id="<%= session_cid %>">&#9201;</span>
+          <span session_id="<%= session_cid %>"><%= duration %></span>
+        </div>
+        <div class="speed information" session_id="<%= session_cid %>">
+          <span class="fa fa-tachometer" session_id="<%= session_cid %>"></span>
+          <span session_id="<%= session_cid %>"><%= avg_speed %></span>
+        </div>
+      </div>
+    </a>
   </script>
 
   <script type="text/template" id="indicators-template">
@@ -367,8 +367,6 @@
       <table id="speed_table"></table>
     </section>
   </div>
-
-
   </script>
 
   <script type="text/javascript" src="js/app.js"></script>

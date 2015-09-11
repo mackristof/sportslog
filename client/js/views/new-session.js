@@ -2,12 +2,14 @@
 'use strict';
 
 var Backbone            = require('../lib/exoskeleton');
+var Template            = require('microtemplates');
 
 var Preferences         = require('../models/preferences');
 // var SessionModel        = require('../models/session');
 var SessionsCollection  = require('../collections/sessions');
 
-var Factory             = require('../factories/session-model');
+var ModelFactory        = require('../factories/session-model');
+var ViewFactory         = require('../factories/new-session-view');
 
 var utils               = utils || {};
 utils.Map               = require('../utils/map');
@@ -52,6 +54,8 @@ var NewSessionView = Backbone.NativeView.extend({
     map         : document.getElementById('new-map-container')
   },
 
+  template : '',
+
   validated: {
     distance  : false,
     duration  : false,
@@ -66,27 +70,20 @@ var NewSessionView = Backbone.NativeView.extend({
     this.listenTo(this.model, 'init', this.renderModel);
     this.listenTo(this.model, 'import', this.renderModel);
     this.listenTo(this.model, 'change:map', this.renderMap);
+    this.listenTo(this.model, 'all', this.something);
+  },
+
+  something: function(ev, res) {
+    console.log('something on this.model', ev, res);
   },
 
   activitySelected: function(element) {
     // console.log('activity selected', element);
     if (element.target.nodeName === 'INPUT') {
       var activity = element.target.value;
-      var session = Factory.get(
+      var session = ModelFactory.get(
           activity,
-          {
-            'activity'  : activity
-          });
-      // TODO write a factory for UI components linked to the session family
-      if (session.family === 'body') {
-        this.dom.import_form.className = 'hidden behind';
-        this.dom.activity.className = 'hidden behind';
-        this.dom.weight_form.className = '';
-      } else {
-        this.dom.import_form.className = '';
-        this.dom.activity.className = '';
-        this.dom.weight_form.className = 'hidden behind';
-      }
+          {'activity' : activity});
       this.model.set(session);
       console.log('session', session);
     }
@@ -133,20 +130,6 @@ var NewSessionView = Backbone.NativeView.extend({
 
   addNewSession: function() {
     if (this.validated.date && this.validated.distance && this.validated.duration) {
-      /*this.model.set({
-        date      : this.dom.date.value,
-        time      : this.dom.time.value,
-        activity  : this.model.get('activity'),
-        distance  : utils.Helpers.distanceChoiceToMeter(
-          Preferences.get('unit',
-          this.dom.distance.value),
-        duration  : this.dom.durationH.value * 3600 + this.dom.durationM.value * 60 + this.dom.durationS.value,
-        avg_speed : utils.Helpers.speedChoiceToMs(
-          Preferences.get('unit',
-          this.dom.avg_speed.value),
-        )
-        calories  : this.dom.calories.value
-      });*/
       console.log('addNewSession', this.model);
       var s = SessionsCollection.add(this.model.attributes);
       s.save();
@@ -158,39 +141,12 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   renderModel: function() {
-    var data = this.model.attributes;
-    var pref_unit = Preferences.get('unit');
-    console.log('inital data', data);
-    this.dom.date.value      = utils.Helpers.formatDate(data.date);
-    this.dom.time.value      = utils.Helpers.formatTime(data.date);
-    // TODO manage distance and speed calculation from preferences choices
-    var distance = utils.Helpers.distanceMeterToChoice(
-        Preferences.get('unit'),
-        data.distance,
-        false);
-    this.dom.distance.value  = distance.value/* + ' ' + distance.unit*/;
     this.validated.distance = true;
-    // this.dom.duration.value  = utils.Helpers.formatDuration(data.duration);
-    var duration = utils.Helpers.formatDuration(data.duration);
-    console.log('init duration', duration);
-    this.dom.durationH.value = duration.hour;
-    this.dom.durationM.value = duration.min;
-    this.dom.durationS.value = duration.sec;
     this.validated.duration = true;
-/*    this.dom.alt_max.value   = utils.Helpers.distanceMeterToChoice(
-        pref_unit,
-        data.alt_max,
-        false).value;
-    this.dom.alt_min.value   = utils.Helpers.distanceMeterToChoice(
-        pref_unit,
-        data.alt_min,
-        false).value;*/
-    this.dom.alt_max.value = data.alt_max;
-    this.dom.alt_min.value = data.alt_min;
-    this.dom.avg_speed.value = utils.Helpers.speedMsToChoice(
-        pref_unit,
-        data.avg_speed).value;
-    this.dom.calories.value  = data.calories;
+    // TODO write a factory for UI components linked to the session family
+    var view = ViewFactory.get(this.model.get('activity'), this.model.attributes);
+    this.template = Template(document.getElementById(view.element).innerHTML);
+    this.el.appendChild(document.createElement('div').innerHTML = this.template(view.rendered_data));
   },
 
   renderMap: function() {
@@ -225,11 +181,6 @@ var NewSessionView = Backbone.NativeView.extend({
     ).value;
     this.model.set('avg_speed', speed);
   },
-
-  /*render: function() {
-    this.dom.date.value = utils.Helpers.formatDate(new Date());
-    this.dom.time.value = utils.Helpers.formatTime(new Date());
-  },*/
 
   __validateDuration: function() {
     var h = parseInt(this.dom.durationH.value, 10);
