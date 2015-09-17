@@ -15,10 +15,10 @@ describe('GPX', function() {
       var p = new domParser();
       gpx.importFile(p.parseFromString(gpxFiles.complete, 'text, xml'), function(res) {
         if (res.error) {
-          throw res.err;
+          throw res.error;
         } else {
           res.res.name.should.eql('TR-20150817-084743');
-          res.res.duration.should.eql(14974);
+          res.res.duration.should.eql(14.974);
           res.res.distance.should.eql(46.50349234540704);
           res.res.avg_speed.should.eql(3.105615890570792);
           res.res.alt_max.should.eql(68);
