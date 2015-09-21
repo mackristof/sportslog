@@ -7,7 +7,7 @@
     "watch": "watchify client/js/app.js -o www/js/app.js -v",
     "dev": "npm run watch & nodemon --debug server.js",
     "start": "npm run watch & nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/tests.js"
   },
   "repository": {
     "type": "git",
