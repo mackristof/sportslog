@@ -3,31 +3,28 @@
 
 var activities = {
   running : require('./activities/running')
-  };
-
-/*var summary_template_1    = require('./summary-views/template-1');
-var summary_template_2    = require('./summary-views/template-2');
-var detaillled_template_1 = require('./detailled-views/template-1');
-var detaillled_template_2 = require('./detailled-views/template-2');
-var Athletics             = require('./session-models/athletics');
-var Cycling               = require('./session-models/cycling');
-var Mountaineering        = require('./session-models/mountaineering');
-var Swimming              = require('./session-models/swimming');
-var Sliding               = require('./session-models/sliding');
-var WaterSport            = require('./session-models/watersport');
-var Body                  = require('./session-models/body');*/
-
+};
 
 var Factory = (function() {
-  var getModel = function(activity) {
+  var getModel = function(activity, options) {
     var Model = activities[activity].model;
-    console.log('chosen activity', Model);
-    console.log('chosen activity', (Model ? new Model() : null));
+    return Model ? new Model(options) : null;
   };
-  var getSummaryView = function() {};
-  var getDetailledView = function() {};
+  var getSummaryView = function(activity, options) {
+    var View = activities[activity].summary_view;
+    return View ? new View(options) : null;
+  };
+  var getDetailledView = function(activity, options) {
+    var View = activities[activity].detailled_view;
+    return View ? new View(options) : null;
+  };
+  var getDetailledView = function(activity, options) {
+    var View = activities[activity].new_view;
+    return View ? new View(options) : null;
+  };
   return {
     getModel          : getModel,
+    getNewView        : getNewView,
     getSummaryView    : getSummaryView,
     getDetailledView  : getDetailledView
   };
