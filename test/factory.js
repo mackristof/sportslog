@@ -13,4 +13,12 @@ describe('Factory', function() {
       session.activity.should.eql('running');
     });
   });
+  describe('Summary view', function() {
+    it('should return a summary view template 1', function() {
+      var model = factory.getModel('running', {'activity':'running'});
+      var view = factory.getSummaryView(model);
+      console.log('view', view);
+      view.should.be.a.Function;
+    });
+  });
 });

@@ -2,6 +2,7 @@
 'use strict';
 
 var WaterSport = function(options) {
+  this.type       = options.type      || 'session';
   this.family     = options.family    || 'watersport';
   this.activity   = options.activity  || '';
   this.date       = options.date      || new Date();

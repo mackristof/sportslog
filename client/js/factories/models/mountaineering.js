@@ -2,6 +2,7 @@
 'use strict';
 
 var Mountaineering = function(options) {
+  this.type       = options.type      || 'session';
   this.family     = options.family    || 'mountaineering';
   this.activity   = options.activity  || '';
   this.date       = options.date      || new Date();

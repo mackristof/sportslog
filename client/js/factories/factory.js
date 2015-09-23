@@ -10,16 +10,16 @@ var Factory = (function() {
     var Model = activities[activity].model;
     return Model ? new Model(options) : null;
   };
-  var getSummaryView = function(activity, options) {
-    var View = activities[activity].summary_view;
+  var getNewView = function(activity, options) {
+    var View = activities[activity].new_view;
     return View ? new View(options) : null;
+  };
+  var getSummaryView = function(model) {
+    var View = activities[model.activity].summary_view;
+    return View;
   };
   var getDetailledView = function(activity, options) {
     var View = activities[activity].detailled_view;
-    return View ? new View(options) : null;
-  };
-  var getDetailledView = function(activity, options) {
-    var View = activities[activity].new_view;
     return View ? new View(options) : null;
   };
   return {
