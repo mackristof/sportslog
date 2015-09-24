@@ -105,10 +105,10 @@
     </label>
 
   </form>
-  <form id="import-form" class="hidden behind">
+  <!-- <form id="import-form" class="hidden behind">
     <input id="import-file" type="file"></input>
     <button id="import-btn" disabled='disabled'>Importer</button>
-  </form>
+    </form> -->
 
   </div>
   </section>
@@ -219,15 +219,19 @@
       </div>
     </form>
   </script>
-  
+
   <script type="text/template" id="new-session-template-2">
+    <form id="import-form">
+      <input id="import-file" type="file"></input>
+      <button id="import-btn" disabled='disabled'>Importer</button>
+    </form>
     <div class="width-half text-small align-left">Date (dd/mm/yyy)
       <input id="new-session-date" class="align-right" type="date" value="<%= date %>" />
     </div>
     <div class="width-half text-small align-left">Start time (hh:mm)
       <input id="new-session-time" class="align-right" type="time" value="<%= time %>" />
     </div>
-    <div class="width-half text-small align-left">Distance (<%= distance_unit %>)
+    <div class="width-half text-small align-left">Distance (<span id="new-session-distance-unit"><%= distance_unit %></span>)
       <input id="new-session-distance" class="align-right" type="number" step="0.01" value="<%= distance %>" />
     </div>
     <div class="width-half text-small align-left">Duration
@@ -239,13 +243,13 @@
         <input id="new-session-duration-sec" class="duration" type="number" value="<%= durationS %>" />
       </div>
     </div>
-    <div class="width-half text-small align-left">Altitude max. (<%= alt_unit %>)
+    <div class="width-half text-small align-left">Altitude max. (<span id="new-session-alt-unit-max"><%= alt_unit %></span>)
       <input id="new-session-alt-max" class="align-right" type="number" disabled value="<%= alt_max %>" />
     </div>
-    <div class="width-half text-small align-left">Altitude min. (<%= alt_unit %>)
+    <div class="width-half text-small align-left">Altitude min. (<span id="new-session-alt-unit-min"><%= alt_unit %></span>)
       <input id="new-session-alt-min" class="align-right" type="number" disabled value="<%= alt_min %>" />
     </div>
-    <div class="width-half text-small align-left">Average Speed (<%= speed_unit %>)
+    <div class="width-half text-small align-left">Average Speed (<span id="new-session-speed-unit"><%= speed_unit %></span>)
       <input id="new-session-avg-speed" class="align-right" type="number" disabled value="<%= avg_speed %>" />
     </div>
     <div class="width-half text-small align-left">Calories (kcal)
@@ -256,9 +260,9 @@
       <div id='new-map' class="map"></div>
     </div>
   </script>
-  
-  
-  
+
+
+
   <script type="text/template" id="session-summary-template">
     <a href="#" class="session-summary-click" session_id="<%= session_cid %>">
       <div class="summary-container" session_id="<%= session_cid %>">
