@@ -4,6 +4,8 @@
 var Backbone              = require('../lib/exoskeleton');
 // var Template              = require('microtemplates');
 
+var Factory             = require('../factories/factory');
+
 var IndicatorsView        = require('./indicators');
 var DashboardView         = require('./dashboard');
 var PreferencesView       = require('./preferences');
@@ -85,9 +87,10 @@ var MainView = Backbone.NativeView.extend({
     model.fetch({
       success : function(res) {
         console.log('success', res);
-        new SessionView({
+        /*new SessionView({
           model: res
-        });
+        });*/
+        Factory.getDetailledView(res);
         that._viewSection(that.dom.session_view);
       },
       error   : function(model, response) {
