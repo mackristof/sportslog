@@ -18,6 +18,8 @@ var Factory             = require('../factories/factory');
 var NewSessionView = Backbone.NativeView.extend({
   el: '#new-session-view',
 
+  subview: '',
+
   events: {
     'click #select-activity'            : 'activitySelected',
     // 'change #import-file'               : 'enableImport',
@@ -35,7 +37,7 @@ var NewSessionView = Backbone.NativeView.extend({
   // unit: Preferences.get('unit'),
 
   initialize: function() {
-    this.listenTo(this.model, 'init', this.renderModel);
+    // this.listenTo(this.model, 'init', this.renderModel);
   },
 
   something: function(ev, res) {
@@ -52,9 +54,9 @@ var NewSessionView = Backbone.NativeView.extend({
       this.model.set(session);
       console.log('session', session);
       // this.model.trigger('init');
-      var view = Factory.getNewView(this.model);
-      console.log('view to be displayed is', view);
-      this.el.appendChild(document.createElement('div').innerHTML = view.render().el);
+      this.subview = Factory.getNewView(this.model);
+      console.log('view to be displayed is', this.subview);
+      this.el.appendChild(document.createElement('div').innerHTML = this.subview.render().el);
     }
   },
 
@@ -68,8 +70,8 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   addNewSession: function() {
-    if (this.validated.date && this.validated.distance && this.validated.duration) {
-      console.log('addNewSession', this.model);
+    if (this.subview.validated.date && this.subview.validated.distance && this.subview.validated.duration) {
+      console.log('addNewSession', this.subview.model);
       var s = SessionsCollection.add(this.model.attributes);
       s.save();
       SessionsCollection.trigger('add-new', s);
@@ -79,12 +81,11 @@ var NewSessionView = Backbone.NativeView.extend({
     }
   },
 
-  renderModel: function() {
-    // TODO write a factory for UI components linked to the session family
-    var view = Factory.getNewView(this.model);
-    console.log('view to be displayed is', view);
-    this.el.appendChild(document.createElement('div').innerHTML = view.render().el);
-  },
+/*  renderModel: function() {
+    this.subview = Factory.getNewView(this.model);
+    console.log('view to be displayed is', this.subview);
+    this.el.appendChild(document.createElement('div').innerHTML = this.subview.render().el);
+  },*/
 
 });
 module.exports = NewSessionView;
