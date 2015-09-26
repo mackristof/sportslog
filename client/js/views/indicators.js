@@ -52,7 +52,7 @@ var IndicatorsView = Backbone.NativeView.extend({
       'distance'  : dist.value + ' ' + dist.unit,
       'duration'  : duration.hour + ':' + duration.min + ':' + duration.sec
     });
-    console.log('totals', totals);
+    // console.log('totals', totals);
     return this;
   },
 });

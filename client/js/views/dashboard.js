@@ -16,11 +16,12 @@ var DashboardView = Backbone.NativeView.extend({
   initialize: function() {
     this.collection = SessionsCollection;
     this.collection.fetch();
-    this.render();
+    // this.render();
 
-    this.listenTo(this.collection, 'add', this.render);
+    this.listenTo(this.collection, 'sync', this.render);
     this.listenTo(this.collection, 'reset', this.render);
     console.log('DashboardView initialize', this);
+    // this.listenTo(this.collection, 'all', function(a, b) {console.log('DASHBOARD - this.collection', a, b);});
   },
 
   addEntry: function() {
@@ -38,6 +39,7 @@ var DashboardView = Backbone.NativeView.extend({
   },
 
   render: function() {
+    console.log('DASHBOARD - render');
     this.el.innerHTML = '';
     this.collection.forEach(function(item) {
       this.renderItem(item);
@@ -45,6 +47,7 @@ var DashboardView = Backbone.NativeView.extend({
   },
 
   modelSelected: function(model) {
+    console.log('DASHBOARD model-selected triggered');
     this.collection.trigger('model-selected', model);
   }
 });

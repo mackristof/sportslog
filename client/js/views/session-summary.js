@@ -49,8 +49,8 @@ var SessionSummaryView = Backbone.NativeView.extend({
     return this;
   },
 
-  showSessionDetails: function() {
-    // console.log('clicked', el, this.model);
+  showSessionDetails: function(el) {
+    console.log('SUMMARY - clicked', el, this.model);
     this.model.trigger('selected', this.model);
   }
 });

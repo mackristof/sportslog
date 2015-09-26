@@ -82,11 +82,11 @@ var MainView = Backbone.NativeView.extend({
   },
 
   showSession: function(model) {
-    // console.log('will display model', model);
+    console.log('MAIN - will display model', model);
     var that = this;
     model.fetch({
       success : function(res) {
-        console.log('success', res);
+        console.log('MAIN - success', res);
         /*new SessionView({
           model: res
         });*/

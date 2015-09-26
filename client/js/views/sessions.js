@@ -16,11 +16,11 @@ var SessionsView = Backbone.NativeView.extend({
   initialize: function() {
     // this.collection = app.DashboardCollection;
     this.collection = SessionsCollection;
-    this.collection.fetch();
-    this.render();
+    // this.collection.fetch();
+    // this.render();
 
     console.log('initialize Sessions View', this);
-    this.listenTo(this.collection, 'add', this.render);
+    this.listenTo(this.collection, 'sync', this.render);
     this.listenTo(this.collection, 'reset', this.render);
   },
 
@@ -33,6 +33,7 @@ var SessionsView = Backbone.NativeView.extend({
   },
 
   render: function() {
+    console.log('SESSIONS - render');
     this.el.innerHTML = '';
     this.collection.forEach(function(item) {
 /*      if (item.get('type') === 'session') {

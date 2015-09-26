@@ -46,13 +46,13 @@ var LeafletMap = function() {
     console.log('element', document.getElementById(element));
     map = L.map(element, map_options);
     map.on('load', function() {
-      console.log('map loaded', this);
+      // console.log('map loaded', this);
       // TODO hide spinner 'cause map is up
     });
   }
 
   function getMap(track) {
-    console.log('getting map for', track);
+    // console.log('getting map for', track);
 
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '<a href="http://www.osm.org">OpenStreetMap</a>',
@@ -88,7 +88,7 @@ var LeafletMap = function() {
 
   function removeMap() {
     map.remove();
-    console.log('new map', map);
+    // console.log('new map', map);
   }
 
   return {

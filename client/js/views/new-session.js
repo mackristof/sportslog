@@ -45,17 +45,17 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   activitySelected: function(element) {
-    console.log('activity selected', element);
+    // console.log('activity selected', element);
     if (element.target.nodeName === 'INPUT') {
       var activity = element.target.value;
       var session = Factory.getModel(
           activity,
           {'activity' : activity});
       this.model.set(session);
-      console.log('session', session);
+      // console.log('session', session);
       // this.model.trigger('init');
       this.subview = Factory.getNewView(this.model);
-      console.log('view to be displayed is', this.subview);
+      // console.log('view to be displayed is', this.subview);
       this.el.appendChild(document.createElement('div').innerHTML = this.subview.render().el);
     }
   },

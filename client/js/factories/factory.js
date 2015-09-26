@@ -23,6 +23,7 @@ var Factory = (function() {
   };
   var getDetailledView = function(model) {
     var View = activities[model.get('activity')].detailled_view;
+    console.log('FACTORY - display detailled view for', View);
     return new View({
       model: model
     });
