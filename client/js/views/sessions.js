@@ -4,7 +4,7 @@ var Backbone            = require('../lib/exoskeleton');
 
 // var DashboardCollection = require('../collections/dashboard');
 var DocsCollection = require('../collections/docs');
-var SessionSummaryView  = require('../views/session-summary');
+var SessionSummaryView  = require('../views/summary-session-sessions');
 
 var SessionsView = Backbone.NativeView.extend({
   el: '#sessions-list',
@@ -13,11 +13,14 @@ var SessionsView = Backbone.NativeView.extend({
 
   dom: {},
 
+  sessions: [],
+
   initialize: function() {
     // this.collection = app.DashboardCollection;
     this.collection = DocsCollection;
     // this.collection.fetch();
     // this.render();
+    // this.sessions = this.collection.where({type: 'session'});
 
     console.log('initialize Sessions View', this);
     this.listenTo(this.collection, 'sync', this.render);
@@ -29,11 +32,12 @@ var SessionsView = Backbone.NativeView.extend({
     var view = new SessionSummaryView({
       model: item
     });
+    this.listenTo(item, 'sessions-item-selected', this.sessionSelected);
     this.el.appendChild(view.render().el);
   },
 
   render: function() {
-    console.log('SESSIONS - render');
+    console.log('SESSIONS - render', this.collection);
     this.el.innerHTML = '';
     this.collection.forEach(function(item) {
 /*      if (item.get('type') === 'session') {
@@ -41,6 +45,11 @@ var SessionsView = Backbone.NativeView.extend({
       }*/
       this.renderItem(item);
     }, this);
+  },
+
+  sessionSelected: function(session) {
+    console.log('SESSIONS - item selected', session);
+    this.collection.trigger('sessions-entry-selected', session);
   },
 });
 module.exports = SessionsView;

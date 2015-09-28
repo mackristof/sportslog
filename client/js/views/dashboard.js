@@ -4,7 +4,7 @@ var Backbone            = require('../lib/exoskeleton');
 // var Template            = require('microtemplates');
 
 var DocsCollection    = require('../collections/docs');
-var SessionSummaryView    = require('./session-summary');
+var SessionSummaryView    = require('./summary-session-dashboard');
 
 var DashboardView = Backbone.NativeView.extend({
   el: '#dashboard',
@@ -15,7 +15,7 @@ var DashboardView = Backbone.NativeView.extend({
 
   initialize: function() {
     this.collection = DocsCollection;
-    this.collection.fetch();
+    // this.collection.fetch();
     // this.render();
 
     this.listenTo(this.collection, 'sync', this.render);
@@ -34,7 +34,7 @@ var DashboardView = Backbone.NativeView.extend({
     var view = new SessionSummaryView({
       model : item
     });
-    this.listenTo(item, 'selected', this.modelSelected);
+    this.listenTo(item, 'dashboard-item-selected', this.itemSelected);
     this.el.appendChild(view.render().el);
   },
 
@@ -46,9 +46,9 @@ var DashboardView = Backbone.NativeView.extend({
     }, this);
   },
 
-  modelSelected: function(model) {
+  itemSelected: function(item) {
     console.log('DASHBOARD model-selected triggered');
-    this.collection.trigger('model-selected', model);
+    this.collection.trigger('dashboard-entry-selected', item);
   }
 });
 module.exports = DashboardView;

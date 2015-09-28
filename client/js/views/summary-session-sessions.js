@@ -8,7 +8,7 @@ var Preferences         = require('../models/preferences');
 var utils               = utils || {};
 utils.Helpers           = require('../utils/helpers');
 
-var SessionSummaryView = Backbone.NativeView.extend({
+var SessionsSummaryView = Backbone.NativeView.extend({
   tagName: 'li',
 
   events: {
@@ -50,9 +50,9 @@ var SessionSummaryView = Backbone.NativeView.extend({
   },
 
   showSessionDetails: function(el) {
-    console.log('SUMMARY - clicked', el, this.model);
-    this.model.trigger('selected', this.model);
+    console.log('SESSIONS SUMMARY - clicked', el, this.model);
+    this.model.trigger('sessions-item-selected', this.model);
   }
 });
 // Backbone.utils.extend(SessionSummaryView, Backbone.events);
-module.exports = SessionSummaryView;
+module.exports = SessionsSummaryView;

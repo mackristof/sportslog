@@ -50,11 +50,14 @@ var MainView = Backbone.NativeView.extend({
     // this.listenTo(PreferencesModel, 'all', this.somethingOnPreferences);
     // this.listenTo(SessionsCollection, 'all', this.somethingOnSessions);
 
+    DocsCollection.fetch();
+
     new IndicatorsView();
     new DashboardView();
     new SessionsView();
 
-    this.listenTo(DocsCollection, 'model-selected', this.showSession);
+    this.listenTo(DocsCollection, 'dashboard-entry-selected', this.showEntry);
+    this.listenTo(DocsCollection, 'sessions-entry-selected', this.showSession);
     this.listenTo(DocsCollection, 'add-new', this.showSession);
   },
   somethingOnPreferences: function(ev, res) {
@@ -79,6 +82,16 @@ var MainView = Backbone.NativeView.extend({
 
   showSessions: function() {
     this._viewSection(this.dom.sessions_view);
+  },
+
+  showEntry: function(model) {
+    console.log('MAIN - dashboard entry selected', model);
+    var type = model.get('type');
+    if (type === 'session') {
+      this.showSession(model);
+    } else {
+      console.log('other types of dashbord entries are not managed');
+    }
   },
 
   showSession: function(model) {
