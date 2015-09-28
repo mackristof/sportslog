@@ -3,7 +3,7 @@
 var Backbone            = require('../lib/exoskeleton');
 var Template            = require('microtemplates');
 
-var SessionsCollection  = require('../collections/sessions');
+var DocsCollection  = require('../collections/docs');
 var Preferences         = require('../models/preferences');
 
 var utils               = utils || {};
@@ -18,7 +18,7 @@ var IndicatorsView = Backbone.NativeView.extend({
 /*    this.model = app.IndicatorsModel;
     this.model.fetch();
     console.log('IndicatorsView is initalize', this);*/
-    this.collection = SessionsCollection;
+    this.collection = DocsCollection;
     this.render();
 
     this.listenTo(this.collection, 'change', this.render);

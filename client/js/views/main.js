@@ -1,21 +1,21 @@
 /* jshint strict: true, node: true */
 'use strict';
 
-var Backbone              = require('../lib/exoskeleton');
+var Backbone          = require('../lib/exoskeleton');
 // var Template              = require('microtemplates');
 
-var Factory             = require('../factories/factory');
+var Factory           = require('../factories/factory');
 
-var IndicatorsView        = require('./indicators');
-var DashboardView         = require('./dashboard');
-var PreferencesView       = require('./preferences');
-var SessionsView          = require('./sessions');
+var IndicatorsView    = require('./indicators');
+var DashboardView     = require('./dashboard');
+var PreferencesView   = require('./preferences');
+var SessionsView      = require('./sessions');
 // var SessionView           = require('./session');
-var NewSession            = require('./new-session');
+var NewSession        = require('./new-session');
 // var SessionSummary        = require('./session-summary');
-var PreferencesModel      = require('../models/preferences');
-var SessionModel          = require('../models/session');
-var SessionsCollection    = require('../collections/sessions');
+var PreferencesModel  = require('../models/preferences');
+var DocModel          = require('../models/doc');
+var DocsCollection    = require('../collections/docs');
 
 var MainView = Backbone.NativeView.extend({
   el: '#app',
@@ -54,8 +54,8 @@ var MainView = Backbone.NativeView.extend({
     new DashboardView();
     new SessionsView();
 
-    this.listenTo(SessionsCollection, 'model-selected', this.showSession);
-    this.listenTo(SessionsCollection, 'add-new', this.showSession);
+    this.listenTo(DocsCollection, 'model-selected', this.showSession);
+    this.listenTo(DocsCollection, 'add-new', this.showSession);
   },
   somethingOnPreferences: function(ev, res) {
     console.log('got something on Preferences', ev, res);
@@ -68,7 +68,7 @@ var MainView = Backbone.NativeView.extend({
     // var model = app.SessionsCollection.create({});
     console.log('showNewSession');
     new NewSession({
-      model: new SessionModel()
+      model: new DocModel()
     });
     this._viewSection(this.dom.new_session_view);
   },

@@ -3,7 +3,7 @@
 var Backbone            = require('../lib/exoskeleton');
 // var Template            = require('microtemplates');
 
-var SessionsCollection    = require('../collections/sessions');
+var DocsCollection    = require('../collections/docs');
 var SessionSummaryView    = require('./session-summary');
 
 var DashboardView = Backbone.NativeView.extend({
@@ -14,7 +14,7 @@ var DashboardView = Backbone.NativeView.extend({
   dom: {},
 
   initialize: function() {
-    this.collection = SessionsCollection;
+    this.collection = DocsCollection;
     this.collection.fetch();
     // this.render();
 

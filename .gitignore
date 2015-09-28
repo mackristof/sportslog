@@ -29,5 +29,4 @@ node_modules
 
 # PouchDB
 preferences/
-sessions/
-dashboard/
+db/

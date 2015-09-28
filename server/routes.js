@@ -5,8 +5,8 @@ var express     = require('express');
 var router      = express.Router();
 var bodyParser  = require('body-parser');
 
-var Sessions    = require('./controllers/sessions');
-var Preferences    = require('./controllers/preferences');
+var Docs        = require('./controllers/docs');
+var Preferences = require('./controllers/preferences');
 
 router.use(function(req, res, next) {
   console.log('%s %s %s', req.method, req.url, req.path, req.body);
@@ -28,16 +28,16 @@ router.put('/', function(req, res) {
 });
 
 // GET 'sessions': get all stored sessions, truncated (without gps cooordinates)
-router.get('/sessions', Sessions.getAll);
+router.get('/docs', Docs.getAll);
 
 // GET 'sessions/:id': get one complete session
-router.get('/sessions/:id', Sessions.getOne);
+router.get('/docs/:id', Docs.getOne);
 
 // POST 'sessions': save a new session
-router.post('/sessions', Sessions.add);
+router.post('/docs', Docs.add);
 
 // PUT '/sessions:id': update a session
-router.put('/sessions/:id', Sessions.add);
+router.put('/docs/:id', Docs.add);
 
 // GET '/preferences': get preferences
 router.get('/preferences', Preferences.getAll);

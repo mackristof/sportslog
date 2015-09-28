@@ -6,7 +6,7 @@ var Backbone            = require('../lib/exoskeleton');
 
 // var Preferences         = require('../models/preferences');
 // var SessionModel        = require('../models/session');
-var SessionsCollection  = require('../collections/sessions');
+var DocsCollection  = require('../collections/docs');
 
 var Factory             = require('../factories/factory');
 
@@ -72,9 +72,9 @@ var NewSessionView = Backbone.NativeView.extend({
   addNewSession: function() {
     if (this.subview.validated.date && this.subview.validated.distance && this.subview.validated.duration) {
       console.log('addNewSession', this.subview.model);
-      var s = SessionsCollection.add(this.model.attributes);
+      var s = DocsCollection.add(this.model.attributes);
       s.save();
-      SessionsCollection.trigger('add-new', s);
+      DocsCollection.trigger('add-new', s);
     } else {
        // TODO Manage error messages and invalid values in new-session form
       console.log('something is not right and session could not be added', this.validated);
