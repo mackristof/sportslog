@@ -17,8 +17,7 @@ var SessionSummaryView = Backbone.NativeView.extend({
 
   dom: {},
 
-  // template: Template(document.getElementById('session-summary-template').innerHTML),
-  template: Template('<script type="text/template" id="session-summary-template"><a href="#" class="session-summary-click" session_id="<%= session_cid %>"><div class="summary-container" session_id="<%= session_cid %>"><img src="img/activities/<%= activity %>.svg" alt="<%= activity %>" class="activity" session_id="<%= session_cid %>"><div class="time information" session_id="<%= session_cid %>"><%= date %></div><div class="distance information" session_id="<%= session_cid %>"><span class="fa fa-road" session_id="<%= session_cid %>"></span><span session_id="<%= session_cid %>"><%= distance %></span></div><div class="duration information" session_id="<%= session_cid %>"><span session_id="<%= session_cid %>">&#9201;</span><span session_id="<%= session_cid %>"><%= duration %></span></div><div class="speed information" session_id="<%= session_cid %>"><span class="fa fa-tachometer" session_id="<%= session_cid %>"></span><span session_id="<%= session_cid %>"><%= avg_speed %></span></div></div></a></script>'),
+  template: Template(document.getElementById('session-summary-template').innerHTML),
 
   initialize: function() {
     this.listenTo(this.model, 'change', this.render);
@@ -49,8 +48,9 @@ var SessionSummaryView = Backbone.NativeView.extend({
     return this;
   },
 
-  showSessionDetails: function() {
-    this.model.trigger('selected', this.model);
+  showSessionDetails: function(el) {
+    console.log('FACTORY TEMPLATE DASHBOARD SUMMARY - clicked', el, this.model);
+    this.model.trigger('dashboard-item-selected', this.model);
   }
 });
 module.exports = SessionSummaryView;

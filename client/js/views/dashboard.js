@@ -3,8 +3,10 @@
 var Backbone            = require('../lib/exoskeleton');
 // var Template            = require('microtemplates');
 
+var Factory       = require('../factories/factory');
+
 var DocsCollection    = require('../collections/docs');
-var SessionSummaryView    = require('./summary-session-dashboard');
+// var SessionSummaryView    = require('./summary-session-dashboard');
 
 var DashboardView = Backbone.NativeView.extend({
   el: '#dashboard',
@@ -31,9 +33,10 @@ var DashboardView = Backbone.NativeView.extend({
   },
 
   renderItem: function(item) {
-    var view = new SessionSummaryView({
+    /*var view = new SessionSummaryView({
       model : item
-    });
+    });*/
+    var view = Factory.getDashboardSummaryView(item);
     this.listenTo(item, 'dashboard-item-selected', this.itemSelected);
     this.el.appendChild(view.render().el);
   },

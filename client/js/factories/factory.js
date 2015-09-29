@@ -17,9 +17,19 @@ var Factory = (function() {
       model: model
     });
   };
-  var getSummaryView = function(model) {
-    var View = activities[model.get('activity')].summary_view;
-    return View;
+  var getDashboardSummaryView = function(model) {
+    var View = activities[model.get('activity')].summary_view_dashboard;
+    console.log('FACTORY - display dashboard summary view for', View);
+    return new View({
+      model: model
+    });
+  };
+  var getSessionsSummaryView = function(model) {
+  var View = activities[model.get('activity')].summary_view_sessions;
+    console.log('FACTORY - display sessions summary view for', View);
+    return new View({
+      model: model
+    });
   };
   var getDetailledView = function(model) {
     var View = activities[model.get('activity')].detailled_view;
@@ -29,10 +39,11 @@ var Factory = (function() {
     });
   };
   return {
-    getModel          : getModel,
-    getNewView        : getNewView,
-    getSummaryView    : getSummaryView,
-    getDetailledView  : getDetailledView
+    getModel                : getModel,
+    getNewView              : getNewView,
+    getDashboardSummaryView : getDashboardSummaryView,
+    getSessionsSummaryView  : getSessionsSummaryView,
+    getDetailledView        : getDetailledView
   };
 })();
 module.exports = Factory;

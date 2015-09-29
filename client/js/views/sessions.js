@@ -2,9 +2,11 @@
 'use strict';
 var Backbone            = require('../lib/exoskeleton');
 
+var Factory       = require('../factories/factory');
+
 // var DashboardCollection = require('../collections/dashboard');
 var DocsCollection = require('../collections/docs');
-var SessionSummaryView  = require('../views/summary-session-sessions');
+// var SessionSummaryView  = require('../views/summary-session-sessions');
 
 var SessionsView = Backbone.NativeView.extend({
   el: '#sessions-list',
@@ -29,9 +31,10 @@ var SessionsView = Backbone.NativeView.extend({
 
   renderItem: function(item) {
     item.set('session_cid', item.cid);
-    var view = new SessionSummaryView({
+    /*var view = new SessionSummaryView({
       model: item
-    });
+    });*/
+    var view = Factory.getSessionsSummaryView(item);
     this.listenTo(item, 'sessions-item-selected', this.sessionSelected);
     this.el.appendChild(view.render().el);
   },
