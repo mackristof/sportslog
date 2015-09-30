@@ -17,7 +17,7 @@ var SessionSummaryView = Backbone.NativeView.extend({
 
   dom: {},
 
-  template: Template(document.getElementById('session-summary-template').innerHTML),
+  template: Template(document.getElementById('session-summary-template-1').innerHTML),
 
   initialize: function() {
     this.listenTo(this.model, 'change', this.render);

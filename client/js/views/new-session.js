@@ -29,7 +29,7 @@ var NewSessionView = Backbone.NativeView.extend({
   dom: {
     // import_form : document.getElementById('import-form'),
     activity    : document.getElementById('new-activity-details'),
-    weight_form : document.getElementById('weight-form')
+    // weight_form : document.getElementById('weight-form')
   },
 
   template : '',
@@ -70,7 +70,19 @@ var NewSessionView = Backbone.NativeView.extend({
   },
 
   addNewSession: function() {
-    if (this.subview.validated.date && this.subview.validated.distance && this.subview.validated.duration) {
+    for (var i = 0; i < this.subview.validated.length; i++) {
+      var criteria = this.subview.validated[i];
+      if (!criteria) {
+        // TODO Manage error messages and invalid values in new-session form
+        console.log('something is not right and session could not be added', this.validated);
+        return;
+      }
+    }
+    console.log('addNewSession', this.subview.model);
+    var s = DocsCollection.add(this.model.attributes);
+    s.save();
+    DocsCollection.trigger('add-new', s);
+/*    if (this.subview.validated.date && this.subview.validated.distance && this.subview.validated.duration) {
       console.log('addNewSession', this.subview.model);
       var s = DocsCollection.add(this.model.attributes);
       s.save();
@@ -78,7 +90,7 @@ var NewSessionView = Backbone.NativeView.extend({
     } else {
        // TODO Manage error messages and invalid values in new-session form
       console.log('something is not right and session could not be added', this.validated);
-    }
+    }*/
   },
 
 /*  renderModel: function() {

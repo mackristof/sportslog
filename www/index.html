@@ -101,7 +101,7 @@
 
     <label for="weight_act">
       <input type="radio" name="select-activity" value="weight_act" id="weight_act" />
-      <img src="img/activities/weight_act.png" alt="weight" />
+      <img src="img/activities/weight_act.svg" alt="weight" />
     </label>
 
   </form>
@@ -251,17 +251,17 @@
   </script>
 
   <script type="text/template" id="new-session-template-2">
-    <form id="weight-form">
+    <form id="body-form">
       <div class="width-half text-small align-left">Date
-        <input id="new-weight-date" class="align-right" type="date" value="<%= date %>" />
+        <input id="new-body-date" class="align-right" type="date" value="<%= date %>" />
       </div>
       <div class="width-half text-small align-left">Weight
-        <input id="new-weight" class="align-right" type="number" value="<%= weight %>" />
+        <input id="new-body-value" class="align-right" type="number" value="<%= value %>" />
       </div>
     </form>
   </script>
 
-  <script type="text/template" id="session-summary-template">
+  <script type="text/template" id="session-summary-template-1">
     <a href="#" class="session-summary-click" session_id="<%= session_cid %>">
       <div class="summary-container" session_id="<%= session_cid %>">
         <img src="img/activities/<%= activity %>.svg" alt="<%= activity %>" class="activity" session_id="<%= session_cid %>">
@@ -278,6 +278,16 @@
           <span class="fa fa-tachometer" session_id="<%= session_cid %>"></span>
           <span session_id="<%= session_cid %>"><%= avg_speed %></span>
         </div>
+      </div>
+    </a>
+  </script>
+
+  <script type="text/template" id="session-summary-template-2">
+    <a href="#" class="session-summary-click" session_id="<%= session_cid %>">
+      <div class="summary-container" session_id="<%= session_cid %>">
+        <img src="img/activities/<%= activity %>.svg" alt="<%= activity %>" class="activity" session_id="<%= session_cid %>">
+        <div class="time information" session_id="<%= session_cid %>"><%= date %></div>
+        <div class="body measure value" session_id="<%= session_cid %>"><%= value %></div>
       </div>
     </a>
   </script>

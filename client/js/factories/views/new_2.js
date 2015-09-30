@@ -3,72 +3,54 @@
 var Backbone  = require('../../lib/exoskeleton');
 var Template  = require('microtemplates');
 
-var Preferences = require('../../models/preferences');
+// var Preferences = require('../../models/preferences');
 var utils       = utils || {};
 utils.Helpers   = require('../../utils/helpers');
 
 module.exports = Backbone.NativeView.extend({
   template: Template(document.getElementById('new-session-template-2').innerHTML),
 
-
-  events: {
-    'onsubmit #weight-form'   : function() {return false;},
-    'change #new-weight-date' : '__validateDate',
-    'change #new-weight'      : '__validateWeight',
+  validated: {
+    'date'  : false,
+    'value' : false
   },
 
-  validated: {
-    distance  : false,
-    duration  : false,
-    date      : true
+  events: {
+    'onsubmit #body-form'     : function() {return false;},
+    'change #new-body-date'   : '__validateDate',
+    'change #new-body-value'  : '__validateValue',
   },
 
   initialize: function() {
     this.listenTo(this.model, 'all', function(a, b) {console.log('something on this.model', a, b);});
   },
   render: function() {
-    this.validated.distance = true;
-    this.validated.duration = true;
-    var pref_unit = Preferences.get('unit');
-    var distance = utils.Helpers.distanceMeterToChoice(
-      pref_unit,
-      this.model.get('distance'),
-      false
-    );
-    var duration = utils.Helpers.formatDuration(this.model.get('duration'));
-    var speed = utils.Helpers.speedMsToChoice(pref_unit, this.model.get('avg_speed'));
+    // var pref_unit = Preferences.get('unit');
     this.el.innerHTML = this.template({
-      'date'          : utils.Helpers.formatDate(this.model.get('date')),
-      'time'          : utils.Helpers.formatTime(this.model.get('date')),
-      'distance'      : distance.value,
-      'distance_unit' : distance.unit,
-      'durationH'     : duration.hour,
-      'durationM'     : duration.min,
-      'durationS'     : duration.sec,
-      'alt_max'       : this.model.get('alt_max'),
-      'alt_min'       : this.model.get('alt_min'),
-      'alt_unit'      : 'm',
-      'avg_speed'     : speed.value,
-      'speed_unit'    : speed.unit,
-      'calories'      : this.model.get('calories')
+      'date'  : utils.Helpers.formatDate(this.model.get('date')),
+      'value' : this.model.get('value'),
     });
     console.log('new view rendered');
     return this;
   },
 
   __validateDate: function() {
-    var d = new Date(document.getElementById('new-session-date').value);
-    var t = new Date(document.getElementById('new-session-time').getTime());
-    if (Number.isNaN(d.getTime()) && Number.isNaN(t)) {
+    var d = new Date(document.getElementById('new-body-date').value);
+    if (Number.isNaN(d.getTime())) {
       this.validated.date = false;
     } else {
-      this.model.set(
-        'date',
-        d.setTime(t)
-      );
+      this.model.set('date', d);
       this.validated.date = true;
     }
   },
-  __validateWeight: function() {}
+
+  __validateValue: function() {
+    var v = document.getElementById('new-body-value').value;
+    if (Number.isNaN(v)) {
+      this.validated.value = false;
+    } else {
+      this.model.set('value', v);
+    }
+  }
 
 });
