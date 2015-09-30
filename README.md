@@ -4,11 +4,22 @@ Sports Log is a personal sports log hosted that can be hosted on your [Cozy](htt
 
 # How to install Sports Log in my Cozy instance?
 
-If you already have a Cozy instance setup, then you can install Sports Log either
+If you already have a Cozy instance setup, then you ~~can~~ will be able to install Sports Log either
 from the Marketplace or by hopping on the machine and running the following
 command:
 
-```cozy-monitor install sportslog -r https://github.com/bnjbvr/sportslog```
+```cozy-monitor install sportslog -r https://github.com/nicodel/sportslog```
+
+# How to install Sports Log on a Node server?
+
+Sports Log can run in a [Node.js](https://nodejs.org) server. To do so, run the following
+command:
+
+```git clone https://github.com/nicodel/sportslog
+cd sportslog
+npm install
+npm start
+```
 
 ## Hack
 
