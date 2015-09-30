@@ -10,7 +10,7 @@ utils.GPX       = require('../../utils/gpx');
 utils.Helpers   = require('../../utils/helpers');
 
 module.exports = Backbone.NativeView.extend({
-  template: Template(document.getElementById('new-session-template-2').innerHTML),
+  template: Template(document.getElementById('new-session-template-1').innerHTML),
 
 
   events: {

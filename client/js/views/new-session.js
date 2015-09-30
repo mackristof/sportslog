@@ -55,7 +55,7 @@ var NewSessionView = Backbone.NativeView.extend({
       // console.log('session', session);
       // this.model.trigger('init');
       this.subview = Factory.getNewView(this.model);
-      // console.log('view to be displayed is', this.subview);
+      console.log('view to be displayed is', this.subview);
       this.el.appendChild(document.createElement('div').innerHTML = this.subview.render().el);
     }
   },

@@ -210,17 +210,6 @@
   <script type="text/javascript" src="js/views/main.js"></script> -->
 
   <script type="text/template" id="new-session-template-1">
-    <form id="weight-form" class="hidden behind">
-      <div class="width-half text-small align-left">Date
-        <input id="new-weight-date" class="align-right" type="date" value="<%= date %>" />
-      </div>
-      <div class="width-half text-small align-left">Weight
-        <input id="new-weight" class="align-right" type="number" value="<%= weight %>" />
-      </div>
-    </form>
-  </script>
-
-  <script type="text/template" id="new-session-template-2">
     <form id="import-form">
       <input id="import-file" type="file"></input>
       <button id="import-btn" disabled='disabled'>Importer</button>
@@ -261,7 +250,16 @@
     </div>
   </script>
 
-
+  <script type="text/template" id="new-session-template-2">
+    <form id="weight-form">
+      <div class="width-half text-small align-left">Date
+        <input id="new-weight-date" class="align-right" type="date" value="<%= date %>" />
+      </div>
+      <div class="width-half text-small align-left">Weight
+        <input id="new-weight" class="align-right" type="number" value="<%= weight %>" />
+      </div>
+    </form>
+  </script>
 
   <script type="text/template" id="session-summary-template">
     <a href="#" class="session-summary-click" session_id="<%= session_cid %>">
