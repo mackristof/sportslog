@@ -43,7 +43,8 @@ var SessionsView = Backbone.NativeView.extend({
   render: function() {
     console.log('SESSIONS - render', this.collection);
     this.el.innerHTML = '';
-    this.collection.forEach(function(item) {
+    var sessions = this.collection.where({type: 'session'});
+    sessions.forEach(function(item) {
 /*      if (item.get('type') === 'session') {
         this.renderItem(item);
       }*/
