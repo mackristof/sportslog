@@ -86,12 +86,13 @@ var MainView = Backbone.NativeView.extend({
 
   showEntry: function(model) {
     console.log('MAIN - dashboard entry selected', model);
-    var type = model.get('type');
+    this.showSession(model);
+    /*var type = model.get('type');
     if (type === 'session') {
       this.showSession(model);
     } else {
       console.log('other types of dashbord entries are not managed');
-    }
+    }*/
   },
 
   showSession: function(model) {
