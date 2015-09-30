@@ -36,7 +36,9 @@ var IndicatorsView = Backbone.NativeView.extend({
       'distance'  : 0,
       'duration'  : 0
     };
-    this.collection.forEach(function(item) {
+    // console.log('INDICATORS - this.collection', this.collection);
+    var sessions = this.collection.where({type: 'session'});
+    sessions.forEach(function(item) {
       totals.sessions += 1;
       totals.calories += item.get('calories');
       totals.distance += item.get('distance');
