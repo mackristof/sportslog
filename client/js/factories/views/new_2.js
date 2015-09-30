@@ -35,7 +35,9 @@ module.exports = Backbone.NativeView.extend({
   },
 
   __validateDate: function() {
-    var d = new Date(document.getElementById('new-body-date').value);
+    var raw = document.getElementById('new-body-date').value.split('/');
+    console.log('raw', raw);
+    var d = new Date(raw[2], raw[1], raw[0]);
     if (Number.isNaN(d.getTime())) {
       this.validated.date = false;
     } else {
