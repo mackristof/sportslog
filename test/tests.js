@@ -2,4 +2,5 @@
 'strict true';
 require('../client/js/lib/backbone.nativeview');
 require('./utils-gpx');
-require('./factory');
+require('./utils-helpers');
+// require('./factory');

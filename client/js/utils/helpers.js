@@ -341,6 +341,87 @@ var Helpers = function() {
     return s;
   }
 
+  function checkDate(input) {
+    var minYear = 1900;
+    var maxYear = (new Date()).getFullYear();
+    // var errorMsg = "";
+
+    // regular expression to match required date format
+    var re = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+
+    if(input !== '') {
+      var date = input.match(re);
+      console.log('date', date);
+      if(date) {
+        if(date[1] < 1 || date[1] > 31) {
+          // errorMsg = "Invalid value for day: " + date[1];
+          return false;
+        } else if(date[2] < 1 || date[2] > 12) {
+          // errorMsg = "Invalid value for month: " + date[2];
+          return false;
+        } else if(date[3] < minYear || date[3] > maxYear) {
+          // errorMsg = "Invalid value for year: " + date[3] + " - must be between " + minYear + " and " + maxYear;
+          return false;
+        }
+      } else {
+        // errorMsg = "Invalid date format: " + field.value;
+        return false;
+      }
+    }
+
+    /*if(errorMsg != "") {
+      alert(errorMsg);
+      field.focus();
+      return false;
+    }*/
+    return true;
+  }
+
+  function checkTime(input) {
+    // var errorMsg = "";
+    // regular expression to match required time format
+    var re = /^(\d{1,2}):(\d{2}):(\d{2})(:00)?([ap]m)?$/;
+
+    if(input !== '') {
+      var time = input.match(re);
+      // console.log('time', time);
+      if(time) {
+        if(time[4]) {
+          // 12-hour time format with am/pm
+          if(time[1] < 1 || time[1] > 12) {
+            // errorMsg = "Invalid value for hours: " + time[1];
+            // console.log("Invalid value for hours: " + time[1]);
+            return false;
+          }
+        } else {
+          // 24-hour time format
+          if(time[1] > 23) {
+            // errorMsg = "Invalid value for hours: " + time[1];
+            // console.log("Invalid value for hours: " + time[1]);
+            return false;
+          }
+        }
+        if(/*!errorMsg && */time[2] > 59) {
+          // errorMsg = "Invalid value for minutes: " + time[2];
+          // console.log("Invalid value for minutes: " + time[2]);
+          return false;
+        }
+      } else {
+        // errorMsg = "Invalid time format: " + input;
+        // console.log("Invalid time format: " + input);
+        return false;
+      }
+    }
+
+    /*if(errorMsg != "") {
+      alert(errorMsg);
+      field.focus();
+      return false;
+    }*/
+    return true;
+  }
+
+
   return {
     distanceMeterToChoice : distanceMeterToChoice,
     distanceChoiceToMeter : distanceChoiceToMeter,
@@ -352,7 +433,9 @@ var Helpers = function() {
     formatDate        : formatDate,
     formatTime        : formatTime,
     formatDuration    : formatDuration,
-    calculateCalories : calculateCalories
+    calculateCalories : calculateCalories,
+    checkDate         : checkDate,
+    checkTime         : checkTime
   };
 }();
 module.exports = utils.Helpers = Helpers;
