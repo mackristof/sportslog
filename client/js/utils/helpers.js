@@ -363,6 +363,7 @@ var Helpers = function() {
           // errorMsg = "Invalid value for year: " + date[3] + " - must be between " + minYear + " and " + maxYear;
           return false;
         }
+        return new Date(date[3], date[2] - 1, date[1]);
       } else {
         // errorMsg = "Invalid date format: " + field.value;
         return false;
@@ -374,7 +375,7 @@ var Helpers = function() {
       field.focus();
       return false;
     }*/
-    return true;
+    // return true;
   }
 
   function checkTime(input) {
