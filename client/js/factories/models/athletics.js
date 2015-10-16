@@ -1,7 +1,8 @@
 /* jshint strict: true, node: true */
 'use strict';
 
-var Cycling = function(options) {
+var Athletics = function(options) {
+  this.type       = options.type      || 'session';
   this.family     = options.family    || 'athletics';
   this.activity   = options.activity  || '';
   this.date       = options.date      || new Date();
@@ -17,5 +18,5 @@ var Cycling = function(options) {
   this.map        = options.map       || false;
   this.data       = options.data      || [];
 };
-module.exports = Cycling;
+module.exports = Athletics;
 

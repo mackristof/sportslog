@@ -1,8 +1,9 @@
 /* jshint strict: true, node: true */
 'use strict';
 
-var WaterSport = function(options) {
-  this.family     = options.family    || 'watersport';
+var Swimming = function(options) {
+  this.type       = options.type      || 'session';
+  this.family     = options.family    || 'swimming';
   this.activity   = options.activity  || '';
   this.date       = options.date      || new Date();
   this.name       = options.name      || '';
@@ -10,8 +11,6 @@ var WaterSport = function(options) {
   this.distance   = options.distance  || 0;
   this.avg_speed  = options.avg_speed || 0;
   this.calories   = options.calories  || 0;
-  this.map        = options.map       || false;
-  this.data       = options.data      || [];
 };
-module.exports = WaterSport;
+module.exports = Swimming;
 

@@ -3,9 +3,9 @@
 
 var PouchDB = require('pouchdb');
 
-var Sessions = function() {
+var DB = function() {
 
-  var db = new PouchDB('sessions');
+  var db = new PouchDB('db');
 
   var all = function(callback) {
     db.allDocs({
@@ -39,4 +39,4 @@ var Sessions = function() {
     remove  : remove
   };
 }();
-module.exports = Sessions;
+module.exports = DB;

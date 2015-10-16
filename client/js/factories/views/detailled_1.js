@@ -1,17 +1,16 @@
 /* jshint strict: true, node: true */
 'use strict';
-var Backbone            = require('../lib/exoskeleton');
+var Backbone            = require('../../lib/exoskeleton');
 var Template            = require('microtemplates');
-var d3                  = require('../lib/d3');
-var crossfilter         = require('../lib/crossfilter');
-var dc                  = require('../lib/dc');
+var d3                  = require('../../lib/d3');
+var crossfilter         = require('../../lib/crossfilter');
+var dc                  = require('../../lib/dc');
 
-// var SessionsCollection  = require('../collections/sessions');
-var Preferences         = require('../models/preferences');
+var Preferences         = require('../../models/preferences');
 
 var utils               = utils || {};
-utils.Helpers           = require('../utils/helpers');
-utils.Map               = require('../utils/map');
+utils.Helpers           = require('../../utils/helpers');
+utils.Map               = require('../../utils/map');
 
 var SessionView = Backbone.NativeView.extend({
   el: '#session-view',
@@ -81,7 +80,7 @@ var SessionView = Backbone.NativeView.extend({
     var complete_data = data.reduce(function(a, b) {
       return a.concat(b);
     });
-    console.log('complete_data', complete_data);
+    // console.log('complete_data', complete_data);
     var previous = {
       'date'      : complete_data[0].date,
       'time'      : 0,
@@ -121,7 +120,7 @@ var SessionView = Backbone.NativeView.extend({
         return true;
       }
     });
-    console.log('summary_data', summary_data);
+    // console.log('summary_data', summary_data);
 
     // TODO manage small distance unit for Imperial
     var small_unit = utils.Helpers.distanceMeterToChoice('', 0, false).unit;

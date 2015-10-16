@@ -1,13 +1,15 @@
 /* jshint strict: true, node: true */
 'use strict';
 
-var Mountaineering = function(options) {
-  this.family     = options.family    || 'mountaineering';
+var Cycling = function(options) {
+  this.type       = options.type      || 'session';
+  this.family     = options.family    || 'athletics';
   this.activity   = options.activity  || '';
   this.date       = options.date      || new Date();
   this.name       = options.name      || '';
   this.duration   = options.duration  || 0;
   this.distance   = options.distance  || 0;
+  this.avg_speed  = options.avg_speed || 0;
   this.calories   = options.calories  || 0;
   this.alt_max    = options.alt_max   || 0;
   this.alt_min    = options.alt_min   || 0;
@@ -16,5 +18,5 @@ var Mountaineering = function(options) {
   this.map        = options.map       || false;
   this.data       = options.data      || [];
 };
-module.exports = Mountaineering;
+module.exports = Cycling;
 

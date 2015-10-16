@@ -2,6 +2,7 @@
 'use strict';
 
 var Sliding = function(options) {
+  this.type       = options.type      || 'session';
   this.family     = options.family    || 'sliding';
   this.activity   = options.activity  || '';
   this.date       = options.date      || new Date();

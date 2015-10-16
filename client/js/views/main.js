@@ -1,19 +1,21 @@
 /* jshint strict: true, node: true */
 'use strict';
 
-var Backbone              = require('../lib/exoskeleton');
+var Backbone          = require('../lib/exoskeleton');
 // var Template              = require('microtemplates');
 
-var IndicatorsView        = require('./indicators');
-var DashboardView         = require('./dashboard');
-var PreferencesView       = require('./preferences');
-var SessionsView          = require('./sessions');
-var SessionView           = require('./session');
-var NewSession            = require('./new-session');
+var Factory           = require('../factories/factory');
+
+var IndicatorsView    = require('./indicators');
+var DashboardView     = require('./dashboard');
+var PreferencesView   = require('./preferences');
+var SessionsView      = require('./sessions');
+// var SessionView           = require('./session');
+var NewSession        = require('./new-session');
 // var SessionSummary        = require('./session-summary');
-var PreferencesModel      = require('../models/preferences');
-var SessionModel          = require('../models/session');
-var SessionsCollection    = require('../collections/sessions');
+var PreferencesModel  = require('../models/preferences');
+var DocModel          = require('../models/doc');
+var DocsCollection    = require('../collections/docs');
 
 var MainView = Backbone.NativeView.extend({
   el: '#app',
@@ -48,12 +50,15 @@ var MainView = Backbone.NativeView.extend({
     // this.listenTo(PreferencesModel, 'all', this.somethingOnPreferences);
     // this.listenTo(SessionsCollection, 'all', this.somethingOnSessions);
 
+    DocsCollection.fetch();
+
     new IndicatorsView();
     new DashboardView();
     new SessionsView();
 
-    this.listenTo(SessionsCollection, 'model-selected', this.showSession);
-    this.listenTo(SessionsCollection, 'add-new', this.showSession);
+    this.listenTo(DocsCollection, 'dashboard-entry-selected', this.showEntry);
+    this.listenTo(DocsCollection, 'sessions-entry-selected', this.showSession);
+    this.listenTo(DocsCollection, 'add-new', this.showSession);
   },
   somethingOnPreferences: function(ev, res) {
     console.log('got something on Preferences', ev, res);
@@ -66,7 +71,7 @@ var MainView = Backbone.NativeView.extend({
     // var model = app.SessionsCollection.create({});
     console.log('showNewSession');
     new NewSession({
-      model: new SessionModel()
+      model: new DocModel()
     });
     this._viewSection(this.dom.new_session_view);
   },
@@ -79,15 +84,27 @@ var MainView = Backbone.NativeView.extend({
     this._viewSection(this.dom.sessions_view);
   },
 
+  showEntry: function(model) {
+    console.log('MAIN - dashboard entry selected', model);
+    this.showSession(model);
+    /*var type = model.get('type');
+    if (type === 'session') {
+      this.showSession(model);
+    } else {
+      console.log('other types of dashbord entries are not managed');
+    }*/
+  },
+
   showSession: function(model) {
-    // console.log('will display model', model);
+    console.log('MAIN - will display model', model);
     var that = this;
     model.fetch({
       success : function(res) {
-        console.log('success', res);
-        new SessionView({
+        console.log('MAIN - success', res);
+        /*new SessionView({
           model: res
-        });
+        });*/
+        Factory.getDetailledView(res);
         that._viewSection(that.dom.session_view);
       },
       error   : function(model, response) {

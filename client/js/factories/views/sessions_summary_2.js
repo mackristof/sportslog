@@ -1,12 +1,12 @@
 /* jshint strict: true, node: true */
 'use strict';
-var Backbone            = require('../lib/exoskeleton');
-var Template            = require('microtemplates');
+var Backbone           = require('../../lib/exoskeleton');
+var Template           = require('microtemplates');
 
-var Preferences         = require('../models/preferences');
+var Preferences        = require('../../models/preferences');
 
-var utils               = utils || {};
-utils.Helpers           = require('../utils/helpers');
+var utils              = utils || {};
+utils.Helpers          = require('../../utils/helpers');
 
 var SessionSummaryView = Backbone.NativeView.extend({
   tagName: 'li',
@@ -17,13 +17,12 @@ var SessionSummaryView = Backbone.NativeView.extend({
 
   dom: {},
 
-  template: Template(document.getElementById('session-summary-template').innerHTML),
+  template: Template(document.getElementById('session-summary-template-2').innerHTML),
 
   initialize: function() {
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
     this.listenTo(Preferences, 'change', this.render);
-    // console.log('SessionSummaryView initialized', this);
   },
 
   extend: Backbone.Events,
@@ -49,10 +48,9 @@ var SessionSummaryView = Backbone.NativeView.extend({
     return this;
   },
 
-  showSessionDetails: function() {
-    // console.log('clicked', el, this.model);
-    this.model.trigger('selected', this.model);
+  showSessionDetails: function(el) {
+    console.log('FACTORY TEMPLATE SESSIONS SUMMARY - clicked', el, this.model);
+    this.model.trigger('sessions-item-selected', this.model);
   }
 });
-// Backbone.utils.extend(SessionSummaryView, Backbone.events);
 module.exports = SessionSummaryView;
