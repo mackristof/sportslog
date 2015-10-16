@@ -35,7 +35,14 @@ module.exports = Backbone.NativeView.extend({
   },
 
   __validateDate: function() {
-    var raw = document.getElementById('new-body-date').value.split('/');
+    var date = utils.helpers.checkDate(document.getElementById('new-body-date').value);
+    if(date) {
+      this.model.set('date', date);
+      this.validated.date = true;
+    } else {
+      this.validated.date = false;
+    }
+    /*var raw = document.getElementById('new-body-date').value.split('/');
     console.log('raw', raw);
     var d = new Date(raw[2], raw[1], raw[0]);
     if (Number.isNaN(d.getTime())) {
@@ -43,7 +50,7 @@ module.exports = Backbone.NativeView.extend({
     } else {
       this.model.set('date', d);
       this.validated.date = true;
-    }
+    }*/
   },
 
   __validateValue: function() {
